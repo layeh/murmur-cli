@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	"./MurmurRPC"
+	"github.com/layeh/murmur-cli/MurmurRPC"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

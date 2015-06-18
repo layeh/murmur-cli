@@ -3,7 +3,7 @@ package main
 import (
 	"io"
 
-	"./MurmurRPC"
+	"github.com/layeh/murmur-cli/MurmurRPC"
 
 	"google.golang.org/grpc"
 )

@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"./MurmurRPC"
+	"github.com/layeh/murmur-cli/MurmurRPC"
 
 	"github.com/golang/protobuf/proto"
 )
