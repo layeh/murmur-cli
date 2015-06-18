@@ -30,6 +30,7 @@ Flags:
 Commands:
   meta uptime
   meta version
+  meta events
 
   server create
   server query

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"io"
+
 	"./MurmurRPC"
 
 	"google.golang.org/grpc"
@@ -17,5 +19,23 @@ func initMeta(conn *grpc.ClientConn) {
 
 	metaCmd.Add("version", func(args []string) {
 		Output(meta.GetVersion(ctx, void))
+	})
+
+	metaCmd.Add("events", func(args []string) {
+		stream, err := meta.Events(ctx, void)
+		if err != nil {
+			Output(nil, err)
+			return
+		}
+		for {
+			msg, err := stream.Recv()
+			if err != nil {
+				if err != io.EOF {
+					Output(nil, err)
+				}
+				return
+			}
+			Output(msg, nil)
+		}
 	})
 }
