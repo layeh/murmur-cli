@@ -11,17 +11,17 @@ import (
 func initMeta(conn *grpc.ClientConn) {
 	meta := MurmurRPC.NewMetaServiceClient(conn)
 
-	metaCmd := root.Add("meta")
+	cmd := root.Add("meta")
 
-	metaCmd.Add("uptime", func(args []string) {
+	cmd.Add("uptime", func(args []string) {
 		Output(meta.GetUptime(ctx, void))
 	})
 
-	metaCmd.Add("version", func(args []string) {
+	cmd.Add("version", func(args []string) {
 		Output(meta.GetVersion(ctx, void))
 	})
 
-	metaCmd.Add("events", func(args []string) {
+	cmd.Add("events", func(args []string) {
 		stream, err := meta.Events(ctx, void)
 		if err != nil {
 			Output(nil, err)

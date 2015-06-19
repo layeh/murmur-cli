@@ -1,6 +1,8 @@
 package main
 
 import (
+	"io"
+
 	"github.com/layeh/murmur-cli/MurmurRPC"
 
 	"google.golang.org/grpc"
@@ -9,33 +11,52 @@ import (
 func initServers(conn *grpc.ClientConn) {
 	servers := MurmurRPC.NewServerServiceClient(conn)
 
-	serverCmd := root.Add("server")
+	cmd := root.Add("server")
 
-	serverCmd.Add("create", func(args []string) {
+	cmd.Add("create", func(args []string) {
 		Output(servers.Create(ctx, void))
 	})
 
-	serverCmd.Add("query", func(args []string) {
+	cmd.Add("query", func(args []string) {
 		Output(servers.Query(ctx, &MurmurRPC.Server_Query{}))
 	})
 
-	serverCmd.Add("get", func(args []string) {
+	cmd.Add("get", func(args []string) {
 		server := MustServer(args)
 		Output(servers.Get(ctx, server))
 	})
 
-	serverCmd.Add("start", func(args []string) {
+	cmd.Add("start", func(args []string) {
 		server := MustServer(args)
 		Output(servers.Start(ctx, server))
 	})
 
-	serverCmd.Add("stop", func(args []string) {
+	cmd.Add("stop", func(args []string) {
 		server := MustServer(args)
 		Output(servers.Stop(ctx, server))
 	})
 
-	serverCmd.Add("remove", func(args []string) {
+	cmd.Add("remove", func(args []string) {
 		server := MustServer(args)
 		Output(servers.Remove(ctx, server))
+	})
+
+	cmd.Add("events", func(args []string) {
+		server := MustServer(args)
+		stream, err := servers.Events(ctx, server)
+		if err != nil {
+			Output(nil, err)
+			return
+		}
+		for {
+			msg, err := stream.Recv()
+			if err != nil {
+				if err != io.EOF {
+					Output(nil, err)
+				}
+				return
+			}
+			Output(msg, nil)
+		}
 	})
 }

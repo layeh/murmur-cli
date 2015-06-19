@@ -38,6 +38,7 @@ Commands:
   server start <id>
   server stop <id>
   server remove <id>
+  server events <id>
 `
 
 func main() {
