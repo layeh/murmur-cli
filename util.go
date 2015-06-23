@@ -33,3 +33,10 @@ func MustServer(args []string) *MurmurRPC.Server {
 		Id: proto.Uint32(uint32(id)),
 	}
 }
+
+func MustString(args []string, index int) string {
+	if len(args) < index {
+		panic(errors.New("missing string value"))
+	}
+	return args[index]
+}

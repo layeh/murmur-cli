@@ -34,11 +34,16 @@ Commands:
 
   server create
   server query
-  server get <id>
-  server start <id>
-  server stop <id>
-  server remove <id>
-  server events <id>
+  server get <server id>
+  server start <server id>
+  server stop <server id>
+  server remove <server id>
+  server events <server id>
+
+  config get <server id>
+  config get-field <server id> <key>
+  config set-field <server id> <key> <value>
+  config get-defaults
 `
 
 func main() {
@@ -67,6 +72,7 @@ func main() {
 	// Services
 	initMeta(conn)
 	initServers(conn)
+	initConfig(conn)
 
 	defer func() {
 		if r := recover(); r != nil {

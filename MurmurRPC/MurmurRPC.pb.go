@@ -96,17 +96,17 @@ func (x *Server_Event_Type) UnmarshalJSON(data []byte) error {
 type Event_Type int32
 
 const (
-	Event_ServerStarted Event_Type = 0
-	Event_ServerStopped Event_Type = 1
+	Event_ServerStopped Event_Type = 0
+	Event_ServerStarted Event_Type = 1
 )
 
 var Event_Type_name = map[int32]string{
-	0: "ServerStarted",
-	1: "ServerStopped",
+	0: "ServerStopped",
+	1: "ServerStarted",
 }
 var Event_Type_value = map[string]int32{
-	"ServerStarted": 0,
-	"ServerStopped": 1,
+	"ServerStopped": 0,
+	"ServerStarted": 1,
 }
 
 func (x Event_Type) Enum() *Event_Type {
@@ -481,7 +481,7 @@ func (m *Event) GetType() Event_Type {
 	if m != nil && m.Type != nil {
 		return *m.Type
 	}
-	return Event_ServerStarted
+	return Event_ServerStopped
 }
 
 func (m *Event) GetServer() *Server {
@@ -612,39 +612,31 @@ func (m *TextMessage) GetText() string {
 }
 
 type Log struct {
-	XXX_unrecognized []byte `json:"-"`
-}
-
-func (m *Log) Reset()         { *m = Log{} }
-func (m *Log) String() string { return proto.CompactTextString(m) }
-func (*Log) ProtoMessage()    {}
-
-type Log_Entry struct {
 	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	Timestamp        *int64  `protobuf:"varint,2,opt,name=timestamp" json:"timestamp,omitempty"`
 	Text             *string `protobuf:"bytes,3,opt,name=text" json:"text,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Log_Entry) Reset()         { *m = Log_Entry{} }
-func (m *Log_Entry) String() string { return proto.CompactTextString(m) }
-func (*Log_Entry) ProtoMessage()    {}
+func (m *Log) Reset()         { *m = Log{} }
+func (m *Log) String() string { return proto.CompactTextString(m) }
+func (*Log) ProtoMessage()    {}
 
-func (m *Log_Entry) GetServer() *Server {
+func (m *Log) GetServer() *Server {
 	if m != nil {
 		return m.Server
 	}
 	return nil
 }
 
-func (m *Log_Entry) GetTimestamp() int64 {
+func (m *Log) GetTimestamp() int64 {
 	if m != nil && m.Timestamp != nil {
 		return *m.Timestamp
 	}
 	return 0
 }
 
-func (m *Log_Entry) GetText() string {
+func (m *Log) GetText() string {
 	if m != nil && m.Text != nil {
 		return *m.Text
 	}
@@ -653,9 +645,8 @@ func (m *Log_Entry) GetText() string {
 
 type Log_Query struct {
 	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	StartTimestamp   *int64  `protobuf:"varint,2,opt,name=start_timestamp" json:"start_timestamp,omitempty"`
-	EndTimestamp     *int64  `protobuf:"varint,3,opt,name=end_timestamp" json:"end_timestamp,omitempty"`
-	Limit            *uint32 `protobuf:"varint,4,opt,name=limit" json:"limit,omitempty"`
+	Min              *uint32 `protobuf:"varint,2,opt,name=min" json:"min,omitempty"`
+	Max              *uint32 `protobuf:"varint,3,opt,name=max" json:"max,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -670,62 +661,72 @@ func (m *Log_Query) GetServer() *Server {
 	return nil
 }
 
-func (m *Log_Query) GetStartTimestamp() int64 {
-	if m != nil && m.StartTimestamp != nil {
-		return *m.StartTimestamp
+func (m *Log_Query) GetMin() uint32 {
+	if m != nil && m.Min != nil {
+		return *m.Min
 	}
 	return 0
 }
 
-func (m *Log_Query) GetEndTimestamp() int64 {
-	if m != nil && m.EndTimestamp != nil {
-		return *m.EndTimestamp
+func (m *Log_Query) GetMax() uint32 {
+	if m != nil && m.Max != nil {
+		return *m.Max
 	}
 	return 0
 }
 
-func (m *Log_Query) GetLimit() uint32 {
-	if m != nil && m.Limit != nil {
-		return *m.Limit
+type Log_List struct {
+	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	Total            *uint32 `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
+	Min              *uint32 `protobuf:"varint,3,opt,name=min" json:"min,omitempty"`
+	Max              *uint32 `protobuf:"varint,4,opt,name=max" json:"max,omitempty"`
+	Entries          []*Log  `protobuf:"bytes,5,rep,name=entries" json:"entries,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *Log_List) Reset()         { *m = Log_List{} }
+func (m *Log_List) String() string { return proto.CompactTextString(m) }
+func (*Log_List) ProtoMessage()    {}
+
+func (m *Log_List) GetServer() *Server {
+	if m != nil {
+		return m.Server
+	}
+	return nil
+}
+
+func (m *Log_List) GetTotal() uint32 {
+	if m != nil && m.Total != nil {
+		return *m.Total
 	}
 	return 0
 }
 
-// Having "Config" seems preferable to having a map (map<string, string>),
-// since. we are able to get some type safety. The downside to this is that
-// arbitrary config values cannot be set (i.e. a user cannot set the "county"
-// config value without changing the protocol buffer on both the client and
-// server).
+func (m *Log_List) GetMin() uint32 {
+	if m != nil && m.Min != nil {
+		return *m.Min
+	}
+	return 0
+}
+
+func (m *Log_List) GetMax() uint32 {
+	if m != nil && m.Max != nil {
+		return *m.Max
+	}
+	return 0
+}
+
+func (m *Log_List) GetEntries() []*Log {
+	if m != nil {
+		return m.Entries
+	}
+	return nil
+}
+
 type Config struct {
-	Server              *Server  `protobuf:"bytes,55,opt,name=server" json:"server,omitempty"`
-	Password            *string  `protobuf:"bytes,1,opt,name=password" json:"password,omitempty"`
-	Timeout             *uint32  `protobuf:"varint,2,opt,name=timeout" json:"timeout,omitempty"`
-	Bandwidth           *uint32  `protobuf:"varint,3,opt,name=bandwidth" json:"bandwidth,omitempty"`
-	Users               *uint32  `protobuf:"varint,4,opt,name=users" json:"users,omitempty"`
-	UsersPerChannel     *uint32  `protobuf:"varint,5,opt,name=users_per_channel" json:"users_per_channel,omitempty"`
-	TextMessageLength   *uint32  `protobuf:"varint,6,opt,name=text_message_length" json:"text_message_length,omitempty"`
-	ImageMessageLength  *uint32  `protobuf:"varint,7,opt,name=image_message_length" json:"image_message_length,omitempty"`
-	AllowHelp           *bool    `protobuf:"varint,8,opt,name=allow_help" json:"allow_help,omitempty"`
-	DefaultChannel      *Channel `protobuf:"bytes,9,opt,name=default_channel" json:"default_channel,omitempty"`
-	RememberChannel     *bool    `protobuf:"varint,10,opt,name=remember_channel" json:"remember_channel,omitempty"`
-	WelcomeText         *string  `protobuf:"bytes,11,opt,name=welcome_text" json:"welcome_text,omitempty"`
-	RegisterName        *string  `protobuf:"bytes,12,opt,name=register_name" json:"register_name,omitempty"`
-	RegisterPassword    *string  `protobuf:"bytes,13,opt,name=register_password" json:"register_password,omitempty"`
-	RegisterHostname    *string  `protobuf:"bytes,14,opt,name=register_hostname" json:"register_hostname,omitempty"`
-	RegisterLocation    *string  `protobuf:"bytes,15,opt,name=register_location" json:"register_location,omitempty"`
-	RegisterUrl         *string  `protobuf:"bytes,16,opt,name=register_url" json:"register_url,omitempty"`
-	CertRequired        *bool    `protobuf:"varint,17,opt,name=cert_required" json:"cert_required,omitempty"`
-	ForceExternalAuth   *bool    `protobuf:"varint,18,opt,name=force_external_auth" json:"force_external_auth,omitempty"`
-	Bonjour             *bool    `protobuf:"varint,19,opt,name=bonjour" json:"bonjour,omitempty"`
-	AllowPing           *bool    `protobuf:"varint,20,opt,name=allow_ping" json:"allow_ping,omitempty"`
-	Username            *string  `protobuf:"bytes,21,opt,name=username" json:"username,omitempty"`
-	Channelname         *string  `protobuf:"bytes,22,opt,name=channelname" json:"channelname,omitempty"`
-	SuggestVersion      *Version `protobuf:"bytes,23,opt,name=suggest_version" json:"suggest_version,omitempty"`
-	SuggestPositional   *bool    `protobuf:"varint,24,opt,name=suggest_positional" json:"suggest_positional,omitempty"`
-	SuggestPushToTalk   *bool    `protobuf:"varint,25,opt,name=suggest_push_to_talk" json:"suggest_push_to_talk,omitempty"`
-	OpusThreshold       *uint32  `protobuf:"varint,26,opt,name=opus_threshold" json:"opus_threshold,omitempty"`
-	ChannelNestingLimit *uint32  `protobuf:"varint,27,opt,name=channel_nesting_limit" json:"channel_nesting_limit,omitempty"`
-	XXX_unrecognized    []byte   `json:"-"`
+	Server           *Server           `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	Fields           map[string]string `protobuf:"bytes,2,rep,name=fields" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	XXX_unrecognized []byte            `json:"-"`
 }
 
 func (m *Config) Reset()         { *m = Config{} }
@@ -739,209 +740,43 @@ func (m *Config) GetServer() *Server {
 	return nil
 }
 
-func (m *Config) GetPassword() string {
-	if m != nil && m.Password != nil {
-		return *m.Password
-	}
-	return ""
-}
-
-func (m *Config) GetTimeout() uint32 {
-	if m != nil && m.Timeout != nil {
-		return *m.Timeout
-	}
-	return 0
-}
-
-func (m *Config) GetBandwidth() uint32 {
-	if m != nil && m.Bandwidth != nil {
-		return *m.Bandwidth
-	}
-	return 0
-}
-
-func (m *Config) GetUsers() uint32 {
-	if m != nil && m.Users != nil {
-		return *m.Users
-	}
-	return 0
-}
-
-func (m *Config) GetUsersPerChannel() uint32 {
-	if m != nil && m.UsersPerChannel != nil {
-		return *m.UsersPerChannel
-	}
-	return 0
-}
-
-func (m *Config) GetTextMessageLength() uint32 {
-	if m != nil && m.TextMessageLength != nil {
-		return *m.TextMessageLength
-	}
-	return 0
-}
-
-func (m *Config) GetImageMessageLength() uint32 {
-	if m != nil && m.ImageMessageLength != nil {
-		return *m.ImageMessageLength
-	}
-	return 0
-}
-
-func (m *Config) GetAllowHelp() bool {
-	if m != nil && m.AllowHelp != nil {
-		return *m.AllowHelp
-	}
-	return false
-}
-
-func (m *Config) GetDefaultChannel() *Channel {
+func (m *Config) GetFields() map[string]string {
 	if m != nil {
-		return m.DefaultChannel
+		return m.Fields
 	}
 	return nil
 }
 
-func (m *Config) GetRememberChannel() bool {
-	if m != nil && m.RememberChannel != nil {
-		return *m.RememberChannel
-	}
-	return false
-}
-
-func (m *Config) GetWelcomeText() string {
-	if m != nil && m.WelcomeText != nil {
-		return *m.WelcomeText
-	}
-	return ""
-}
-
-func (m *Config) GetRegisterName() string {
-	if m != nil && m.RegisterName != nil {
-		return *m.RegisterName
-	}
-	return ""
-}
-
-func (m *Config) GetRegisterPassword() string {
-	if m != nil && m.RegisterPassword != nil {
-		return *m.RegisterPassword
-	}
-	return ""
-}
-
-func (m *Config) GetRegisterHostname() string {
-	if m != nil && m.RegisterHostname != nil {
-		return *m.RegisterHostname
-	}
-	return ""
-}
-
-func (m *Config) GetRegisterLocation() string {
-	if m != nil && m.RegisterLocation != nil {
-		return *m.RegisterLocation
-	}
-	return ""
-}
-
-func (m *Config) GetRegisterUrl() string {
-	if m != nil && m.RegisterUrl != nil {
-		return *m.RegisterUrl
-	}
-	return ""
-}
-
-func (m *Config) GetCertRequired() bool {
-	if m != nil && m.CertRequired != nil {
-		return *m.CertRequired
-	}
-	return false
-}
-
-func (m *Config) GetForceExternalAuth() bool {
-	if m != nil && m.ForceExternalAuth != nil {
-		return *m.ForceExternalAuth
-	}
-	return false
-}
-
-func (m *Config) GetBonjour() bool {
-	if m != nil && m.Bonjour != nil {
-		return *m.Bonjour
-	}
-	return false
-}
-
-func (m *Config) GetAllowPing() bool {
-	if m != nil && m.AllowPing != nil {
-		return *m.AllowPing
-	}
-	return false
-}
-
-func (m *Config) GetUsername() string {
-	if m != nil && m.Username != nil {
-		return *m.Username
-	}
-	return ""
-}
-
-func (m *Config) GetChannelname() string {
-	if m != nil && m.Channelname != nil {
-		return *m.Channelname
-	}
-	return ""
-}
-
-func (m *Config) GetSuggestVersion() *Version {
-	if m != nil {
-		return m.SuggestVersion
-	}
-	return nil
-}
-
-func (m *Config) GetSuggestPositional() bool {
-	if m != nil && m.SuggestPositional != nil {
-		return *m.SuggestPositional
-	}
-	return false
-}
-
-func (m *Config) GetSuggestPushToTalk() bool {
-	if m != nil && m.SuggestPushToTalk != nil {
-		return *m.SuggestPushToTalk
-	}
-	return false
-}
-
-func (m *Config) GetOpusThreshold() uint32 {
-	if m != nil && m.OpusThreshold != nil {
-		return *m.OpusThreshold
-	}
-	return 0
-}
-
-func (m *Config) GetChannelNestingLimit() uint32 {
-	if m != nil && m.ChannelNestingLimit != nil {
-		return *m.ChannelNestingLimit
-	}
-	return 0
-}
-
-type Config_Query struct {
+type Config_Field struct {
 	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	Key              *string `protobuf:"bytes,2,opt,name=key" json:"key,omitempty"`
+	Value            *string `protobuf:"bytes,3,opt,name=value" json:"value,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Config_Query) Reset()         { *m = Config_Query{} }
-func (m *Config_Query) String() string { return proto.CompactTextString(m) }
-func (*Config_Query) ProtoMessage()    {}
+func (m *Config_Field) Reset()         { *m = Config_Field{} }
+func (m *Config_Field) String() string { return proto.CompactTextString(m) }
+func (*Config_Field) ProtoMessage()    {}
 
-func (m *Config_Query) GetServer() *Server {
+func (m *Config_Field) GetServer() *Server {
 	if m != nil {
 		return m.Server
 	}
 	return nil
+}
+
+func (m *Config_Field) GetKey() string {
+	if m != nil && m.Key != nil {
+		return *m.Key
+	}
+	return ""
+}
+
+func (m *Config_Field) GetValue() string {
+	if m != nil && m.Value != nil {
+		return *m.Value
+	}
+	return ""
 }
 
 type Channel struct {
@@ -1442,6 +1277,46 @@ func (m *Ban) GetDuration() int64 {
 	return 0
 }
 
+type Ban_Query struct {
+	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *Ban_Query) Reset()         { *m = Ban_Query{} }
+func (m *Ban_Query) String() string { return proto.CompactTextString(m) }
+func (*Ban_Query) ProtoMessage()    {}
+
+func (m *Ban_Query) GetServer() *Server {
+	if m != nil {
+		return m.Server
+	}
+	return nil
+}
+
+type Ban_List struct {
+	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	Bans             []*Ban  `protobuf:"bytes,2,rep,name=bans" json:"bans,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *Ban_List) Reset()         { *m = Ban_List{} }
+func (m *Ban_List) String() string { return proto.CompactTextString(m) }
+func (*Ban_List) ProtoMessage()    {}
+
+func (m *Ban_List) GetServer() *Server {
+	if m != nil {
+		return m.Server
+	}
+	return nil
+}
+
+func (m *Ban_List) GetBans() []*Ban {
+	if m != nil {
+		return m.Bans
+	}
+	return nil
+}
+
 type ACL struct {
 	ApplyHere        *bool           `protobuf:"varint,3,opt,name=apply_here" json:"apply_here,omitempty"`
 	ApplySubs        *bool           `protobuf:"varint,4,opt,name=apply_subs" json:"apply_subs,omitempty"`
@@ -1570,6 +1445,38 @@ func (m *ACL_Group) GetUsers() []*DatabaseUser {
 	return nil
 }
 
+type ACL_Query struct {
+	Server           *Server  `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	User             *User    `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	Channel          *Channel `protobuf:"bytes,3,opt,name=channel" json:"channel,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
+}
+
+func (m *ACL_Query) Reset()         { *m = ACL_Query{} }
+func (m *ACL_Query) String() string { return proto.CompactTextString(m) }
+func (*ACL_Query) ProtoMessage()    {}
+
+func (m *ACL_Query) GetServer() *Server {
+	if m != nil {
+		return m.Server
+	}
+	return nil
+}
+
+func (m *ACL_Query) GetUser() *User {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+func (m *ACL_Query) GetChannel() *Channel {
+	if m != nil {
+		return m.Channel
+	}
+	return nil
+}
+
 type ACL_List struct {
 	Server           *Server  `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	Channel          *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
@@ -1622,7 +1529,7 @@ type ACL_TemporaryGroup struct {
 	Server           *Server  `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	Channel          *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
 	User             *User    `protobuf:"bytes,3,opt,name=user" json:"user,omitempty"`
-	Group            *string  `protobuf:"bytes,4,opt,name=group" json:"group,omitempty"`
+	GroupName        *string  `protobuf:"bytes,4,opt,name=group_name" json:"group_name,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
 
@@ -1651,9 +1558,9 @@ func (m *ACL_TemporaryGroup) GetUser() *User {
 	return nil
 }
 
-func (m *ACL_TemporaryGroup) GetGroup() string {
-	if m != nil && m.Group != nil {
-		return *m.Group
+func (m *ACL_TemporaryGroup) GetGroupName() string {
+	if m != nil && m.GroupName != nil {
+		return *m.GroupName
 	}
 	return ""
 }
@@ -1937,6 +1844,7 @@ type ServerServiceClient interface {
 	Stop(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
 	// Remove removes the given virtual server and its configuration.
 	Remove(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
+	// Events returns a stream of events that happen on the given server.
 	Events(ctx context.Context, in *Server, opts ...grpc.CallOption) (ServerService_EventsClient, error)
 }
 
@@ -2049,6 +1957,7 @@ type ServerServiceServer interface {
 	Stop(context.Context, *Server) (*Void, error)
 	// Remove removes the given virtual server and its configuration.
 	Remove(context.Context, *Server) (*Void, error)
+	// Events returns a stream of events that happen on the given server.
 	Events(*Server, ServerService_EventsServer) error
 }
 
@@ -2190,10 +2099,11 @@ var _ServerService_serviceDesc = grpc.ServiceDesc{
 // Client API for MetaService service
 
 type MetaServiceClient interface {
-	// Get murmur's uptime.
+	// GetUptime returns murmur's uptime.
 	GetUptime(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Uptime, error)
-	// Get murmur's version.
+	// GetVersion returns murmur's version.
 	GetVersion(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Version, error)
+	// Events returns a stream of murmur events.
 	Events(ctx context.Context, in *Void, opts ...grpc.CallOption) (MetaService_EventsClient, error)
 }
 
@@ -2258,10 +2168,11 @@ func (x *metaServiceEventsClient) Recv() (*Event, error) {
 // Server API for MetaService service
 
 type MetaServiceServer interface {
-	// Get murmur's uptime.
+	// GetUptime returns murmur's uptime.
 	GetUptime(context.Context, *Void) (*Uptime, error)
-	// Get murmur's version.
+	// GetVersion returns murmur's version.
 	GetVersion(context.Context, *Void) (*Version, error)
+	// Events returns a stream of murmur events.
 	Events(*Void, MetaService_EventsServer) error
 }
 
@@ -2567,6 +2478,11 @@ var _TextMessageService_serviceDesc = grpc.ServiceDesc{
 // Client API for LogService service
 
 type LogServiceClient interface {
+	// Query returns a list of log entries from the given server.
+	//
+	// To get the total number of log entries, omit min and/or max from the
+	// query.
+	Query(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error)
 }
 
 type logServiceClient struct {
@@ -2577,28 +2493,62 @@ func NewLogServiceClient(cc *grpc.ClientConn) LogServiceClient {
 	return &logServiceClient{cc}
 }
 
+func (c *logServiceClient) Query(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error) {
+	out := new(Log_List)
+	err := grpc.Invoke(ctx, "/MurmurRPC.LogService/Query", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for LogService service
 
 type LogServiceServer interface {
+	// Query returns a list of log entries from the given server.
+	//
+	// To get the total number of log entries, omit min and/or max from the
+	// query.
+	Query(context.Context, *Log_Query) (*Log_List, error)
 }
 
 func RegisterLogServiceServer(s *grpc.Server, srv LogServiceServer) {
 	s.RegisterService(&_LogService_serviceDesc, srv)
 }
 
+func _LogService_Query_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(Log_Query)
+	if err := codec.Unmarshal(buf, in); err != nil {
+		return nil, err
+	}
+	out, err := srv.(LogServiceServer).Query(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 var _LogService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "MurmurRPC.LogService",
 	HandlerType: (*LogServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Query",
+			Handler:    _LogService_Query_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{},
 }
 
 // Client API for ConfigService service
 
 type ConfigServiceClient interface {
-	GetDefault(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error)
-	SetDefault(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Void, error)
-	Query(ctx context.Context, in *Config_Query, opts ...grpc.CallOption) (*Config, error)
+	Get(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error)
+	// GetField returns the configuration value for the given key.
+	GetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error)
+	// SetField sets the configuration value to the given value.
+	SetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error)
+	GetDefaults(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error)
 }
 
 type configServiceClient struct {
@@ -2609,27 +2559,36 @@ func NewConfigServiceClient(cc *grpc.ClientConn) ConfigServiceClient {
 	return &configServiceClient{cc}
 }
 
-func (c *configServiceClient) GetDefault(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error) {
+func (c *configServiceClient) Get(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error) {
 	out := new(Config)
-	err := grpc.Invoke(ctx, "/MurmurRPC.ConfigService/GetDefault", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.ConfigService/Get", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *configServiceClient) SetDefault(ctx context.Context, in *Config, opts ...grpc.CallOption) (*Void, error) {
+func (c *configServiceClient) GetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error) {
+	out := new(Config_Field)
+	err := grpc.Invoke(ctx, "/MurmurRPC.ConfigService/GetField", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *configServiceClient) SetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.ConfigService/SetDefault", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.ConfigService/SetField", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *configServiceClient) Query(ctx context.Context, in *Config_Query, opts ...grpc.CallOption) (*Config, error) {
+func (c *configServiceClient) GetDefaults(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error) {
 	out := new(Config)
-	err := grpc.Invoke(ctx, "/MurmurRPC.ConfigService/Query", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.ConfigService/GetDefaults", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2639,45 +2598,60 @@ func (c *configServiceClient) Query(ctx context.Context, in *Config_Query, opts 
 // Server API for ConfigService service
 
 type ConfigServiceServer interface {
-	GetDefault(context.Context, *Void) (*Config, error)
-	SetDefault(context.Context, *Config) (*Void, error)
-	Query(context.Context, *Config_Query) (*Config, error)
+	Get(context.Context, *Server) (*Config, error)
+	// GetField returns the configuration value for the given key.
+	GetField(context.Context, *Config_Field) (*Config_Field, error)
+	// SetField sets the configuration value to the given value.
+	SetField(context.Context, *Config_Field) (*Void, error)
+	GetDefaults(context.Context, *Void) (*Config, error)
 }
 
 func RegisterConfigServiceServer(s *grpc.Server, srv ConfigServiceServer) {
 	s.RegisterService(&_ConfigService_serviceDesc, srv)
 }
 
-func _ConfigService_GetDefault_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _ConfigService_Get_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(Server)
+	if err := codec.Unmarshal(buf, in); err != nil {
+		return nil, err
+	}
+	out, err := srv.(ConfigServiceServer).Get(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func _ConfigService_GetField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(Config_Field)
+	if err := codec.Unmarshal(buf, in); err != nil {
+		return nil, err
+	}
+	out, err := srv.(ConfigServiceServer).GetField(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func _ConfigService_SetField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(Config_Field)
+	if err := codec.Unmarshal(buf, in); err != nil {
+		return nil, err
+	}
+	out, err := srv.(ConfigServiceServer).SetField(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func _ConfigService_GetDefaults_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Void)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(ConfigServiceServer).GetDefault(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func _ConfigService_SetDefault_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
-	in := new(Config)
-	if err := codec.Unmarshal(buf, in); err != nil {
-		return nil, err
-	}
-	out, err := srv.(ConfigServiceServer).SetDefault(ctx, in)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func _ConfigService_Query_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
-	in := new(Config_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
-		return nil, err
-	}
-	out, err := srv.(ConfigServiceServer).Query(ctx, in)
+	out, err := srv.(ConfigServiceServer).GetDefaults(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -2689,16 +2663,20 @@ var _ConfigService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*ConfigServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetDefault",
-			Handler:    _ConfigService_GetDefault_Handler,
+			MethodName: "Get",
+			Handler:    _ConfigService_Get_Handler,
 		},
 		{
-			MethodName: "SetDefault",
-			Handler:    _ConfigService_SetDefault_Handler,
+			MethodName: "GetField",
+			Handler:    _ConfigService_GetField_Handler,
 		},
 		{
-			MethodName: "Query",
-			Handler:    _ConfigService_Query_Handler,
+			MethodName: "SetField",
+			Handler:    _ConfigService_SetField_Handler,
+		},
+		{
+			MethodName: "GetDefaults",
+			Handler:    _ConfigService_GetDefaults_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{},
@@ -3097,6 +3075,10 @@ var _TreeService_serviceDesc = grpc.ServiceDesc{
 // Client API for BanService service
 
 type BanServiceClient interface {
+	// Get returns a list of bans for the given server.
+	Get(ctx context.Context, in *Ban_Query, opts ...grpc.CallOption) (*Ban_List, error)
+	// Set replaces the server's ban list with the given list.
+	Set(ctx context.Context, in *Ban_List, opts ...grpc.CallOption) (*Void, error)
 }
 
 type banServiceClient struct {
@@ -3107,20 +3089,75 @@ func NewBanServiceClient(cc *grpc.ClientConn) BanServiceClient {
 	return &banServiceClient{cc}
 }
 
+func (c *banServiceClient) Get(ctx context.Context, in *Ban_Query, opts ...grpc.CallOption) (*Ban_List, error) {
+	out := new(Ban_List)
+	err := grpc.Invoke(ctx, "/MurmurRPC.BanService/Get", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *banServiceClient) Set(ctx context.Context, in *Ban_List, opts ...grpc.CallOption) (*Void, error) {
+	out := new(Void)
+	err := grpc.Invoke(ctx, "/MurmurRPC.BanService/Set", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for BanService service
 
 type BanServiceServer interface {
+	// Get returns a list of bans for the given server.
+	Get(context.Context, *Ban_Query) (*Ban_List, error)
+	// Set replaces the server's ban list with the given list.
+	Set(context.Context, *Ban_List) (*Void, error)
 }
 
 func RegisterBanServiceServer(s *grpc.Server, srv BanServiceServer) {
 	s.RegisterService(&_BanService_serviceDesc, srv)
 }
 
+func _BanService_Get_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(Ban_Query)
+	if err := codec.Unmarshal(buf, in); err != nil {
+		return nil, err
+	}
+	out, err := srv.(BanServiceServer).Get(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func _BanService_Set_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(Ban_List)
+	if err := codec.Unmarshal(buf, in); err != nil {
+		return nil, err
+	}
+	out, err := srv.(BanServiceServer).Set(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 var _BanService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "MurmurRPC.BanService",
 	HandlerType: (*BanServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Get",
+			Handler:    _BanService_Get_Handler,
+		},
+		{
+			MethodName: "Set",
+			Handler:    _BanService_Set_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{},
 }
 
 // Client API for ACLService service
@@ -3128,8 +3165,12 @@ var _BanService_serviceDesc = grpc.ServiceDesc{
 type ACLServiceClient interface {
 	Get(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*ACL_List, error)
 	Set(ctx context.Context, in *ACL_List, opts ...grpc.CallOption) (*Void, error)
-	GetEffectivePermissions(ctx context.Context, in *User, opts ...grpc.CallOption) (*ACL, error)
+	// GetEffectivePermissions returns the effective permissions for the given
+	// user in the given channel.
+	GetEffectivePermissions(ctx context.Context, in *ACL_Query, opts ...grpc.CallOption) (*ACL, error)
+	// AddTemporaryGroup adds a user to a temporary group.
 	AddTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
+	// RemoveTemporaryGroup removes a user from a temporary group.
 	RemoveTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
 }
 
@@ -3159,7 +3200,7 @@ func (c *aCLServiceClient) Set(ctx context.Context, in *ACL_List, opts ...grpc.C
 	return out, nil
 }
 
-func (c *aCLServiceClient) GetEffectivePermissions(ctx context.Context, in *User, opts ...grpc.CallOption) (*ACL, error) {
+func (c *aCLServiceClient) GetEffectivePermissions(ctx context.Context, in *ACL_Query, opts ...grpc.CallOption) (*ACL, error) {
 	out := new(ACL)
 	err := grpc.Invoke(ctx, "/MurmurRPC.ACLService/GetEffectivePermissions", in, out, c.cc, opts...)
 	if err != nil {
@@ -3191,8 +3232,12 @@ func (c *aCLServiceClient) RemoveTemporaryGroup(ctx context.Context, in *ACL_Tem
 type ACLServiceServer interface {
 	Get(context.Context, *Channel) (*ACL_List, error)
 	Set(context.Context, *ACL_List) (*Void, error)
-	GetEffectivePermissions(context.Context, *User) (*ACL, error)
+	// GetEffectivePermissions returns the effective permissions for the given
+	// user in the given channel.
+	GetEffectivePermissions(context.Context, *ACL_Query) (*ACL, error)
+	// AddTemporaryGroup adds a user to a temporary group.
 	AddTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
+	// RemoveTemporaryGroup removes a user from a temporary group.
 	RemoveTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
 }
 
@@ -3225,7 +3270,7 @@ func _ACLService_Set_Handler(srv interface{}, ctx context.Context, codec grpc.Co
 }
 
 func _ACLService_GetEffectivePermissions_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
-	in := new(User)
+	in := new(ACL_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
@@ -3663,6 +3708,9 @@ var _DatabaseService_serviceDesc = grpc.ServiceDesc{
 // Client API for AudioService service
 
 type AudioServiceClient interface {
+	// SetRedirectWhisperGroup redirects whisper targets for the given user.
+	// Whenever a user tries to whisper to group "source", the whisper will be
+	// redirected to group "target". Omitting "target" will remove the redirect.
 	SetRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
 }
 
@@ -3686,6 +3734,9 @@ func (c *audioServiceClient) SetRedirectWhisperGroup(ctx context.Context, in *Re
 // Server API for AudioService service
 
 type AudioServiceServer interface {
+	// SetRedirectWhisperGroup redirects whisper targets for the given user.
+	// Whenever a user tries to whisper to group "source", the whisper will be
+	// redirected to group "target". Omitting "target" will remove the redirect.
 	SetRedirectWhisperGroup(context.Context, *RedirectWhisperGroup) (*Void, error)
 }
 
