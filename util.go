@@ -15,6 +15,12 @@ func Output(data interface{}, err error) {
 	if err != nil {
 		panic(err)
 	}
+	if outputTemplate != nil {
+		if err := outputTemplate.Execute(os.Stdout, data); err != nil {
+			panic(err)
+		}
+		return
+	}
 	encoder := json.NewEncoder(os.Stdout)
 	if err := encoder.Encode(data); err != nil {
 		panic(err)

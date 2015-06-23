@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"text/template"
 	"time"
 
 	"github.com/layeh/murmur-cli/MurmurRPC"
@@ -26,6 +27,8 @@ Flags:
   --address="127.0.0.1:50051"   address and port of murmur's grpc endpoint
                                 (can also be set via $MURMUR_ADDRESS)
   --timeout="10s"               duration to wait for connection
+  --template=""                 Go text/template to use when outputing data.
+                                By default, JSON objects are generated.
 
 Commands:
   meta uptime
@@ -46,6 +49,8 @@ Commands:
   config get-defaults
 `
 
+var outputTemplate *template.Template
+
 func main() {
 	// Flags
 	flag.Usage = func() {
@@ -59,7 +64,17 @@ func main() {
 
 	address := flag.String("address", defaultAddress, "")
 	timeout := flag.Duration("timeout", time.Second*10, "")
+	templateText := flag.String("template", "", "")
 	flag.Parse()
+
+	if *templateText != "" {
+		var err error
+		outputTemplate, err = template.New("output").Parse(*templateText)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	}
 
 	// grpc connection
 	conn, err := grpc.Dial(*address, grpc.WithTimeout(*timeout))
