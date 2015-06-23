@@ -41,8 +41,19 @@ func MustServer(args []string) *MurmurRPC.Server {
 }
 
 func MustString(args []string, index int) string {
-	if len(args) < index {
+	if len(args) <= index {
 		panic(errors.New("missing string value"))
 	}
 	return args[index]
+}
+
+func MustUint32(args []string, index int) uint32 {
+	if len(args) <= index {
+		panic(errors.New("missing uint32 value"))
+	}
+	n, err := strconv.ParseUint(args[index], 10, 32)
+	if err != nil {
+		panic(err)
+	}
+	return uint32(n)
 }

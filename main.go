@@ -47,6 +47,8 @@ Commands:
   config get-field <server id> <key>
   config set-field <server id> <key> <value>
   config get-defaults
+
+  log query <server id> (<min> <max>)
 `
 
 var outputTemplate *template.Template
@@ -88,6 +90,7 @@ func main() {
 	initMeta(conn)
 	initServers(conn)
 	initConfig(conn)
+	initLog(conn)
 
 	defer func() {
 		if r := recover(); r != nil {
