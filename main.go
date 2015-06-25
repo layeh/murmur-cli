@@ -50,20 +50,14 @@ Commands:
   server remove <server id>
   server events <server id>
 
+  textmessage send <server id> [sender:<session>] [targets...] <text>
+    Valid targets:
+      user:<session>
+      channel:<id>
+      tree:<id>
+
   tree get <server id>
 `
-/*
- ContextActionService
- TextMessageService
- ChannelService
- UserService
- TreeService
- BanService
- ACLService
- AuthenticatorService
- DatabaseService
- AudioService
- */
 
 var outputTemplate *template.Template
 
@@ -105,6 +99,7 @@ func main() {
 	initLog(conn)
 	initMeta(conn)
 	initServers(conn)
+	initTextMessage(conn)
 	initTree(conn)
 
 	defer func() {

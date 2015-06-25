@@ -5,6 +5,7 @@ import (
 	"errors"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/layeh/murmur-cli/MurmurRPC"
 
@@ -58,4 +59,18 @@ func (a Args) MustUint32(i int) uint32 {
 		panic(err)
 	}
 	return uint32(n)
+}
+
+func (a Args) PrefixedUint32(prefix string, i int) (uint32, bool) {
+	if len(a) <= i {
+		panic(errors.New("missing prefixed uint32 value"))
+	}
+	if !strings.HasPrefix(a[i], prefix) {
+		return 0, false
+	}
+	n, err := strconv.ParseUint(a[i][len(prefix):], 10, 32)
+	if err != nil {
+		panic(err)
+	}
+	return uint32(n), true
 }
