@@ -13,15 +13,15 @@ func initMeta(conn *grpc.ClientConn) {
 
 	cmd := root.Add("meta")
 
-	cmd.Add("uptime", func(args []string) {
+	cmd.Add("uptime", func(args Args) {
 		Output(meta.GetUptime(ctx, void))
 	})
 
-	cmd.Add("version", func(args []string) {
+	cmd.Add("version", func(args Args) {
 		Output(meta.GetVersion(ctx, void))
 	})
 
-	cmd.Add("events", func(args []string) {
+	cmd.Add("events", func(args Args) {
 		stream, err := meta.Events(ctx, void)
 		if err != nil {
 			Output(nil, err)

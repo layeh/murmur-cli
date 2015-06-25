@@ -27,12 +27,13 @@ func Output(data interface{}, err error) {
 	}
 }
 
-// TODO: convert Must* commands to members of new Args type
-func MustServer(args []string) *MurmurRPC.Server {
-	if len(args) <= 0 {
+type Args []string
+
+func (a Args) MustServer(i int) *MurmurRPC.Server {
+	if len(a) <= i {
 		panic(errors.New("missing server ID argument"))
 	}
-	id, err := strconv.Atoi(args[0])
+	id, err := strconv.Atoi(a[i])
 	if err != nil {
 		panic(errors.New("invalid server ID"))
 	}
@@ -41,18 +42,18 @@ func MustServer(args []string) *MurmurRPC.Server {
 	}
 }
 
-func MustString(args []string, index int) string {
-	if len(args) <= index {
+func (a Args) MustString(i int) string {
+	if len(a) <= i {
 		panic(errors.New("missing string value"))
 	}
-	return args[index]
+	return a[i]
 }
 
-func MustUint32(args []string, index int) uint32 {
-	if len(args) <= index {
+func (a Args) MustUint32(i int) uint32 {
+	if len(a) <= i {
 		panic(errors.New("missing uint32 value"))
 	}
-	n, err := strconv.ParseUint(args[index], 10, 32)
+	n, err := strconv.ParseUint(a[i], 10, 32)
 	if err != nil {
 		panic(err)
 	}

@@ -7,7 +7,7 @@ import (
 
 type Command struct {
 	Commands map[string]*Command
-	Run      func(arguments []string)
+	Run      func(Args)
 }
 
 func NewCommand() *Command {
@@ -16,7 +16,7 @@ func NewCommand() *Command {
 	}
 }
 
-func (c *Command) Add(name string, run ...func(arguments []string)) *Command {
+func (c *Command) Add(name string, run ...func(arguments Args)) *Command {
 	cmd := NewCommand()
 	c.Commands[name] = cmd
 	if len(run) >= 1 {

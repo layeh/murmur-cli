@@ -13,36 +13,36 @@ func initServers(conn *grpc.ClientConn) {
 
 	cmd := root.Add("server")
 
-	cmd.Add("create", func(args []string) {
+	cmd.Add("create", func(args Args) {
 		Output(servers.Create(ctx, void))
 	})
 
-	cmd.Add("query", func(args []string) {
+	cmd.Add("query", func(args Args) {
 		Output(servers.Query(ctx, &MurmurRPC.Server_Query{}))
 	})
 
-	cmd.Add("get", func(args []string) {
-		server := MustServer(args)
+	cmd.Add("get", func(args Args) {
+		server := args.MustServer(0)
 		Output(servers.Get(ctx, server))
 	})
 
-	cmd.Add("start", func(args []string) {
-		server := MustServer(args)
+	cmd.Add("start", func(args Args) {
+		server := args.MustServer(0)
 		Output(servers.Start(ctx, server))
 	})
 
-	cmd.Add("stop", func(args []string) {
-		server := MustServer(args)
+	cmd.Add("stop", func(args Args) {
+		server := args.MustServer(0)
 		Output(servers.Stop(ctx, server))
 	})
 
-	cmd.Add("remove", func(args []string) {
-		server := MustServer(args)
+	cmd.Add("remove", func(args Args) {
+		server := args.MustServer(0)
 		Output(servers.Remove(ctx, server))
 	})
 
-	cmd.Add("events", func(args []string) {
-		server := MustServer(args)
+	cmd.Add("events", func(args Args) {
+		server := args.MustServer(0)
 		stream, err := servers.Events(ctx, server)
 		if err != nil {
 			Output(nil, err)

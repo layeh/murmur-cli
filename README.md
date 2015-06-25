@@ -8,7 +8,17 @@ murmur-cli provides an interface to a grpc-enabled murmur server.
 
 ## TODO
 
-- TODO: update URL in generate.go
+- Update URL in generate.go
+- Services
+    - ContextActionService
+    - TextMessageService
+    - ChannelService
+    - UserService
+    - BanService
+    - ACLService
+    - AuthenticatorService
+    - DatabaseService
+    - AudioService
 
 ## Author
 

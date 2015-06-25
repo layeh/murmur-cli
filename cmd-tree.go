@@ -11,8 +11,8 @@ func initTree(conn *grpc.ClientConn) {
 
 	cmd := root.Add("tree")
 
-	cmd.Add("get", func(args []string) {
-		server := MustServer(args)
+	cmd.Add("get", func(args Args) {
+		server := args.MustServer(0)
 		Output(tree.Get(ctx, server))
 	})
 }
