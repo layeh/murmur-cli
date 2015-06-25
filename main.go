@@ -31,6 +31,13 @@ Flags:
                                 By default, JSON objects are generated.
 
 Commands:
+  config get <server id>
+  config get-field <server id> <key>
+  config set-field <server id> <key> <value>
+  config get-defaults
+
+  log query <server id> (<min> <max>)
+
   meta uptime
   meta version
   meta events
@@ -43,13 +50,20 @@ Commands:
   server remove <server id>
   server events <server id>
 
-  config get <server id>
-  config get-field <server id> <key>
-  config set-field <server id> <key> <value>
-  config get-defaults
-
-  log query <server id> (<min> <max>)
+  tree get <server id>
 `
+/*
+ ContextActionService
+ TextMessageService
+ ChannelService
+ UserService
+ TreeService
+ BanService
+ ACLService
+ AuthenticatorService
+ DatabaseService
+ AudioService
+ */
 
 var outputTemplate *template.Template
 
@@ -87,10 +101,11 @@ func main() {
 	defer conn.Close()
 
 	// Services
-	initMeta(conn)
-	initServers(conn)
 	initConfig(conn)
 	initLog(conn)
+	initMeta(conn)
+	initServers(conn)
+	initTree(conn)
 
 	defer func() {
 		if r := recover(); r != nil {

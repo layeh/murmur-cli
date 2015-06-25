@@ -27,6 +27,7 @@ func Output(data interface{}, err error) {
 	}
 }
 
+// TODO: convert Must* commands to members of new Args type
 func MustServer(args []string) *MurmurRPC.Server {
 	if len(args) <= 0 {
 		panic(errors.New("missing server ID argument"))
