@@ -45,14 +45,13 @@ func initServers(conn *grpc.ClientConn) {
 		server := args.MustServer(0)
 		stream, err := client.Events(ctx, server)
 		if err != nil {
-			Output(nil, err)
-			return
+			panic(err)
 		}
 		for {
 			msg, err := stream.Recv()
 			if err != nil {
 				if err != io.EOF {
-					Output(nil, err)
+					panic(err)
 				}
 				return
 			}

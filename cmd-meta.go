@@ -24,14 +24,13 @@ func initMeta(conn *grpc.ClientConn) {
 	cmd.Add("events", func(args Args) {
 		stream, err := client.Events(ctx, void)
 		if err != nil {
-			Output(nil, err)
-			return
+			panic(err)
 		}
 		for {
 			msg, err := stream.Recv()
 			if err != nil {
 				if err != io.EOF {
-					Output(nil, err)
+					panic(err)
 				}
 				return
 			}
