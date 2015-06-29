@@ -7,7 +7,7 @@ import (
 )
 
 func initTextMessage(conn *grpc.ClientConn) {
-	textMessage := MurmurRPC.NewTextMessageServiceClient(conn)
+	client := MurmurRPC.NewTextMessageServiceClient(conn)
 
 	cmd := root.Add("textmessage")
 
@@ -49,6 +49,6 @@ func initTextMessage(conn *grpc.ClientConn) {
 			}
 		}
 
-		Output(textMessage.Send(ctx, tm))
+		Output(client.Send(ctx, tm))
 	})
 }

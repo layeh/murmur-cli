@@ -9,41 +9,41 @@ import (
 )
 
 func initServers(conn *grpc.ClientConn) {
-	servers := MurmurRPC.NewServerServiceClient(conn)
+	client := MurmurRPC.NewServerServiceClient(conn)
 
 	cmd := root.Add("server")
 
 	cmd.Add("create", func(args Args) {
-		Output(servers.Create(ctx, void))
+		Output(client.Create(ctx, void))
 	})
 
 	cmd.Add("query", func(args Args) {
-		Output(servers.Query(ctx, &MurmurRPC.Server_Query{}))
+		Output(client.Query(ctx, &MurmurRPC.Server_Query{}))
 	})
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
-		Output(servers.Get(ctx, server))
+		Output(client.Get(ctx, server))
 	})
 
 	cmd.Add("start", func(args Args) {
 		server := args.MustServer(0)
-		Output(servers.Start(ctx, server))
+		Output(client.Start(ctx, server))
 	})
 
 	cmd.Add("stop", func(args Args) {
 		server := args.MustServer(0)
-		Output(servers.Stop(ctx, server))
+		Output(client.Stop(ctx, server))
 	})
 
 	cmd.Add("remove", func(args Args) {
 		server := args.MustServer(0)
-		Output(servers.Remove(ctx, server))
+		Output(client.Remove(ctx, server))
 	})
 
 	cmd.Add("events", func(args Args) {
 		server := args.MustServer(0)
-		stream, err := servers.Events(ctx, server)
+		stream, err := client.Events(ctx, server)
 		if err != nil {
 			Output(nil, err)
 			return

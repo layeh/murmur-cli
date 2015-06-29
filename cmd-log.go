@@ -7,7 +7,7 @@ import (
 )
 
 func initLog(conn *grpc.ClientConn) {
-	log := MurmurRPC.NewLogServiceClient(conn)
+	client := MurmurRPC.NewLogServiceClient(conn)
 
 	cmd := root.Add("log")
 
@@ -22,6 +22,6 @@ func initLog(conn *grpc.ClientConn) {
 			query.Min = &min
 			query.Max = &max
 		}
-		Output(log.Query(ctx, query))
+		Output(client.Query(ctx, query))
 	})
 }

@@ -7,12 +7,12 @@ import (
 )
 
 func initTree(conn *grpc.ClientConn) {
-	tree := MurmurRPC.NewTreeServiceClient(conn)
+	client := MurmurRPC.NewTreeServiceClient(conn)
 
 	cmd := root.Add("tree")
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
-		Output(tree.Get(ctx, server))
+		Output(client.Get(ctx, server))
 	})
 }

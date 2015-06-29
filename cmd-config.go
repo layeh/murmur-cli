@@ -7,19 +7,19 @@ import (
 )
 
 func initConfig(conn *grpc.ClientConn) {
-	meta := MurmurRPC.NewConfigServiceClient(conn)
+	client := MurmurRPC.NewConfigServiceClient(conn)
 
 	cmd := root.Add("config")
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
-		Output(meta.Get(ctx, server))
+		Output(client.Get(ctx, server))
 	})
 
 	cmd.Add("get-field", func(args Args) {
 		server := args.MustServer(0)
 		key := args.MustString(1)
-		Output(meta.GetField(ctx, &MurmurRPC.Config_Field{
+		Output(client.GetField(ctx, &MurmurRPC.Config_Field{
 			Server: server,
 			Key:    &key,
 		}))
@@ -29,7 +29,7 @@ func initConfig(conn *grpc.ClientConn) {
 		server := args.MustServer(0)
 		key := args.MustString(1)
 		value := args.MustString(2)
-		Output(meta.SetField(ctx, &MurmurRPC.Config_Field{
+		Output(client.SetField(ctx, &MurmurRPC.Config_Field{
 			Server: server,
 			Key:    &key,
 			Value:  &value,
@@ -37,6 +37,6 @@ func initConfig(conn *grpc.ClientConn) {
 	})
 
 	cmd.Add("get-defaults", func(args Args) {
-		Output(meta.GetDefaults(ctx, void))
+		Output(client.GetDefaults(ctx, void))
 	})
 }
