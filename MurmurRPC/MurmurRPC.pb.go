@@ -240,58 +240,42 @@ func (x *ACL_Permission) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-type Authenticator_Message_Type int32
+type Authenticator_Response_Status int32
 
 const (
-	Authenticator_Message_Initialize                   Authenticator_Message_Type = 0
-	Authenticator_Message_Authenticate                 Authenticator_Message_Type = 1
-	Authenticator_Message_AuthenticateTemporaryFailure Authenticator_Message_Type = 2
-	Authenticator_Message_AuthenticateFailure          Authenticator_Message_Type = 3
-	Authenticator_Message_Information                  Authenticator_Message_Type = 4
-	// Below types are only sent when "registrationStream" used.
-	Authenticator_Message_Register   Authenticator_Message_Type = 5
-	Authenticator_Message_Unregister Authenticator_Message_Type = 6
-	Authenticator_Message_Update     Authenticator_Message_Type = 7
-	Authenticator_Message_Query      Authenticator_Message_Type = 8
+	Authenticator_Response_Fallthrough      Authenticator_Response_Status = 0
+	Authenticator_Response_Success          Authenticator_Response_Status = 1
+	Authenticator_Response_Failure          Authenticator_Response_Status = 2
+	Authenticator_Response_TemporaryFailure Authenticator_Response_Status = 3
 )
 
-var Authenticator_Message_Type_name = map[int32]string{
-	0: "Initialize",
-	1: "Authenticate",
-	2: "AuthenticateTemporaryFailure",
-	3: "AuthenticateFailure",
-	4: "Information",
-	5: "Register",
-	6: "Unregister",
-	7: "Update",
-	8: "Query",
+var Authenticator_Response_Status_name = map[int32]string{
+	0: "Fallthrough",
+	1: "Success",
+	2: "Failure",
+	3: "TemporaryFailure",
 }
-var Authenticator_Message_Type_value = map[string]int32{
-	"Initialize":                   0,
-	"Authenticate":                 1,
-	"AuthenticateTemporaryFailure": 2,
-	"AuthenticateFailure":          3,
-	"Information":                  4,
-	"Register":                     5,
-	"Unregister":                   6,
-	"Update":                       7,
-	"Query":                        8,
+var Authenticator_Response_Status_value = map[string]int32{
+	"Fallthrough":      0,
+	"Success":          1,
+	"Failure":          2,
+	"TemporaryFailure": 3,
 }
 
-func (x Authenticator_Message_Type) Enum() *Authenticator_Message_Type {
-	p := new(Authenticator_Message_Type)
+func (x Authenticator_Response_Status) Enum() *Authenticator_Response_Status {
+	p := new(Authenticator_Response_Status)
 	*p = x
 	return p
 }
-func (x Authenticator_Message_Type) String() string {
-	return proto.EnumName(Authenticator_Message_Type_name, int32(x))
+func (x Authenticator_Response_Status) String() string {
+	return proto.EnumName(Authenticator_Response_Status_name, int32(x))
 }
-func (x *Authenticator_Message_Type) UnmarshalJSON(data []byte) error {
-	value, err := proto.UnmarshalJSONEnum(Authenticator_Message_Type_value, data, "Authenticator_Message_Type")
+func (x *Authenticator_Response_Status) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(Authenticator_Response_Status_value, data, "Authenticator_Response_Status")
 	if err != nil {
 		return err
 	}
-	*x = Authenticator_Message_Type(value)
+	*x = Authenticator_Response_Status(value)
 	return nil
 }
 
@@ -348,6 +332,7 @@ func (m *Version) GetOsVersion() string {
 }
 
 type Uptime struct {
+	// The number of seconds from the starting time.
 	Secs             *uint64 `protobuf:"varint,1,opt,name=secs" json:"secs,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -364,9 +349,12 @@ func (m *Uptime) GetSecs() uint64 {
 }
 
 type Server struct {
-	Id               *uint32 `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
-	Running          *bool   `protobuf:"varint,2,opt,name=running" json:"running,omitempty"`
-	Uptime           *uint32 `protobuf:"varint,3,opt,name=uptime" json:"uptime,omitempty"`
+	// The unique server ID.
+	Id *uint32 `protobuf:"varint,1,req,name=id" json:"id,omitempty"`
+	// Is the server currently running?
+	Running *bool `protobuf:"varint,2,opt,name=running" json:"running,omitempty"`
+	// The update of the server.
+	Uptime           *Uptime `protobuf:"bytes,3,opt,name=uptime" json:"uptime,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -388,20 +376,25 @@ func (m *Server) GetRunning() bool {
 	return false
 }
 
-func (m *Server) GetUptime() uint32 {
-	if m != nil && m.Uptime != nil {
-		return *m.Uptime
+func (m *Server) GetUptime() *Uptime {
+	if m != nil {
+		return m.Uptime
 	}
-	return 0
+	return nil
 }
 
 type Server_Event struct {
-	Server           *Server            `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Type             *Server_Event_Type `protobuf:"varint,2,opt,name=type,enum=MurmurRPC.Server_Event_Type" json:"type,omitempty"`
-	User             *User              `protobuf:"bytes,3,opt,name=user" json:"user,omitempty"`
-	Message          *TextMessage       `protobuf:"bytes,4,opt,name=message" json:"message,omitempty"`
-	Channel          *Channel           `protobuf:"bytes,5,opt,name=channel" json:"channel,omitempty"`
-	XXX_unrecognized []byte             `json:"-"`
+	// The server on which the event happened.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The type of event that happened.
+	Type *Server_Event_Type `protobuf:"varint,2,opt,name=type,enum=MurmurRPC.Server_Event_Type" json:"type,omitempty"`
+	// The user tied to the event (if applicable).
+	User *User `protobuf:"bytes,3,opt,name=user" json:"user,omitempty"`
+	// The text message tied to the event (if applicable).
+	Message *TextMessage `protobuf:"bytes,4,opt,name=message" json:"message,omitempty"`
+	// The channel tied to the event (if applicable).
+	Channel          *Channel `protobuf:"bytes,5,opt,name=channel" json:"channel,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
 }
 
 func (m *Server_Event) Reset()         { *m = Server_Event{} }
@@ -452,6 +445,7 @@ func (m *Server_Query) String() string { return proto.CompactTextString(m) }
 func (*Server_Query) ProtoMessage()    {}
 
 type Server_List struct {
+	// The servers.
 	Servers          []*Server `protobuf:"bytes,1,rep,name=servers" json:"servers,omitempty"`
 	XXX_unrecognized []byte    `json:"-"`
 }
@@ -468,21 +462,16 @@ func (m *Server_List) GetServers() []*Server {
 }
 
 type Event struct {
-	Type             *Event_Type `protobuf:"varint,1,opt,name=type,enum=MurmurRPC.Event_Type" json:"type,omitempty"`
-	Server           *Server     `protobuf:"bytes,2,opt,name=server" json:"server,omitempty"`
+	// The server for which the event happened.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The type of event that happened.
+	Type             *Event_Type `protobuf:"varint,2,opt,name=type,enum=MurmurRPC.Event_Type" json:"type,omitempty"`
 	XXX_unrecognized []byte      `json:"-"`
 }
 
 func (m *Event) Reset()         { *m = Event{} }
 func (m *Event) String() string { return proto.CompactTextString(m) }
 func (*Event) ProtoMessage()    {}
-
-func (m *Event) GetType() Event_Type {
-	if m != nil && m.Type != nil {
-		return *m.Type
-	}
-	return Event_ServerStopped
-}
 
 func (m *Event) GetServer() *Server {
 	if m != nil {
@@ -491,15 +480,29 @@ func (m *Event) GetServer() *Server {
 	return nil
 }
 
+func (m *Event) GetType() Event_Type {
+	if m != nil && m.Type != nil {
+		return *m.Type
+	}
+	return Event_ServerStopped
+}
+
 type ContextAction struct {
-	Server           *Server                `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Context          *ContextAction_Context `protobuf:"varint,2,opt,name=context,enum=MurmurRPC.ContextAction_Context" json:"context,omitempty"`
-	Action           *string                `protobuf:"bytes,3,opt,name=action" json:"action,omitempty"`
-	Text             *string                `protobuf:"bytes,4,opt,name=text" json:"text,omitempty"`
-	Actor            *User                  `protobuf:"bytes,5,opt,name=actor" json:"actor,omitempty"`
-	User             *User                  `protobuf:"bytes,6,opt,name=user" json:"user,omitempty"`
-	Channel          *Channel               `protobuf:"bytes,7,opt,name=channel" json:"channel,omitempty"`
-	XXX_unrecognized []byte                 `json:"-"`
+	// The server on which the action is.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The context in which the action is.
+	Context *ContextAction_Context `protobuf:"varint,2,opt,name=context,enum=MurmurRPC.ContextAction_Context" json:"context,omitempty"`
+	// The action name.
+	Action *string `protobuf:"bytes,3,opt,name=action" json:"action,omitempty"`
+	// The user-visible descriptive name of the action.
+	Text *string `protobuf:"bytes,4,opt,name=text" json:"text,omitempty"`
+	// The user that triggered the ContextAction.
+	Actor *User `protobuf:"bytes,5,opt,name=actor" json:"actor,omitempty"`
+	// The user on which the ContextAction was triggered.
+	User *User `protobuf:"bytes,6,opt,name=user" json:"user,omitempty"`
+	// The channel on which the ContextAction was triggered.
+	Channel          *Channel `protobuf:"bytes,7,opt,name=channel" json:"channel,omitempty"`
+	XXX_unrecognized []byte   `json:"-"`
 }
 
 func (m *ContextAction) Reset()         { *m = ContextAction{} }
@@ -556,13 +559,20 @@ func (m *ContextAction) GetChannel() *Channel {
 }
 
 type TextMessage struct {
-	Server           *Server    `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Actor            *User      `protobuf:"bytes,2,opt,name=actor" json:"actor,omitempty"`
-	Users            []*User    `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
-	Channels         []*Channel `protobuf:"bytes,4,rep,name=channels" json:"channels,omitempty"`
-	Trees            []*Channel `protobuf:"bytes,5,rep,name=trees" json:"trees,omitempty"`
-	Text             *string    `protobuf:"bytes,6,opt,name=text" json:"text,omitempty"`
-	XXX_unrecognized []byte     `json:"-"`
+	// The server on which the TextMessage originates.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The user who sent the message.
+	Actor *User `protobuf:"bytes,2,opt,name=actor" json:"actor,omitempty"`
+	// The users to whom the message is sent.
+	Users []*User `protobuf:"bytes,3,rep,name=users" json:"users,omitempty"`
+	// The channels to which the message is sent.
+	Channels []*Channel `protobuf:"bytes,4,rep,name=channels" json:"channels,omitempty"`
+	// The channels to which the message is sent, including the channels'
+	// ancestors.
+	Trees []*Channel `protobuf:"bytes,5,rep,name=trees" json:"trees,omitempty"`
+	// The message body that is sent.
+	Text             *string `protobuf:"bytes,6,opt,name=text" json:"text,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
 }
 
 func (m *TextMessage) Reset()         { *m = TextMessage{} }
@@ -612,8 +622,11 @@ func (m *TextMessage) GetText() string {
 }
 
 type Log struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Timestamp        *int64  `protobuf:"varint,2,opt,name=timestamp" json:"timestamp,omitempty"`
+	// The server on which the log message was generated.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The unix timestamp of when the message was generated.
+	Timestamp *int64 `protobuf:"varint,2,opt,name=timestamp" json:"timestamp,omitempty"`
+	// The log message.
 	Text             *string `protobuf:"bytes,3,opt,name=text" json:"text,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -644,8 +657,11 @@ func (m *Log) GetText() string {
 }
 
 type Log_Query struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Min              *uint32 `protobuf:"varint,2,opt,name=min" json:"min,omitempty"`
+	// The server whose logs will be queried.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The minimum log index to receive.
+	Min *uint32 `protobuf:"varint,2,opt,name=min" json:"min,omitempty"`
+	// The maximum log index to receive.
 	Max              *uint32 `protobuf:"varint,3,opt,name=max" json:"max,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -676,12 +692,17 @@ func (m *Log_Query) GetMax() uint32 {
 }
 
 type Log_List struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Total            *uint32 `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
-	Min              *uint32 `protobuf:"varint,3,opt,name=min" json:"min,omitempty"`
-	Max              *uint32 `protobuf:"varint,4,opt,name=max" json:"max,omitempty"`
-	Entries          []*Log  `protobuf:"bytes,5,rep,name=entries" json:"entries,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	// The server where the log entries are from.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The total number of logs entries on the server.
+	Total *uint32 `protobuf:"varint,2,opt,name=total" json:"total,omitempty"`
+	// The minimum log index that was sent.
+	Min *uint32 `protobuf:"varint,3,opt,name=min" json:"min,omitempty"`
+	// The maximum log index that was sent.
+	Max *uint32 `protobuf:"varint,4,opt,name=max" json:"max,omitempty"`
+	// The log entries.
+	Entries          []*Log `protobuf:"bytes,5,rep,name=entries" json:"entries,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *Log_List) Reset()         { *m = Log_List{} }
@@ -723,8 +744,11 @@ func (m *Log_List) GetEntries() []*Log {
 	return nil
 }
 
+// TODO(grpc): list common configuration field names?
 type Config struct {
-	Server           *Server           `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The server for which the configuration is for.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The configuration keys and values.
 	Fields           map[string]string `protobuf:"bytes,2,rep,name=fields" json:"fields,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	XXX_unrecognized []byte            `json:"-"`
 }
@@ -748,8 +772,11 @@ func (m *Config) GetFields() map[string]string {
 }
 
 type Config_Field struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Key              *string `protobuf:"bytes,2,opt,name=key" json:"key,omitempty"`
+	// The server for which the configuration field is for.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The field key.
+	Key *string `protobuf:"bytes,2,opt,name=key" json:"key,omitempty"`
+	// The field value.
 	Value            *string `protobuf:"bytes,3,opt,name=value" json:"value,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -780,15 +807,23 @@ func (m *Config_Field) GetValue() string {
 }
 
 type Channel struct {
-	Server           *Server    `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Id               *uint32    `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
-	Name             *string    `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
-	Parent           *Channel   `protobuf:"bytes,4,opt,name=parent" json:"parent,omitempty"`
-	Links            []*Channel `protobuf:"bytes,5,rep,name=links" json:"links,omitempty"`
-	Description      *string    `protobuf:"bytes,6,opt,name=description" json:"description,omitempty"`
-	Temporary        *bool      `protobuf:"varint,7,opt,name=temporary" json:"temporary,omitempty"`
-	Position         *int32     `protobuf:"varint,8,opt,name=position" json:"position,omitempty"`
-	XXX_unrecognized []byte     `json:"-"`
+	// The server on which the channel exists.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The unique channel identifier.
+	Id *uint32 `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
+	// The channel name.
+	Name *string `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	// The channel's parent.
+	Parent *Channel `protobuf:"bytes,4,opt,name=parent" json:"parent,omitempty"`
+	// Linked channels.
+	Links []*Channel `protobuf:"bytes,5,rep,name=links" json:"links,omitempty"`
+	// The channel's description.
+	Description *string `protobuf:"bytes,6,opt,name=description" json:"description,omitempty"`
+	// Is the channel temporary?
+	Temporary *bool `protobuf:"varint,7,opt,name=temporary" json:"temporary,omitempty"`
+	// The position in which the channel should appear in a sorted list.
+	Position         *int32 `protobuf:"varint,8,opt,name=position" json:"position,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *Channel) Reset()         { *m = Channel{} }
@@ -852,6 +887,7 @@ func (m *Channel) GetPosition() int32 {
 }
 
 type Channel_Query struct {
+	// The server on which the channels are.
 	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -868,7 +904,9 @@ func (m *Channel_Query) GetServer() *Server {
 }
 
 type Channel_List struct {
-	Server           *Server    `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The server on which the channels are.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The channels.
 	Channels         []*Channel `protobuf:"bytes,2,rep,name=channels" json:"channels,omitempty"`
 	XXX_unrecognized []byte     `json:"-"`
 }
@@ -892,30 +930,54 @@ func (m *Channel_List) GetChannels() []*Channel {
 }
 
 type User struct {
-	Server           *Server  `protobuf:"bytes,50,opt,name=server" json:"server,omitempty"`
-	Session          *uint32  `protobuf:"varint,1,opt,name=session" json:"session,omitempty"`
-	Id               *uint32  `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
-	Name             *string  `protobuf:"bytes,11,opt,name=name" json:"name,omitempty"`
-	Mute             *bool    `protobuf:"varint,3,opt,name=mute" json:"mute,omitempty"`
-	Deaf             *bool    `protobuf:"varint,4,opt,name=deaf" json:"deaf,omitempty"`
-	Suppress         *bool    `protobuf:"varint,5,opt,name=suppress" json:"suppress,omitempty"`
-	PrioritySpeaker  *bool    `protobuf:"varint,6,opt,name=priority_speaker" json:"priority_speaker,omitempty"`
-	SelfMute         *bool    `protobuf:"varint,7,opt,name=self_mute" json:"self_mute,omitempty"`
-	SelfDeaf         *bool    `protobuf:"varint,8,opt,name=self_deaf" json:"self_deaf,omitempty"`
-	Recording        *bool    `protobuf:"varint,9,opt,name=recording" json:"recording,omitempty"`
-	Channel          *Channel `protobuf:"bytes,10,opt,name=channel" json:"channel,omitempty"`
-	OnlineSecs       *uint32  `protobuf:"varint,12,opt,name=online_secs" json:"online_secs,omitempty"`
-	IdleSecs         *uint32  `protobuf:"varint,13,opt,name=idle_secs" json:"idle_secs,omitempty"`
-	BytesPerSec      *uint32  `protobuf:"varint,14,opt,name=bytes_per_sec" json:"bytes_per_sec,omitempty"`
-	Version          *Version `protobuf:"bytes,15,opt,name=version" json:"version,omitempty"`
-	PluginContext    []byte   `protobuf:"bytes,16,opt,name=plugin_context" json:"plugin_context,omitempty"`
-	PluginIdentity   *string  `protobuf:"bytes,17,opt,name=plugin_identity" json:"plugin_identity,omitempty"`
-	Comment          *string  `protobuf:"bytes,18,opt,name=comment" json:"comment,omitempty"`
-	Texture          []byte   `protobuf:"bytes,19,opt,name=texture" json:"texture,omitempty"`
-	Address          []byte   `protobuf:"bytes,20,opt,name=address" json:"address,omitempty"`
-	TcpOnly          *bool    `protobuf:"varint,21,opt,name=tcp_only" json:"tcp_only,omitempty"`
-	UdpPing          *float32 `protobuf:"fixed32,22,opt,name=udp_ping" json:"udp_ping,omitempty"`
-	TcpPing          *float32 `protobuf:"fixed32,23,opt,name=tcp_ping" json:"tcp_ping,omitempty"`
+	// The server to which the user is connected.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The user's session ID.
+	Session *uint32 `protobuf:"varint,2,opt,name=session" json:"session,omitempty"`
+	// The user's registered ID.
+	Id *uint32 `protobuf:"varint,3,opt,name=id" json:"id,omitempty"`
+	// The user's name.
+	Name *string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	// Is the user muted?
+	Mute *bool `protobuf:"varint,5,opt,name=mute" json:"mute,omitempty"`
+	// Is the user deafened?
+	Deaf *bool `protobuf:"varint,6,opt,name=deaf" json:"deaf,omitempty"`
+	// Is the user suppressed?
+	Suppress *bool `protobuf:"varint,7,opt,name=suppress" json:"suppress,omitempty"`
+	// Is the user a priority speaker?
+	PrioritySpeaker *bool `protobuf:"varint,8,opt,name=priority_speaker" json:"priority_speaker,omitempty"`
+	// Has the user muted him/herself?
+	SelfMute *bool `protobuf:"varint,9,opt,name=self_mute" json:"self_mute,omitempty"`
+	// Has the user muted him/herself?
+	SelfDeaf *bool `protobuf:"varint,10,opt,name=self_deaf" json:"self_deaf,omitempty"`
+	// Is the user recording?
+	Recording *bool `protobuf:"varint,11,opt,name=recording" json:"recording,omitempty"`
+	// The channel the user is in.
+	Channel *Channel `protobuf:"bytes,12,opt,name=channel" json:"channel,omitempty"`
+	// How long the user has been connected to the server.
+	OnlineSecs *uint32 `protobuf:"varint,13,opt,name=online_secs" json:"online_secs,omitempty"`
+	// How long the user has been idle on the server.
+	IdleSecs *uint32 `protobuf:"varint,14,opt,name=idle_secs" json:"idle_secs,omitempty"`
+	// How many bytes per second is the user transmitting to the server.
+	BytesPerSec *uint32 `protobuf:"varint,15,opt,name=bytes_per_sec" json:"bytes_per_sec,omitempty"`
+	// The user's client version.
+	Version *Version `protobuf:"bytes,16,opt,name=version" json:"version,omitempty"`
+	// The user's  plugin context.
+	PluginContext []byte `protobuf:"bytes,17,opt,name=plugin_context" json:"plugin_context,omitempty"`
+	// The user's plugin identity.
+	PluginIdentity *string `protobuf:"bytes,18,opt,name=plugin_identity" json:"plugin_identity,omitempty"`
+	// The user's comment.
+	Comment *string `protobuf:"bytes,19,opt,name=comment" json:"comment,omitempty"`
+	// The user's texture.
+	Texture []byte `protobuf:"bytes,20,opt,name=texture" json:"texture,omitempty"`
+	// The user's IP address.
+	Address []byte `protobuf:"bytes,21,opt,name=address" json:"address,omitempty"`
+	// Is the user in TCP-only mode?
+	TcpOnly *bool `protobuf:"varint,22,opt,name=tcp_only" json:"tcp_only,omitempty"`
+	// The user's UDP ping in milliseconds.
+	UdpPingMsecs *float32 `protobuf:"fixed32,23,opt,name=udp_ping_msecs" json:"udp_ping_msecs,omitempty"`
+	// The user's TCP ping in milliseconds.
+	TcpPingMsecs     *float32 `protobuf:"fixed32,24,opt,name=tcp_ping_msecs" json:"tcp_ping_msecs,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
 
@@ -1077,21 +1139,22 @@ func (m *User) GetTcpOnly() bool {
 	return false
 }
 
-func (m *User) GetUdpPing() float32 {
-	if m != nil && m.UdpPing != nil {
-		return *m.UdpPing
+func (m *User) GetUdpPingMsecs() float32 {
+	if m != nil && m.UdpPingMsecs != nil {
+		return *m.UdpPingMsecs
 	}
 	return 0
 }
 
-func (m *User) GetTcpPing() float32 {
-	if m != nil && m.TcpPing != nil {
-		return *m.TcpPing
+func (m *User) GetTcpPingMsecs() float32 {
+	if m != nil && m.TcpPingMsecs != nil {
+		return *m.TcpPingMsecs
 	}
 	return 0
 }
 
 type User_Query struct {
+	// The server whose users will be queried.
 	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1108,7 +1171,9 @@ func (m *User_Query) GetServer() *Server {
 }
 
 type User_List struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The server to which the users are connected.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The users.
 	Users            []*User `protobuf:"bytes,2,rep,name=users" json:"users,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1132,11 +1197,13 @@ func (m *User_List) GetUsers() []*User {
 }
 
 type User_Kick struct {
-	// TODO(grpc): server is not really required here, since it's embedded in
-	// user.
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	User             *User   `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	Reason           *string `protobuf:"bytes,3,opt,name=reason" json:"reason,omitempty"`
+	// The server to which the user is connected.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The user to kick.
+	User *User `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	// TODO(grpc): optional User actor = 3;
+	// The reason for why the user is being kicked.
+	Reason           *string `protobuf:"bytes,4,opt,name=reason" json:"reason,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -1166,11 +1233,15 @@ func (m *User_Kick) GetReason() string {
 }
 
 type Tree struct {
-	Server           *Server  `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Channel          *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
-	Children         []*Tree  `protobuf:"bytes,3,rep,name=children" json:"children,omitempty"`
-	Users            []*User  `protobuf:"bytes,4,rep,name=users" json:"users,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	// The server which the tree represents.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The current channel.
+	Channel *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
+	// Channels below the current channel.
+	Children []*Tree `protobuf:"bytes,3,rep,name=children" json:"children,omitempty"`
+	// The users in the current channel.
+	Users            []*User `protobuf:"bytes,4,rep,name=users" json:"users,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
 }
 
 func (m *Tree) Reset()         { *m = Tree{} }
@@ -1206,15 +1277,23 @@ func (m *Tree) GetUsers() []*User {
 }
 
 type Ban struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Address          []byte  `protobuf:"bytes,2,opt,name=address" json:"address,omitempty"`
-	Bits             *uint32 `protobuf:"varint,3,opt,name=bits" json:"bits,omitempty"`
-	Name             *string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
-	Hash             *string `protobuf:"bytes,5,opt,name=hash" json:"hash,omitempty"`
-	Reason           *string `protobuf:"bytes,6,opt,name=reason" json:"reason,omitempty"`
-	Start            *int64  `protobuf:"varint,7,opt,name=start" json:"start,omitempty"`
-	Duration         *int64  `protobuf:"varint,8,opt,name=duration" json:"duration,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	// The server on which the ban is applied.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The banned IP address.
+	Address []byte `protobuf:"bytes,2,opt,name=address" json:"address,omitempty"`
+	// The number of leading bits in the address to which the ban applies.
+	Bits *uint32 `protobuf:"varint,3,opt,name=bits" json:"bits,omitempty"`
+	// The name of the banned user.
+	Name *string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	// The certificate hash of the banned user.
+	Hash *string `protobuf:"bytes,5,opt,name=hash" json:"hash,omitempty"`
+	// The reason for the ban.
+	Reason *string `protobuf:"bytes,6,opt,name=reason" json:"reason,omitempty"`
+	// The ban start time (in epoch form).
+	Start *int64 `protobuf:"varint,7,opt,name=start" json:"start,omitempty"`
+	// The ban duration.
+	DurationSecs     *int64 `protobuf:"varint,8,opt,name=duration_secs" json:"duration_secs,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *Ban) Reset()         { *m = Ban{} }
@@ -1270,14 +1349,15 @@ func (m *Ban) GetStart() int64 {
 	return 0
 }
 
-func (m *Ban) GetDuration() int64 {
-	if m != nil && m.Duration != nil {
-		return *m.Duration
+func (m *Ban) GetDurationSecs() int64 {
+	if m != nil && m.DurationSecs != nil {
+		return *m.DurationSecs
 	}
 	return 0
 }
 
 type Ban_Query struct {
+	// The server whose bans to query.
 	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1294,9 +1374,11 @@ func (m *Ban_Query) GetServer() *Server {
 }
 
 type Ban_List struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Bans             []*Ban  `protobuf:"bytes,2,rep,name=bans" json:"bans,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	// The server for which the bans apply.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The bans.
+	Bans             []*Ban `protobuf:"bytes,2,rep,name=bans" json:"bans,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *Ban_List) Reset()         { *m = Ban_List{} }
@@ -1478,12 +1560,12 @@ func (m *ACL_Query) GetChannel() *Channel {
 }
 
 type ACL_List struct {
-	Server           *Server  `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Channel          *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
-	Acls             []*ACL   `protobuf:"bytes,3,rep,name=acls" json:"acls,omitempty"`
-	Groups           []string `protobuf:"bytes,4,rep,name=groups" json:"groups,omitempty"`
-	Inherit          *bool    `protobuf:"varint,5,opt,name=inherit" json:"inherit,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	Server           *Server      `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	Channel          *Channel     `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
+	Acls             []*ACL       `protobuf:"bytes,3,rep,name=acls" json:"acls,omitempty"`
+	Groups           []*ACL_Group `protobuf:"bytes,4,rep,name=groups" json:"groups,omitempty"`
+	Inherit          *bool        `protobuf:"varint,5,opt,name=inherit" json:"inherit,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
 }
 
 func (m *ACL_List) Reset()         { *m = ACL_List{} }
@@ -1511,7 +1593,7 @@ func (m *ACL_List) GetAcls() []*ACL {
 	return nil
 }
 
-func (m *ACL_List) GetGroups() []string {
+func (m *ACL_List) GetGroups() []*ACL_Group {
 	if m != nil {
 		return m.Groups
 	}
@@ -1565,6 +1647,9 @@ func (m *ACL_TemporaryGroup) GetGroupName() string {
 	return ""
 }
 
+// When building a custom authenticator, only Authenticate and Find messages
+// need to have valid replies. All other request responses messages can be
+// omitted in the Response.
 type Authenticator struct {
 	XXX_unrecognized []byte `json:"-"`
 }
@@ -1573,65 +1658,429 @@ func (m *Authenticator) Reset()         { *m = Authenticator{} }
 func (m *Authenticator) String() string { return proto.CompactTextString(m) }
 func (*Authenticator) ProtoMessage()    {}
 
-type Authenticator_Message struct {
-	Server           *Server                     `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Type             *Authenticator_Message_Type `protobuf:"varint,2,opt,name=type,enum=MurmurRPC.Authenticator_Message_Type" json:"type,omitempty"`
-	User             *User                       `protobuf:"bytes,3,opt,name=user" json:"user,omitempty"`
-	DatabaseUser     []*DatabaseUser             `protobuf:"bytes,4,rep,name=database_user" json:"database_user,omitempty"`
-	Groups           []string                    `protobuf:"bytes,5,rep,name=groups" json:"groups,omitempty"`
-	XXX_unrecognized []byte                      `json:"-"`
+type Authenticator_Request struct {
+	Authenticate     *Authenticator_Request_Authenticate `protobuf:"bytes,1,opt,name=authenticate" json:"authenticate,omitempty"`
+	Find             *Authenticator_Request_Find         `protobuf:"bytes,2,opt,name=find" json:"find,omitempty"`
+	Query            *Authenticator_Request_Query        `protobuf:"bytes,3,opt,name=query" json:"query,omitempty"`
+	Register         *Authenticator_Request_Register     `protobuf:"bytes,4,opt,name=register" json:"register,omitempty"`
+	Deregister       *Authenticator_Request_Deregister   `protobuf:"bytes,5,opt,name=deregister" json:"deregister,omitempty"`
+	Update           *Authenticator_Request_Update       `protobuf:"bytes,6,opt,name=update" json:"update,omitempty"`
+	XXX_unrecognized []byte                              `json:"-"`
 }
 
-func (m *Authenticator_Message) Reset()         { *m = Authenticator_Message{} }
-func (m *Authenticator_Message) String() string { return proto.CompactTextString(m) }
-func (*Authenticator_Message) ProtoMessage()    {}
+func (m *Authenticator_Request) Reset()         { *m = Authenticator_Request{} }
+func (m *Authenticator_Request) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Request) ProtoMessage()    {}
 
-func (m *Authenticator_Message) GetServer() *Server {
+func (m *Authenticator_Request) GetAuthenticate() *Authenticator_Request_Authenticate {
 	if m != nil {
-		return m.Server
+		return m.Authenticate
 	}
 	return nil
 }
 
-func (m *Authenticator_Message) GetType() Authenticator_Message_Type {
-	if m != nil && m.Type != nil {
-		return *m.Type
+func (m *Authenticator_Request) GetFind() *Authenticator_Request_Find {
+	if m != nil {
+		return m.Find
 	}
-	return Authenticator_Message_Initialize
+	return nil
 }
 
-func (m *Authenticator_Message) GetUser() *User {
+func (m *Authenticator_Request) GetQuery() *Authenticator_Request_Query {
+	if m != nil {
+		return m.Query
+	}
+	return nil
+}
+
+func (m *Authenticator_Request) GetRegister() *Authenticator_Request_Register {
+	if m != nil {
+		return m.Register
+	}
+	return nil
+}
+
+func (m *Authenticator_Request) GetDeregister() *Authenticator_Request_Deregister {
+	if m != nil {
+		return m.Deregister
+	}
+	return nil
+}
+
+func (m *Authenticator_Request) GetUpdate() *Authenticator_Request_Update {
+	if m != nil {
+		return m.Update
+	}
+	return nil
+}
+
+// An authentication request for a connecting user.
+type Authenticator_Request_Authenticate struct {
+	Name              *string  `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	Password          *string  `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+	Certificates      [][]byte `protobuf:"bytes,3,rep,name=certificates" json:"certificates,omitempty"`
+	CertificateHash   *string  `protobuf:"bytes,4,opt,name=certificate_hash" json:"certificate_hash,omitempty"`
+	StrongCertificate *bool    `protobuf:"varint,5,opt,name=strong_certificate" json:"strong_certificate,omitempty"`
+	XXX_unrecognized  []byte   `json:"-"`
+}
+
+func (m *Authenticator_Request_Authenticate) Reset()         { *m = Authenticator_Request_Authenticate{} }
+func (m *Authenticator_Request_Authenticate) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Request_Authenticate) ProtoMessage()    {}
+
+func (m *Authenticator_Request_Authenticate) GetName() string {
+	if m != nil && m.Name != nil {
+		return *m.Name
+	}
+	return ""
+}
+
+func (m *Authenticator_Request_Authenticate) GetPassword() string {
+	if m != nil && m.Password != nil {
+		return *m.Password
+	}
+	return ""
+}
+
+func (m *Authenticator_Request_Authenticate) GetCertificates() [][]byte {
+	if m != nil {
+		return m.Certificates
+	}
+	return nil
+}
+
+func (m *Authenticator_Request_Authenticate) GetCertificateHash() string {
+	if m != nil && m.CertificateHash != nil {
+		return *m.CertificateHash
+	}
+	return ""
+}
+
+func (m *Authenticator_Request_Authenticate) GetStrongCertificate() bool {
+	if m != nil && m.StrongCertificate != nil {
+		return *m.StrongCertificate
+	}
+	return false
+}
+
+// A request for information about a user, given by either the user's ID
+// or name.
+type Authenticator_Request_Find struct {
+	Id               *uint32 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
+	Name             *string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *Authenticator_Request_Find) Reset()         { *m = Authenticator_Request_Find{} }
+func (m *Authenticator_Request_Find) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Request_Find) ProtoMessage()    {}
+
+func (m *Authenticator_Request_Find) GetId() uint32 {
+	if m != nil && m.Id != nil {
+		return *m.Id
+	}
+	return 0
+}
+
+func (m *Authenticator_Request_Find) GetName() string {
+	if m != nil && m.Name != nil {
+		return *m.Name
+	}
+	return ""
+}
+
+// A query of all the registered users, optionally filtered by the given
+// filter string.
+type Authenticator_Request_Query struct {
+	Filter           *string `protobuf:"bytes,1,opt,name=filter" json:"filter,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *Authenticator_Request_Query) Reset()         { *m = Authenticator_Request_Query{} }
+func (m *Authenticator_Request_Query) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Request_Query) ProtoMessage()    {}
+
+func (m *Authenticator_Request_Query) GetFilter() string {
+	if m != nil && m.Filter != nil {
+		return *m.Filter
+	}
+	return ""
+}
+
+// A request for a new user registration.
+type Authenticator_Request_Register struct {
+	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
+}
+
+func (m *Authenticator_Request_Register) Reset()         { *m = Authenticator_Request_Register{} }
+func (m *Authenticator_Request_Register) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Request_Register) ProtoMessage()    {}
+
+func (m *Authenticator_Request_Register) GetUser() *DatabaseUser {
 	if m != nil {
 		return m.User
 	}
 	return nil
 }
 
-func (m *Authenticator_Message) GetDatabaseUser() []*DatabaseUser {
+// A request for deregistering a registered user.
+type Authenticator_Request_Deregister struct {
+	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
+}
+
+func (m *Authenticator_Request_Deregister) Reset()         { *m = Authenticator_Request_Deregister{} }
+func (m *Authenticator_Request_Deregister) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Request_Deregister) ProtoMessage()    {}
+
+func (m *Authenticator_Request_Deregister) GetUser() *DatabaseUser {
 	if m != nil {
-		return m.DatabaseUser
+		return m.User
 	}
 	return nil
 }
 
-func (m *Authenticator_Message) GetGroups() []string {
+// A request to update a registered user's information. The information
+// provided should be merged with existing data.
+type Authenticator_Request_Update struct {
+	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
+}
+
+func (m *Authenticator_Request_Update) Reset()         { *m = Authenticator_Request_Update{} }
+func (m *Authenticator_Request_Update) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Request_Update) ProtoMessage()    {}
+
+func (m *Authenticator_Request_Update) GetUser() *DatabaseUser {
 	if m != nil {
-		return m.Groups
+		return m.User
 	}
 	return nil
+}
+
+type Authenticator_Response struct {
+	Initialize       *Authenticator_Response_Initialize   `protobuf:"bytes,1,opt,name=initialize" json:"initialize,omitempty"`
+	Authenticate     *Authenticator_Response_Authenticate `protobuf:"bytes,2,opt,name=authenticate" json:"authenticate,omitempty"`
+	Find             *Authenticator_Response_Find         `protobuf:"bytes,3,opt,name=find" json:"find,omitempty"`
+	Query            *Authenticator_Response_Query        `protobuf:"bytes,4,opt,name=query" json:"query,omitempty"`
+	Register         *Authenticator_Response_Register     `protobuf:"bytes,5,opt,name=register" json:"register,omitempty"`
+	Deregister       *Authenticator_Response_Deregister   `protobuf:"bytes,6,opt,name=deregister" json:"deregister,omitempty"`
+	Update           *Authenticator_Response_Update       `protobuf:"bytes,7,opt,name=update" json:"update,omitempty"`
+	XXX_unrecognized []byte                               `json:"-"`
+}
+
+func (m *Authenticator_Response) Reset()         { *m = Authenticator_Response{} }
+func (m *Authenticator_Response) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response) ProtoMessage()    {}
+
+func (m *Authenticator_Response) GetInitialize() *Authenticator_Response_Initialize {
+	if m != nil {
+		return m.Initialize
+	}
+	return nil
+}
+
+func (m *Authenticator_Response) GetAuthenticate() *Authenticator_Response_Authenticate {
+	if m != nil {
+		return m.Authenticate
+	}
+	return nil
+}
+
+func (m *Authenticator_Response) GetFind() *Authenticator_Response_Find {
+	if m != nil {
+		return m.Find
+	}
+	return nil
+}
+
+func (m *Authenticator_Response) GetQuery() *Authenticator_Response_Query {
+	if m != nil {
+		return m.Query
+	}
+	return nil
+}
+
+func (m *Authenticator_Response) GetRegister() *Authenticator_Response_Register {
+	if m != nil {
+		return m.Register
+	}
+	return nil
+}
+
+func (m *Authenticator_Response) GetDeregister() *Authenticator_Response_Deregister {
+	if m != nil {
+		return m.Deregister
+	}
+	return nil
+}
+
+func (m *Authenticator_Response) GetUpdate() *Authenticator_Response_Update {
+	if m != nil {
+		return m.Update
+	}
+	return nil
+}
+
+// The initialization for the authenticator stream. This message must be
+// sent before authentication requests will start streaming.
+type Authenticator_Response_Initialize struct {
+	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *Authenticator_Response_Initialize) Reset()         { *m = Authenticator_Response_Initialize{} }
+func (m *Authenticator_Response_Initialize) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response_Initialize) ProtoMessage()    {}
+
+func (m *Authenticator_Response_Initialize) GetServer() *Server {
+	if m != nil {
+		return m.Server
+	}
+	return nil
+}
+
+type Authenticator_Response_Authenticate struct {
+	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
+	Id               *uint32                        `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
+	Name             *string                        `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	XXX_unrecognized []byte                         `json:"-"`
+}
+
+func (m *Authenticator_Response_Authenticate) Reset()         { *m = Authenticator_Response_Authenticate{} }
+func (m *Authenticator_Response_Authenticate) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response_Authenticate) ProtoMessage()    {}
+
+func (m *Authenticator_Response_Authenticate) GetStatus() Authenticator_Response_Status {
+	if m != nil && m.Status != nil {
+		return *m.Status
+	}
+	return Authenticator_Response_Fallthrough
+}
+
+func (m *Authenticator_Response_Authenticate) GetId() uint32 {
+	if m != nil && m.Id != nil {
+		return *m.Id
+	}
+	return 0
+}
+
+func (m *Authenticator_Response_Authenticate) GetName() string {
+	if m != nil && m.Name != nil {
+		return *m.Name
+	}
+	return ""
+}
+
+type Authenticator_Response_Find struct {
+	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
+}
+
+func (m *Authenticator_Response_Find) Reset()         { *m = Authenticator_Response_Find{} }
+func (m *Authenticator_Response_Find) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response_Find) ProtoMessage()    {}
+
+func (m *Authenticator_Response_Find) GetUser() *DatabaseUser {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+type Authenticator_Response_Query struct {
+	Users            []*DatabaseUser `protobuf:"bytes,1,rep,name=users" json:"users,omitempty"`
+	XXX_unrecognized []byte          `json:"-"`
+}
+
+func (m *Authenticator_Response_Query) Reset()         { *m = Authenticator_Response_Query{} }
+func (m *Authenticator_Response_Query) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response_Query) ProtoMessage()    {}
+
+func (m *Authenticator_Response_Query) GetUsers() []*DatabaseUser {
+	if m != nil {
+		return m.Users
+	}
+	return nil
+}
+
+type Authenticator_Response_Register struct {
+	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
+	User             *DatabaseUser                  `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	XXX_unrecognized []byte                         `json:"-"`
+}
+
+func (m *Authenticator_Response_Register) Reset()         { *m = Authenticator_Response_Register{} }
+func (m *Authenticator_Response_Register) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response_Register) ProtoMessage()    {}
+
+func (m *Authenticator_Response_Register) GetStatus() Authenticator_Response_Status {
+	if m != nil && m.Status != nil {
+		return *m.Status
+	}
+	return Authenticator_Response_Fallthrough
+}
+
+func (m *Authenticator_Response_Register) GetUser() *DatabaseUser {
+	if m != nil {
+		return m.User
+	}
+	return nil
+}
+
+type Authenticator_Response_Deregister struct {
+	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
+	XXX_unrecognized []byte                         `json:"-"`
+}
+
+func (m *Authenticator_Response_Deregister) Reset()         { *m = Authenticator_Response_Deregister{} }
+func (m *Authenticator_Response_Deregister) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response_Deregister) ProtoMessage()    {}
+
+func (m *Authenticator_Response_Deregister) GetStatus() Authenticator_Response_Status {
+	if m != nil && m.Status != nil {
+		return *m.Status
+	}
+	return Authenticator_Response_Fallthrough
+}
+
+type Authenticator_Response_Update struct {
+	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
+	XXX_unrecognized []byte                         `json:"-"`
+}
+
+func (m *Authenticator_Response_Update) Reset()         { *m = Authenticator_Response_Update{} }
+func (m *Authenticator_Response_Update) String() string { return proto.CompactTextString(m) }
+func (*Authenticator_Response_Update) ProtoMessage()    {}
+
+func (m *Authenticator_Response_Update) GetStatus() Authenticator_Response_Status {
+	if m != nil && m.Status != nil {
+		return *m.Status
+	}
+	return Authenticator_Response_Fallthrough
 }
 
 type DatabaseUser struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Id               *uint32 `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
-	Name             *string `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
-	Email            *string `protobuf:"bytes,4,opt,name=email" json:"email,omitempty"`
-	Comment          *string `protobuf:"bytes,5,opt,name=comment" json:"comment,omitempty"`
-	Hash             *string `protobuf:"bytes,6,opt,name=hash" json:"hash,omitempty"`
-	Password         *string `protobuf:"bytes,7,opt,name=password" json:"password,omitempty"`
-	LastActive       *string `protobuf:"bytes,8,opt,name=last_active" json:"last_active,omitempty"`
-	Texture          []byte  `protobuf:"bytes,9,opt,name=texture" json:"texture,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	// The server on which the user is registered.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The unique user ID.
+	Id *uint32 `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
+	// The user's name.
+	Name *string `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	// The user's email address.
+	Email *string `protobuf:"bytes,4,opt,name=email" json:"email,omitempty"`
+	// The user's comment.
+	Comment *string `protobuf:"bytes,5,opt,name=comment" json:"comment,omitempty"`
+	// The user's certificate hash.
+	Hash *string `protobuf:"bytes,6,opt,name=hash" json:"hash,omitempty"`
+	// The user's password (never sent; used only when updating).
+	Password *string `protobuf:"bytes,7,opt,name=password" json:"password,omitempty"`
+	// When the user was last on the server.
+	LastActive *string `protobuf:"bytes,8,opt,name=last_active" json:"last_active,omitempty"`
+	// The user's texture.
+	Texture          []byte `protobuf:"bytes,9,opt,name=texture" json:"texture,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *DatabaseUser) Reset()         { *m = DatabaseUser{} }
@@ -1702,7 +2151,9 @@ func (m *DatabaseUser) GetTexture() []byte {
 }
 
 type DatabaseUser_Query struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The server whose users will be queried.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// A string to filter the users by.
 	Filter           *string `protobuf:"bytes,2,opt,name=filter" json:"filter,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1726,7 +2177,9 @@ func (m *DatabaseUser_Query) GetFilter() string {
 }
 
 type DatabaseUser_List struct {
-	Server           *Server         `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The server on which the users are registered.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The users.
 	Users            []*DatabaseUser `protobuf:"bytes,2,rep,name=users" json:"users,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
@@ -1750,8 +2203,11 @@ func (m *DatabaseUser_List) GetUsers() []*DatabaseUser {
 }
 
 type DatabaseUser_Verify struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Name             *string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	// The server on which the user-password pair will be authenticated.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The user's name.
+	Name *string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	// The user's password.
 	Password         *string `protobuf:"bytes,3,opt,name=password" json:"password,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1782,9 +2238,13 @@ func (m *DatabaseUser_Verify) GetPassword() string {
 }
 
 type RedirectWhisperGroup struct {
-	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	User             *User   `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	Source           *string `protobuf:"bytes,3,opt,name=source" json:"source,omitempty"`
+	// The server on which the whisper redirection will take place.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The user to whom the redirection will be applied.
+	User *User `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	// The source group.
+	Source *string `protobuf:"bytes,3,opt,name=source" json:"source,omitempty"`
+	// The target group.
 	Target           *string `protobuf:"bytes,4,opt,name=target" json:"target,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1826,13 +2286,14 @@ func init() {
 	proto.RegisterEnum("MurmurRPC.Event_Type", Event_Type_name, Event_Type_value)
 	proto.RegisterEnum("MurmurRPC.ContextAction_Context", ContextAction_Context_name, ContextAction_Context_value)
 	proto.RegisterEnum("MurmurRPC.ACL_Permission", ACL_Permission_name, ACL_Permission_value)
-	proto.RegisterEnum("MurmurRPC.Authenticator_Message_Type", Authenticator_Message_Type_name, Authenticator_Message_Type_value)
+	proto.RegisterEnum("MurmurRPC.Authenticator_Response_Status", Authenticator_Response_Status_name, Authenticator_Response_Status_value)
 }
 
 // Client API for ServerService service
 
 type ServerServiceClient interface {
-	// Create creates a new virtual server.
+	// Create creates a new virtual server. The returned server object contains
+	// the newly created server's ID.
 	Create(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Server, error)
 	// Query returns a list of servers that match the given query.
 	Query(ctx context.Context, in *Server_Query, opts ...grpc.CallOption) (*Server_List, error)
@@ -1945,7 +2406,8 @@ func (x *serverServiceEventsClient) Recv() (*Server_Event, error) {
 // Server API for ServerService service
 
 type ServerServiceServer interface {
-	// Create creates a new virtual server.
+	// Create creates a new virtual server. The returned server object contains
+	// the newly created server's ID.
 	Create(context.Context, *Void) (*Server, error)
 	// Query returns a list of servers that match the given query.
 	Query(context.Context, *Server_Query) (*Server_List, error)
@@ -2250,11 +2712,12 @@ var _MetaService_serviceDesc = grpc.ServiceDesc{
 // Client API for ContextActionService service
 
 type ContextActionServiceClient interface {
-	// Add adds a context action to the given user's client. Fields must be set:
+	// Add adds a context action to the given user's client. The following
+	// ContextAction fields must be set:
 	//   context, action, text, and user.
 	Add(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
-	// Remove removes a context action from the given user's client. Fields must
-	// be set:
+	// Remove removes a context action from the given user's client. The
+	// following ContextAction must be set:
 	//   action
 	// If no user is given, the context action is removed from all users.
 	Remove(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
@@ -2324,11 +2787,12 @@ func (x *contextActionServiceEventsClient) Recv() (*ContextAction, error) {
 // Server API for ContextActionService service
 
 type ContextActionServiceServer interface {
-	// Add adds a context action to the given user's client. Fields must be set:
+	// Add adds a context action to the given user's client. The following
+	// ContextAction fields must be set:
 	//   context, action, text, and user.
 	Add(context.Context, *ContextAction) (*Void, error)
-	// Remove removes a context action from the given user's client. Fields must
-	// be set:
+	// Remove removes a context action from the given user's client. The
+	// following ContextAction must be set:
 	//   action
 	// If no user is given, the context action is removed from all users.
 	Remove(context.Context, *ContextAction) (*Void, error)
@@ -2413,7 +2877,7 @@ var _ContextActionService_serviceDesc = grpc.ServiceDesc{
 type TextMessageServiceClient interface {
 	// Send sends the given TextMessage to the server.
 	//
-	// If users, channels, and trees are not set in the TextMessage, the message
+	// If no users, channels, or trees are added to the TextMessage, the message
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	Send(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error)
@@ -2441,7 +2905,7 @@ func (c *textMessageServiceClient) Send(ctx context.Context, in *TextMessage, op
 type TextMessageServiceServer interface {
 	// Send sends the given TextMessage to the server.
 	//
-	// If users, channels, and trees are not set in the TextMessage, the message
+	// If no users, channels, or trees are added to the TextMessage, the message
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	Send(context.Context, *TextMessage) (*Void, error)
@@ -2543,11 +3007,13 @@ var _LogService_serviceDesc = grpc.ServiceDesc{
 // Client API for ConfigService service
 
 type ConfigServiceClient interface {
+	// Get returns the explicitly set configuration for the given server.
 	Get(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error)
 	// GetField returns the configuration value for the given key.
 	GetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error)
 	// SetField sets the configuration value to the given value.
 	SetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error)
+	// GetDefaults returns the default server configuration.
 	GetDefaults(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error)
 }
 
@@ -2598,11 +3064,13 @@ func (c *configServiceClient) GetDefaults(ctx context.Context, in *Void, opts ..
 // Server API for ConfigService service
 
 type ConfigServiceServer interface {
+	// Get returns the explicitly set configuration for the given server.
 	Get(context.Context, *Server) (*Config, error)
 	// GetField returns the configuration value for the given key.
 	GetField(context.Context, *Config_Field) (*Config_Field, error)
 	// SetField sets the configuration value to the given value.
 	SetField(context.Context, *Config_Field) (*Void, error)
+	// GetDefaults returns the default server configuration.
 	GetDefaults(context.Context, *Void) (*Config, error)
 }
 
@@ -3163,7 +3631,9 @@ var _BanService_serviceDesc = grpc.ServiceDesc{
 // Client API for ACLService service
 
 type ACLServiceClient interface {
+	// Get returns the ACL for the given channel.
 	Get(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*ACL_List, error)
+	// Set overrides the ACL of the given channel to what is provided.
 	Set(ctx context.Context, in *ACL_List, opts ...grpc.CallOption) (*Void, error)
 	// GetEffectivePermissions returns the effective permissions for the given
 	// user in the given channel.
@@ -3230,7 +3700,9 @@ func (c *aCLServiceClient) RemoveTemporaryGroup(ctx context.Context, in *ACL_Tem
 // Server API for ACLService service
 
 type ACLServiceServer interface {
+	// Get returns the ACL for the given channel.
 	Get(context.Context, *Channel) (*ACL_List, error)
+	// Set overrides the ACL of the given channel to what is provided.
 	Set(context.Context, *ACL_List) (*Void, error)
 	// GetEffectivePermissions returns the effective permissions for the given
 	// user in the given channel.
@@ -3336,11 +3808,11 @@ var _ACLService_serviceDesc = grpc.ServiceDesc{
 // Client API for AuthenticatorService service
 
 type AuthenticatorServiceClient interface {
-	// an initial Authenticator.Response with the "server" set needs to be sent
-	// before requests start coming in.
+	// Stream opens an authentication stream to the server.
+	//
+	// There can only be one RPC client with an open Stream. If a new
+	// authenticator connects, the open connected will be closed.
 	Stream(ctx context.Context, opts ...grpc.CallOption) (AuthenticatorService_StreamClient, error)
-	// same as "stream", but accepts updated registration information.
-	RegistrationStream(ctx context.Context, opts ...grpc.CallOption) (AuthenticatorService_RegistrationStreamClient, error)
 }
 
 type authenticatorServiceClient struct {
@@ -3361,8 +3833,8 @@ func (c *authenticatorServiceClient) Stream(ctx context.Context, opts ...grpc.Ca
 }
 
 type AuthenticatorService_StreamClient interface {
-	Send(*Authenticator_Message) error
-	Recv() (*Authenticator_Message, error)
+	Send(*Authenticator_Response) error
+	Recv() (*Authenticator_Request, error)
 	grpc.ClientStream
 }
 
@@ -3370,43 +3842,12 @@ type authenticatorServiceStreamClient struct {
 	grpc.ClientStream
 }
 
-func (x *authenticatorServiceStreamClient) Send(m *Authenticator_Message) error {
+func (x *authenticatorServiceStreamClient) Send(m *Authenticator_Response) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *authenticatorServiceStreamClient) Recv() (*Authenticator_Message, error) {
-	m := new(Authenticator_Message)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func (c *authenticatorServiceClient) RegistrationStream(ctx context.Context, opts ...grpc.CallOption) (AuthenticatorService_RegistrationStreamClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_AuthenticatorService_serviceDesc.Streams[1], c.cc, "/MurmurRPC.AuthenticatorService/RegistrationStream", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &authenticatorServiceRegistrationStreamClient{stream}
-	return x, nil
-}
-
-type AuthenticatorService_RegistrationStreamClient interface {
-	Send(*Authenticator_Message) error
-	Recv() (*Authenticator_Message, error)
-	grpc.ClientStream
-}
-
-type authenticatorServiceRegistrationStreamClient struct {
-	grpc.ClientStream
-}
-
-func (x *authenticatorServiceRegistrationStreamClient) Send(m *Authenticator_Message) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *authenticatorServiceRegistrationStreamClient) Recv() (*Authenticator_Message, error) {
-	m := new(Authenticator_Message)
+func (x *authenticatorServiceStreamClient) Recv() (*Authenticator_Request, error) {
+	m := new(Authenticator_Request)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -3416,11 +3857,11 @@ func (x *authenticatorServiceRegistrationStreamClient) Recv() (*Authenticator_Me
 // Server API for AuthenticatorService service
 
 type AuthenticatorServiceServer interface {
-	// an initial Authenticator.Response with the "server" set needs to be sent
-	// before requests start coming in.
+	// Stream opens an authentication stream to the server.
+	//
+	// There can only be one RPC client with an open Stream. If a new
+	// authenticator connects, the open connected will be closed.
 	Stream(AuthenticatorService_StreamServer) error
-	// same as "stream", but accepts updated registration information.
-	RegistrationStream(AuthenticatorService_RegistrationStreamServer) error
 }
 
 func RegisterAuthenticatorServiceServer(s *grpc.Server, srv AuthenticatorServiceServer) {
@@ -3432,8 +3873,8 @@ func _AuthenticatorService_Stream_Handler(srv interface{}, stream grpc.ServerStr
 }
 
 type AuthenticatorService_StreamServer interface {
-	Send(*Authenticator_Message) error
-	Recv() (*Authenticator_Message, error)
+	Send(*Authenticator_Request) error
+	Recv() (*Authenticator_Response, error)
 	grpc.ServerStream
 }
 
@@ -3441,38 +3882,12 @@ type authenticatorServiceStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *authenticatorServiceStreamServer) Send(m *Authenticator_Message) error {
+func (x *authenticatorServiceStreamServer) Send(m *Authenticator_Request) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *authenticatorServiceStreamServer) Recv() (*Authenticator_Message, error) {
-	m := new(Authenticator_Message)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-func _AuthenticatorService_RegistrationStream_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(AuthenticatorServiceServer).RegistrationStream(&authenticatorServiceRegistrationStreamServer{stream})
-}
-
-type AuthenticatorService_RegistrationStreamServer interface {
-	Send(*Authenticator_Message) error
-	Recv() (*Authenticator_Message, error)
-	grpc.ServerStream
-}
-
-type authenticatorServiceRegistrationStreamServer struct {
-	grpc.ServerStream
-}
-
-func (x *authenticatorServiceRegistrationStreamServer) Send(m *Authenticator_Message) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *authenticatorServiceRegistrationStreamServer) Recv() (*Authenticator_Message, error) {
-	m := new(Authenticator_Message)
+func (x *authenticatorServiceStreamServer) Recv() (*Authenticator_Response, error) {
+	m := new(Authenticator_Response)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -3487,12 +3902,6 @@ var _AuthenticatorService_serviceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "Stream",
 			Handler:       _AuthenticatorService_Stream_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-		{
-			StreamName:    "RegistrationStream",
-			Handler:       _AuthenticatorService_RegistrationStream_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},
