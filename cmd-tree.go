@@ -11,8 +11,10 @@ func initTree(conn *grpc.ClientConn) {
 
 	cmd := root.Add("tree")
 
-	cmd.Add("get", func(args Args) {
+	cmd.Add("query", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.Get(ctx, server))
+		Output(client.Query(ctx, &MurmurRPC.Tree_Query{
+			Server: server,
+		}))
 	})
 }

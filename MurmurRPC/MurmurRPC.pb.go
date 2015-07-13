@@ -744,7 +744,6 @@ func (m *Log_List) GetEntries() []*Log {
 	return nil
 }
 
-// TODO(grpc): list common configuration field names?
 type Config struct {
 	// The server for which the configuration is for.
 	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
@@ -1201,7 +1200,8 @@ type User_Kick struct {
 	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	// The user to kick.
 	User *User `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	// TODO(grpc): optional User actor = 3;
+	// The user who performed the kick.
+	Actor *User `protobuf:"bytes,3,opt,name=actor" json:"actor,omitempty"`
 	// The reason for why the user is being kicked.
 	Reason           *string `protobuf:"bytes,4,opt,name=reason" json:"reason,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
@@ -1221,6 +1221,13 @@ func (m *User_Kick) GetServer() *Server {
 func (m *User_Kick) GetUser() *User {
 	if m != nil {
 		return m.User
+	}
+	return nil
+}
+
+func (m *User_Kick) GetActor() *User {
+	if m != nil {
+		return m.Actor
 	}
 	return nil
 }
@@ -1272,6 +1279,22 @@ func (m *Tree) GetChildren() []*Tree {
 func (m *Tree) GetUsers() []*User {
 	if m != nil {
 		return m.Users
+	}
+	return nil
+}
+
+type Tree_Query struct {
+	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
+}
+
+func (m *Tree_Query) Reset()         { *m = Tree_Query{} }
+func (m *Tree_Query) String() string { return proto.CompactTextString(m) }
+func (*Tree_Query) ProtoMessage()    {}
+
+func (m *Tree_Query) GetServer() *Server {
+	if m != nil {
+		return m.Server
 	}
 	return nil
 }
@@ -1404,7 +1427,7 @@ type ACL struct {
 	ApplySubs        *bool           `protobuf:"varint,4,opt,name=apply_subs" json:"apply_subs,omitempty"`
 	Inherited        *bool           `protobuf:"varint,5,opt,name=inherited" json:"inherited,omitempty"`
 	User             *DatabaseUser   `protobuf:"bytes,6,opt,name=user" json:"user,omitempty"`
-	Group            *string         `protobuf:"bytes,7,opt,name=group" json:"group,omitempty"`
+	Group            *ACL_Group      `protobuf:"bytes,7,opt,name=group" json:"group,omitempty"`
 	Allow            *ACL_Permission `protobuf:"varint,8,opt,name=allow,enum=MurmurRPC.ACL_Permission" json:"allow,omitempty"`
 	Deny             *ACL_Permission `protobuf:"varint,9,opt,name=deny,enum=MurmurRPC.ACL_Permission" json:"deny,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
@@ -1442,11 +1465,11 @@ func (m *ACL) GetUser() *DatabaseUser {
 	return nil
 }
 
-func (m *ACL) GetGroup() string {
-	if m != nil && m.Group != nil {
-		return *m.Group
+func (m *ACL) GetGroup() *ACL_Group {
+	if m != nil {
+		return m.Group
 	}
-	return ""
+	return nil
 }
 
 func (m *ACL) GetAllow() ACL_Permission {
@@ -1945,6 +1968,7 @@ type Authenticator_Response_Authenticate struct {
 	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
 	Id               *uint32                        `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
 	Name             *string                        `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	Groups           []*ACL_Group                   `protobuf:"bytes,4,rep,name=groups" json:"groups,omitempty"`
 	XXX_unrecognized []byte                         `json:"-"`
 }
 
@@ -1971,6 +1995,13 @@ func (m *Authenticator_Response_Authenticate) GetName() string {
 		return *m.Name
 	}
 	return ""
+}
+
+func (m *Authenticator_Response_Authenticate) GetGroups() []*ACL_Group {
+	if m != nil {
+		return m.Groups
+	}
+	return nil
 }
 
 type Authenticator_Response_Find struct {
@@ -2243,10 +2274,10 @@ type RedirectWhisperGroup struct {
 	// The user to whom the redirection will be applied.
 	User *User `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
 	// The source group.
-	Source *string `protobuf:"bytes,3,opt,name=source" json:"source,omitempty"`
+	Source *ACL_Group `protobuf:"bytes,3,opt,name=source" json:"source,omitempty"`
 	// The target group.
-	Target           *string `protobuf:"bytes,4,opt,name=target" json:"target,omitempty"`
-	XXX_unrecognized []byte  `json:"-"`
+	Target           *ACL_Group `protobuf:"bytes,4,opt,name=target" json:"target,omitempty"`
+	XXX_unrecognized []byte     `json:"-"`
 }
 
 func (m *RedirectWhisperGroup) Reset()         { *m = RedirectWhisperGroup{} }
@@ -2267,18 +2298,18 @@ func (m *RedirectWhisperGroup) GetUser() *User {
 	return nil
 }
 
-func (m *RedirectWhisperGroup) GetSource() string {
-	if m != nil && m.Source != nil {
-		return *m.Source
+func (m *RedirectWhisperGroup) GetSource() *ACL_Group {
+	if m != nil {
+		return m.Source
 	}
-	return ""
+	return nil
 }
 
-func (m *RedirectWhisperGroup) GetTarget() string {
-	if m != nil && m.Target != nil {
-		return *m.Target
+func (m *RedirectWhisperGroup) GetTarget() *ACL_Group {
+	if m != nil {
+		return m.Target
 	}
-	return ""
+	return nil
 }
 
 func init() {
@@ -3484,8 +3515,8 @@ var _UserService_serviceDesc = grpc.ServiceDesc{
 // Client API for TreeService service
 
 type TreeServiceClient interface {
-	// Get returns a representation of the server's channel/user tree.
-	Get(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Tree, error)
+	// Query returns a representation of the given server's channel/user tree.
+	Query(ctx context.Context, in *Tree_Query, opts ...grpc.CallOption) (*Tree, error)
 }
 
 type treeServiceClient struct {
@@ -3496,9 +3527,9 @@ func NewTreeServiceClient(cc *grpc.ClientConn) TreeServiceClient {
 	return &treeServiceClient{cc}
 }
 
-func (c *treeServiceClient) Get(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Tree, error) {
+func (c *treeServiceClient) Query(ctx context.Context, in *Tree_Query, opts ...grpc.CallOption) (*Tree, error) {
 	out := new(Tree)
-	err := grpc.Invoke(ctx, "/MurmurRPC.TreeService/Get", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.TreeService/Query", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3508,20 +3539,20 @@ func (c *treeServiceClient) Get(ctx context.Context, in *Server, opts ...grpc.Ca
 // Server API for TreeService service
 
 type TreeServiceServer interface {
-	// Get returns a representation of the server's channel/user tree.
-	Get(context.Context, *Server) (*Tree, error)
+	// Query returns a representation of the given server's channel/user tree.
+	Query(context.Context, *Tree_Query) (*Tree, error)
 }
 
 func RegisterTreeServiceServer(s *grpc.Server, srv TreeServiceServer) {
 	s.RegisterService(&_TreeService_serviceDesc, srv)
 }
 
-func _TreeService_Get_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
-	in := new(Server)
+func _TreeService_Query_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(Tree_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(TreeServiceServer).Get(ctx, in)
+	out, err := srv.(TreeServiceServer).Query(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -3533,8 +3564,8 @@ var _TreeService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*TreeServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Get",
-			Handler:    _TreeService_Get_Handler,
+			MethodName: "Query",
+			Handler:    _TreeService_Query_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{},
@@ -4117,10 +4148,13 @@ var _DatabaseService_serviceDesc = grpc.ServiceDesc{
 // Client API for AudioService service
 
 type AudioServiceClient interface {
-	// SetRedirectWhisperGroup redirects whisper targets for the given user.
-	// Whenever a user tries to whisper to group "source", the whisper will be
-	// redirected to group "target". Omitting "target" will remove the redirect.
-	SetRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
+	// AddRedirectWhisperGroup add a whisper targets redirection for the given
+	// user. Whenever a user whispers to group "source", the whisper will be
+	// redirected to group "target".
+	AddRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
+	// RemoveRedirectWhisperGroup removes a whisper target redirection for
+	// the the given user.
+	RemoveRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
 }
 
 type audioServiceClient struct {
@@ -4131,9 +4165,18 @@ func NewAudioServiceClient(cc *grpc.ClientConn) AudioServiceClient {
 	return &audioServiceClient{cc}
 }
 
-func (c *audioServiceClient) SetRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error) {
+func (c *audioServiceClient) AddRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.AudioService/SetRedirectWhisperGroup", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.AudioService/AddRedirectWhisperGroup", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *audioServiceClient) RemoveRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error) {
+	out := new(Void)
+	err := grpc.Invoke(ctx, "/MurmurRPC.AudioService/RemoveRedirectWhisperGroup", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -4143,22 +4186,37 @@ func (c *audioServiceClient) SetRedirectWhisperGroup(ctx context.Context, in *Re
 // Server API for AudioService service
 
 type AudioServiceServer interface {
-	// SetRedirectWhisperGroup redirects whisper targets for the given user.
-	// Whenever a user tries to whisper to group "source", the whisper will be
-	// redirected to group "target". Omitting "target" will remove the redirect.
-	SetRedirectWhisperGroup(context.Context, *RedirectWhisperGroup) (*Void, error)
+	// AddRedirectWhisperGroup add a whisper targets redirection for the given
+	// user. Whenever a user whispers to group "source", the whisper will be
+	// redirected to group "target".
+	AddRedirectWhisperGroup(context.Context, *RedirectWhisperGroup) (*Void, error)
+	// RemoveRedirectWhisperGroup removes a whisper target redirection for
+	// the the given user.
+	RemoveRedirectWhisperGroup(context.Context, *RedirectWhisperGroup) (*Void, error)
 }
 
 func RegisterAudioServiceServer(s *grpc.Server, srv AudioServiceServer) {
 	s.RegisterService(&_AudioService_serviceDesc, srv)
 }
 
-func _AudioService_SetRedirectWhisperGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _AudioService_AddRedirectWhisperGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(RedirectWhisperGroup)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(AudioServiceServer).SetRedirectWhisperGroup(ctx, in)
+	out, err := srv.(AudioServiceServer).AddRedirectWhisperGroup(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func _AudioService_RemoveRedirectWhisperGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+	in := new(RedirectWhisperGroup)
+	if err := codec.Unmarshal(buf, in); err != nil {
+		return nil, err
+	}
+	out, err := srv.(AudioServiceServer).RemoveRedirectWhisperGroup(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -4170,8 +4228,12 @@ var _AudioService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*AudioServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "SetRedirectWhisperGroup",
-			Handler:    _AudioService_SetRedirectWhisperGroup_Handler,
+			MethodName: "AddRedirectWhisperGroup",
+			Handler:    _AudioService_AddRedirectWhisperGroup_Handler,
+		},
+		{
+			MethodName: "RemoveRedirectWhisperGroup",
+			Handler:    _AudioService_RemoveRedirectWhisperGroup_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{},

@@ -56,7 +56,7 @@ Commands:
       channel:<id>
       tree:<id>
 
-  tree get <server id>
+  tree query <server id>
 `
 
 var outputTemplate *template.Template
