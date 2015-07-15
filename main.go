@@ -31,6 +31,8 @@ Flags:
                                 By default, JSON objects are generated.
 
 Commands:
+  ban get <server id>
+
   config get <server id>
   config get-field <server id> <key>
   config set-field <server id> <key> <value>
@@ -95,6 +97,7 @@ func main() {
 	defer conn.Close()
 
 	// Services
+	initBan(conn)
 	initConfig(conn)
 	initLog(conn)
 	initMeta(conn)

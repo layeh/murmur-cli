@@ -13,7 +13,6 @@ murmur-cli provides an interface to a grpc-enabled murmur server.
     - ContextActionService
     - ChannelService
     - UserService
-    - BanService
     - ACLService
     - AuthenticatorService
     - DatabaseService
