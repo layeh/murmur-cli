@@ -50,6 +50,13 @@ func (a Args) MustString(i int) string {
 	return a[i]
 }
 
+func (a Args) String(i int) (string, bool) {
+	if len(a) <= i {
+		return "", false
+	}
+	return a[i], true
+}
+
 func (a Args) MustUint32(i int) uint32 {
 	if len(a) <= i {
 		panic(errors.New("missing uint32 value"))

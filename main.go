@@ -43,6 +43,9 @@ Commands:
   config set-field <server id> <key> <value>
   config get-defaults
 
+  database query <server id> [filter]
+  database get <server id> <user id>
+
   log query <server id> (<min> <max>)
 
   meta uptime
@@ -105,6 +108,7 @@ func main() {
 	initBan(conn)
 	initChannel(conn)
 	initConfig(conn)
+	initDatabase(conn)
 	initLog(conn)
 	initMeta(conn)
 	initServers(conn)
