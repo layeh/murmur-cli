@@ -1284,6 +1284,7 @@ func (m *Tree) GetUsers() []*User {
 }
 
 type Tree_Query struct {
+	// The server to query.
 	Server           *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1423,12 +1424,19 @@ func (m *Ban_List) GetBans() []*Ban {
 }
 
 type ACL struct {
-	ApplyHere        *bool           `protobuf:"varint,3,opt,name=apply_here" json:"apply_here,omitempty"`
-	ApplySubs        *bool           `protobuf:"varint,4,opt,name=apply_subs" json:"apply_subs,omitempty"`
-	Inherited        *bool           `protobuf:"varint,5,opt,name=inherited" json:"inherited,omitempty"`
-	User             *DatabaseUser   `protobuf:"bytes,6,opt,name=user" json:"user,omitempty"`
-	Group            *ACL_Group      `protobuf:"bytes,7,opt,name=group" json:"group,omitempty"`
-	Allow            *ACL_Permission `protobuf:"varint,8,opt,name=allow,enum=MurmurRPC.ACL_Permission" json:"allow,omitempty"`
+	// Does the ACL apply to the current channel?
+	ApplyHere *bool `protobuf:"varint,3,opt,name=apply_here" json:"apply_here,omitempty"`
+	// Does the ACL apply to the current channel's sub-channels?
+	ApplySubs *bool `protobuf:"varint,4,opt,name=apply_subs" json:"apply_subs,omitempty"`
+	// Was the ACL inherited?
+	Inherited *bool `protobuf:"varint,5,opt,name=inherited" json:"inherited,omitempty"`
+	// The user to whom the ACL applies.
+	User *DatabaseUser `protobuf:"bytes,6,opt,name=user" json:"user,omitempty"`
+	// The group to whom the ACL applies.
+	Group *ACL_Group `protobuf:"bytes,7,opt,name=group" json:"group,omitempty"`
+	// The permissions granted by the ACL.
+	Allow *ACL_Permission `protobuf:"varint,8,opt,name=allow,enum=MurmurRPC.ACL_Permission" json:"allow,omitempty"`
+	// The permissions denied by the ACL.
 	Deny             *ACL_Permission `protobuf:"varint,9,opt,name=deny,enum=MurmurRPC.ACL_Permission" json:"deny,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
@@ -1487,12 +1495,19 @@ func (m *ACL) GetDeny() ACL_Permission {
 }
 
 type ACL_Group struct {
-	Name             *string         `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	Inherited        *bool           `protobuf:"varint,2,opt,name=inherited" json:"inherited,omitempty"`
-	Inherit          *bool           `protobuf:"varint,3,opt,name=inherit" json:"inherit,omitempty"`
-	Inheritable      *bool           `protobuf:"varint,4,opt,name=inheritable" json:"inheritable,omitempty"`
-	UsersAdd         []*DatabaseUser `protobuf:"bytes,5,rep,name=users_add" json:"users_add,omitempty"`
-	UsersRemove      []*DatabaseUser `protobuf:"bytes,6,rep,name=users_remove" json:"users_remove,omitempty"`
+	// The ACL group name.
+	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	// Is the group inherited?
+	Inherited *bool `protobuf:"varint,2,opt,name=inherited" json:"inherited,omitempty"`
+	// Does the group inherit members?
+	Inherit *bool `protobuf:"varint,3,opt,name=inherit" json:"inherit,omitempty"`
+	// Can this group be inherited by its children?
+	Inheritable *bool `protobuf:"varint,4,opt,name=inheritable" json:"inheritable,omitempty"`
+	// The users explicitly added by this group.
+	UsersAdd []*DatabaseUser `protobuf:"bytes,5,rep,name=users_add" json:"users_add,omitempty"`
+	// The users explicitly removed by this group.
+	UsersRemove []*DatabaseUser `protobuf:"bytes,6,rep,name=users_remove" json:"users_remove,omitempty"`
+	// All of the users who are part of this group.
 	Users            []*DatabaseUser `protobuf:"bytes,7,rep,name=users" json:"users,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
@@ -1551,8 +1566,11 @@ func (m *ACL_Group) GetUsers() []*DatabaseUser {
 }
 
 type ACL_Query struct {
-	Server           *Server  `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	User             *User    `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	// The server where the user and channel exist.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The user to query.
+	User *User `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	// The channel to query.
 	Channel          *Channel `protobuf:"bytes,3,opt,name=channel" json:"channel,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
@@ -1583,12 +1601,17 @@ func (m *ACL_Query) GetChannel() *Channel {
 }
 
 type ACL_List struct {
-	Server           *Server      `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Channel          *Channel     `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
-	Acls             []*ACL       `protobuf:"bytes,3,rep,name=acls" json:"acls,omitempty"`
-	Groups           []*ACL_Group `protobuf:"bytes,4,rep,name=groups" json:"groups,omitempty"`
-	Inherit          *bool        `protobuf:"varint,5,opt,name=inherit" json:"inherit,omitempty"`
-	XXX_unrecognized []byte       `json:"-"`
+	// The server on which the ACLs exist.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The channel to which the ACL refers.
+	Channel *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
+	// The ACLs part of the given channel.
+	Acls []*ACL `protobuf:"bytes,3,rep,name=acls" json:"acls,omitempty"`
+	// The groups part of the given channel.
+	Groups []*ACL_Group `protobuf:"bytes,4,rep,name=groups" json:"groups,omitempty"`
+	// Should ACLs be inherited from the parent channel.
+	Inherit          *bool  `protobuf:"varint,5,opt,name=inherit" json:"inherit,omitempty"`
+	XXX_unrecognized []byte `json:"-"`
 }
 
 func (m *ACL_List) Reset()         { *m = ACL_List{} }
@@ -1631,11 +1654,15 @@ func (m *ACL_List) GetInherit() bool {
 }
 
 type ACL_TemporaryGroup struct {
-	Server           *Server  `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
-	Channel          *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
-	User             *User    `protobuf:"bytes,3,opt,name=user" json:"user,omitempty"`
-	GroupName        *string  `protobuf:"bytes,4,opt,name=group_name" json:"group_name,omitempty"`
-	XXX_unrecognized []byte   `json:"-"`
+	// The server where the temporary group exists.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The channel to which the temporary user group is added.
+	Channel *Channel `protobuf:"bytes,2,opt,name=channel" json:"channel,omitempty"`
+	// The user who is added to the group.
+	User *User `protobuf:"bytes,3,opt,name=user" json:"user,omitempty"`
+	// The name of the temporary group.
+	Name             *string `protobuf:"bytes,4,opt,name=name" json:"name,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
 }
 
 func (m *ACL_TemporaryGroup) Reset()         { *m = ACL_TemporaryGroup{} }
@@ -1663,16 +1690,13 @@ func (m *ACL_TemporaryGroup) GetUser() *User {
 	return nil
 }
 
-func (m *ACL_TemporaryGroup) GetGroupName() string {
-	if m != nil && m.GroupName != nil {
-		return *m.GroupName
+func (m *ACL_TemporaryGroup) GetName() string {
+	if m != nil && m.Name != nil {
+		return *m.Name
 	}
 	return ""
 }
 
-// When building a custom authenticator, only Authenticate and Find messages
-// need to have valid replies. All other request responses messages can be
-// omitted in the Response.
 type Authenticator struct {
 	XXX_unrecognized []byte `json:"-"`
 }
@@ -1739,12 +1763,17 @@ func (m *Authenticator_Request) GetUpdate() *Authenticator_Request_Update {
 
 // An authentication request for a connecting user.
 type Authenticator_Request_Authenticate struct {
-	Name              *string  `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
-	Password          *string  `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
-	Certificates      [][]byte `protobuf:"bytes,3,rep,name=certificates" json:"certificates,omitempty"`
-	CertificateHash   *string  `protobuf:"bytes,4,opt,name=certificate_hash" json:"certificate_hash,omitempty"`
-	StrongCertificate *bool    `protobuf:"varint,5,opt,name=strong_certificate" json:"strong_certificate,omitempty"`
-	XXX_unrecognized  []byte   `json:"-"`
+	// The user's name.
+	Name *string `protobuf:"bytes,1,opt,name=name" json:"name,omitempty"`
+	// The user's password.
+	Password *string `protobuf:"bytes,2,opt,name=password" json:"password,omitempty"`
+	// The user's certificate chain in DER format.
+	Certificates [][]byte `protobuf:"bytes,3,rep,name=certificates" json:"certificates,omitempty"`
+	// The hexadecimal hash of the user's certificate.
+	CertificateHash *string `protobuf:"bytes,4,opt,name=certificate_hash" json:"certificate_hash,omitempty"`
+	// If the user is connecting with a strong certificate.
+	StrongCertificate *bool  `protobuf:"varint,5,opt,name=strong_certificate" json:"strong_certificate,omitempty"`
+	XXX_unrecognized  []byte `json:"-"`
 }
 
 func (m *Authenticator_Request_Authenticate) Reset()         { *m = Authenticator_Request_Authenticate{} }
