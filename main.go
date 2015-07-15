@@ -33,6 +33,11 @@ Flags:
 Commands:
   ban get <server id>
 
+  channel query <server id>
+  channel get <server id> <channel id>
+  channel add <server id> <parent channel id> <name>
+  channel remove <server id> <channel id>
+
   config get <server id>
   config get-field <server id> <key>
   config set-field <server id> <key> <value>
@@ -98,6 +103,7 @@ func main() {
 
 	// Services
 	initBan(conn)
+	initChannel(conn)
 	initConfig(conn)
 	initLog(conn)
 	initMeta(conn)
