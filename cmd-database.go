@@ -2,13 +2,9 @@ package main
 
 import (
 	"github.com/layeh/murmur-cli/MurmurRPC"
-
-	"google.golang.org/grpc"
 )
 
-func initDatabase(conn *grpc.ClientConn) {
-	client := MurmurRPC.NewDatabaseServiceClient(conn)
-
+func init() {
 	cmd := root.Add("database")
 
 	cmd.Add("query", func(args Args) {
@@ -19,13 +15,13 @@ func initDatabase(conn *grpc.ClientConn) {
 		if filter, ok := args.String(1); ok {
 			query.Filter = &filter
 		}
-		Output(client.Query(ctx, query))
+		Output(client.QueryDatabaseUsers(ctx, query))
 	})
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
 		id := args.MustUint32(1)
-		Output(client.Get(ctx, &MurmurRPC.DatabaseUser{
+		Output(client.GetDatabaseUser(ctx, &MurmurRPC.DatabaseUser{
 			Server: server,
 			Id:     &id,
 		}))

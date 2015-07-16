@@ -2,13 +2,9 @@ package main
 
 import (
 	"github.com/layeh/murmur-cli/MurmurRPC"
-
-	"google.golang.org/grpc"
 )
 
-func initTextMessage(conn *grpc.ClientConn) {
-	client := MurmurRPC.NewTextMessageServiceClient(conn)
-
+func init() {
 	cmd := root.Add("textmessage")
 
 	cmd.Add("send", func(args Args) {
@@ -49,6 +45,6 @@ func initTextMessage(conn *grpc.ClientConn) {
 			}
 		}
 
-		Output(client.Send(ctx, tm))
+		Output(client.SendTextMessage(ctx, tm))
 	})
 }

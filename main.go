@@ -15,9 +15,10 @@ import (
 )
 
 var (
-	root = NewCommand()
-	void = &MurmurRPC.Void{}
-	ctx  = context.Background()
+	root   = NewCommand()
+	void   = &MurmurRPC.Void{}
+	ctx    = context.Background()
+	client MurmurRPC.V1Client
 )
 
 const usage = `murmur-cli provides an interface to a grpc-enabled murmur server.
@@ -104,16 +105,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	// Services
-	initBan(conn)
-	initChannel(conn)
-	initConfig(conn)
-	initDatabase(conn)
-	initLog(conn)
-	initMeta(conn)
-	initServers(conn)
-	initTextMessage(conn)
-	initTree(conn)
+	client = MurmurRPC.NewV1Client(conn)
 
 	defer func() {
 		if r := recover(); r != nil {

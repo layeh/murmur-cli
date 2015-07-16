@@ -2,13 +2,9 @@ package main
 
 import (
 	"github.com/layeh/murmur-cli/MurmurRPC"
-
-	"google.golang.org/grpc"
 )
 
-func initLog(conn *grpc.ClientConn) {
-	client := MurmurRPC.NewLogServiceClient(conn)
-
+func init() {
 	cmd := root.Add("log")
 
 	cmd.Add("query", func(args Args) {
@@ -22,6 +18,6 @@ func initLog(conn *grpc.ClientConn) {
 			query.Min = &min
 			query.Max = &max
 		}
-		Output(client.Query(ctx, query))
+		Output(client.QueryLogs(ctx, query))
 	})
 }

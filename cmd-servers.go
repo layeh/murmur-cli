@@ -4,46 +4,42 @@ import (
 	"io"
 
 	"github.com/layeh/murmur-cli/MurmurRPC"
-
-	"google.golang.org/grpc"
 )
 
-func initServers(conn *grpc.ClientConn) {
-	client := MurmurRPC.NewServerServiceClient(conn)
-
+func init() {
 	cmd := root.Add("server")
 
 	cmd.Add("create", func(args Args) {
-		Output(client.Create(ctx, void))
+		Output(client.CreateServer(ctx, void))
 	})
 
 	cmd.Add("query", func(args Args) {
-		Output(client.Query(ctx, &MurmurRPC.Server_Query{}))
+		Output(client.QueryServers(ctx, &MurmurRPC.Server_Query{}))
 	})
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.Get(ctx, server))
+		Output(client.GetServer(ctx, server))
 	})
 
 	cmd.Add("start", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.Start(ctx, server))
+		Output(client.StartServer(ctx, server))
 	})
 
 	cmd.Add("stop", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.Stop(ctx, server))
+		Output(client.StopServer(ctx, server))
 	})
 
 	cmd.Add("remove", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.Remove(ctx, server))
+		Output(client.RemoveServer(ctx, server))
 	})
 
 	cmd.Add("events", func(args Args) {
 		server := args.MustServer(0)
-		stream, err := client.Events(ctx, server)
+		stream, err := client.ServerEvents(ctx, server)
 		if err != nil {
 			panic(err)
 		}

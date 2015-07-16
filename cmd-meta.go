@@ -2,15 +2,9 @@ package main
 
 import (
 	"io"
-
-	"github.com/layeh/murmur-cli/MurmurRPC"
-
-	"google.golang.org/grpc"
 )
 
-func initMeta(conn *grpc.ClientConn) {
-	client := MurmurRPC.NewMetaServiceClient(conn)
-
+func init() {
 	cmd := root.Add("meta")
 
 	cmd.Add("uptime", func(args Args) {
