@@ -491,7 +491,7 @@ type ContextAction struct {
 	// The server on which the action is.
 	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
 	// The context in which the action is.
-	Context *ContextAction_Context `protobuf:"varint,2,opt,name=context,enum=MurmurRPC.ContextAction_Context" json:"context,omitempty"`
+	Context *uint32 `protobuf:"varint,2,opt,name=context" json:"context,omitempty"`
 	// The action name.
 	Action *string `protobuf:"bytes,3,opt,name=action" json:"action,omitempty"`
 	// The user-visible descriptive name of the action.
@@ -516,11 +516,11 @@ func (m *ContextAction) GetServer() *Server {
 	return nil
 }
 
-func (m *ContextAction) GetContext() ContextAction_Context {
+func (m *ContextAction) GetContext() uint32 {
 	if m != nil && m.Context != nil {
 		return *m.Context
 	}
-	return ContextAction_None
+	return 0
 }
 
 func (m *ContextAction) GetAction() string {
@@ -1434,11 +1434,11 @@ type ACL struct {
 	User *DatabaseUser `protobuf:"bytes,6,opt,name=user" json:"user,omitempty"`
 	// The group to whom the ACL applies.
 	Group *ACL_Group `protobuf:"bytes,7,opt,name=group" json:"group,omitempty"`
-	// The permissions granted by the ACL.
-	Allow *ACL_Permission `protobuf:"varint,8,opt,name=allow,enum=MurmurRPC.ACL_Permission" json:"allow,omitempty"`
-	// The permissions denied by the ACL.
-	Deny             *ACL_Permission `protobuf:"varint,9,opt,name=deny,enum=MurmurRPC.ACL_Permission" json:"deny,omitempty"`
-	XXX_unrecognized []byte          `json:"-"`
+	// The permissions granted by the ACL (bitmask of ACL.Permission).
+	Allow *uint32 `protobuf:"varint,8,opt,name=allow" json:"allow,omitempty"`
+	// The permissions denied by the ACL (bitmask of ACL.Permission).
+	Deny             *uint32 `protobuf:"varint,9,opt,name=deny" json:"deny,omitempty"`
+	XXX_unrecognized []byte  `json:"-"`
 }
 
 func (m *ACL) Reset()         { *m = ACL{} }
@@ -1480,18 +1480,18 @@ func (m *ACL) GetGroup() *ACL_Group {
 	return nil
 }
 
-func (m *ACL) GetAllow() ACL_Permission {
+func (m *ACL) GetAllow() uint32 {
 	if m != nil && m.Allow != nil {
 		return *m.Allow
 	}
-	return ACL_None
+	return 0
 }
 
-func (m *ACL) GetDeny() ACL_Permission {
+func (m *ACL) GetDeny() uint32 {
 	if m != nil && m.Deny != nil {
 		return *m.Deny
 	}
-	return ACL_None
+	return 0
 }
 
 type ACL_Group struct {
@@ -2358,84 +2358,85 @@ type V1Client interface {
 	GetVersion(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Version, error)
 	// Events returns a stream of murmur events.
 	Events(ctx context.Context, in *Void, opts ...grpc.CallOption) (V1_EventsClient, error)
-	// Create creates a new virtual server. The returned server object contains
-	// the newly created server's ID.
+	// CreateServer creates a new virtual server. The returned server object
+	// contains the newly created server's ID.
 	CreateServer(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Server, error)
-	// Query returns a list of servers that match the given query.
+	// QueryServers returns a list of servers that match the given query.
 	QueryServers(ctx context.Context, in *Server_Query, opts ...grpc.CallOption) (*Server_List, error)
-	// Get returns information about the given server.
+	// GetServer returns information about the given server.
 	GetServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Server, error)
-	// Start starts the given stopped server.
+	// StartServer starts the given stopped server.
 	StartServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
-	// Stop stops the given virtual server.
+	// StopServer stops the given virtual server.
 	StopServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
-	// Remove removes the given virtual server and its configuration.
+	// RemoveServer removes the given virtual server and its configuration.
 	RemoveServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
-	// Events returns a stream of events that happen on the given server.
+	// ServerEvents returns a stream of events that happen on the given server.
 	ServerEvents(ctx context.Context, in *Server, opts ...grpc.CallOption) (V1_ServerEventsClient, error)
-	// Add adds a context action to the given user's client. The following
-	// ContextAction fields must be set:
+	// AddContextAction adds a context action to the given user's client. The
+	// following ContextAction fields must be set:
 	//   context, action, text, and user.
 	AddContextAction(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
-	// Remove removes a context action from the given user's client. The
-	// following ContextAction must be set:
+	// RemoveContextAction removes a context action from the given user's client.
+	// The following ContextAction must be set:
 	//   action
 	// If no user is given, the context action is removed from all users.
 	RemoveContextAction(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
-	// Events returns a stream of context action events that are triggered by
-	// users.
+	// ContextActionEvents returns a stream of context action events that are
+	// triggered by users.
 	ContextActionEvents(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (V1_ContextActionEventsClient, error)
-	// Send sends the given TextMessage to the server.
+	// SendTextMessage sends the given TextMessage to the server.
 	//
 	// If no users, channels, or trees are added to the TextMessage, the message
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	SendTextMessage(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error)
-	// Query returns a list of log entries from the given server.
+	// QueryLogs returns a list of log entries from the given server.
 	//
 	// To get the total number of log entries, omit min and/or max from the
 	// query.
 	QueryLogs(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error)
-	// Get returns the explicitly set configuration for the given server.
+	// GetConfig returns the explicitly set configuration for the given server.
 	GetConfig(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error)
-	// GetField returns the configuration value for the given key.
+	// GetConfigField returns the configuration value for the given key.
 	GetConfigField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error)
-	// SetField sets the configuration value to the given value.
+	// SetConfigField sets the configuration value to the given value.
 	SetConfigField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error)
-	// GetDefaults returns the default server configuration.
+	// GetDefaultConfig returns the default server configuration.
 	GetDefaultConfig(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error)
-	// Query returns a list of channels that match the given query.
+	// QueryChannels returns a list of channels that match the given query.
 	QueryChannels(ctx context.Context, in *Channel_Query, opts ...grpc.CallOption) (*Channel_List, error)
-	// Get returns the channel with the given ID.
+	// GetChannel returns the channel with the given ID.
 	GetChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
-	// Add adds the channel to the given server. The parent and name of the
-	// channel must be set.
+	// AddChannel adds the channel to the given server. The parent and name of
+	// the channel must be set.
 	AddChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
-	// Remove removes the given channel from the server.
+	// RemoveChannel removes the given channel from the server.
 	RemoveChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Void, error)
-	// Update updates the given channel's attributes. Only the fields that are
-	// set will be updated.
+	// UpdateChannel updates the given channel's attributes. Only the fields that
+	// are set will be updated.
 	UpdateChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
-	// Query returns a list of connected users who match the given query.
+	// QueryUsers returns a list of connected users who match the given query.
 	QueryUsers(ctx context.Context, in *User_Query, opts ...grpc.CallOption) (*User_List, error)
-	// Get returns information on the connected user, given by the user's session
-	// or name.
+	// GetUser returns information on the connected user, given by the user's
+	// session or name.
 	GetUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
-	// Update changes the given user's state. Only the following fields can be
-	// changed:
+	// UpdateUser changes the given user's state. Only the following fields can
+	// be changed:
 	//   name, mute, deaf, suppress, priority_speaker, channel, comment.
 	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
-	// Kick kicks the user from the server.
+	// KickUser kicks the user from the server.
 	KickUser(ctx context.Context, in *User_Kick, opts ...grpc.CallOption) (*Void, error)
-	// Query returns a representation of the given server's channel/user tree.
+	// QueryTree returns a representation of the given server's channel/user
+	// tree.
 	QueryTree(ctx context.Context, in *Tree_Query, opts ...grpc.CallOption) (*Tree, error)
-	// Get returns a list of bans for the given server.
+	// GetBans returns a list of bans for the given server.
 	GetBans(ctx context.Context, in *Ban_Query, opts ...grpc.CallOption) (*Ban_List, error)
-	// Set replaces the server's ban list with the given list.
+	// SetBans replaces the server's ban list with the given list.
 	SetBans(ctx context.Context, in *Ban_List, opts ...grpc.CallOption) (*Void, error)
-	// Get returns the ACL for the given channel.
+	// GetACL returns the ACL for the given channel.
 	GetACL(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*ACL_List, error)
-	// Set overrides the ACL of the given channel to what is provided.
+	// SetACL overrides the ACL of the given channel to what is provided.
 	SetACL(ctx context.Context, in *ACL_List, opts ...grpc.CallOption) (*Void, error)
 	// GetEffectivePermissions returns the effective permissions for the given
 	// user in the given channel.
@@ -2444,23 +2445,26 @@ type V1Client interface {
 	AddTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
 	// RemoveTemporaryGroup removes a user from a temporary group.
 	RemoveTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
-	// Stream opens an authentication stream to the server.
+	// AuthenticatorStream opens an authentication stream to the server.
 	//
 	// There can only be one RPC client with an open Stream. If a new
 	// authenticator connects, the open connected will be closed.
 	AuthenticatorStream(ctx context.Context, opts ...grpc.CallOption) (V1_AuthenticatorStreamClient, error)
-	// Query returns a list of registered users who match given query.
+	// QueryDatabaseUsers returns a list of registered users who match given
+	// query.
 	QueryDatabaseUsers(ctx context.Context, in *DatabaseUser_Query, opts ...grpc.CallOption) (*DatabaseUser_List, error)
-	// Get returns the database user with the given ID.
+	// GetDatabaseUser returns the database user with the given ID.
 	GetDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error)
-	// Update updates the given database user.
+	// UpdateDatabaseUser updates the given database user.
 	UpdateDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error)
-	// Register registers a user with the given information on the server. The
-	// returned DatabaseUser will contain the newly registered user's ID.
+	// RegisterDatabaseUser registers a user with the given information on the
+	// server. The returned DatabaseUser will contain the newly registered user's
+	// ID.
 	RegisterDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error)
-	// Deregister deregisters the given user.
+	// DeregisterDatabaseUser deregisters the given user.
 	DeregisterDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error)
-	// Verify verifies the that the given user-password pair is correct.
+	// VerifyDatabaseUser verifies the that the given user-password pair is
+	// correct.
 	VerifyDatabaseUser(ctx context.Context, in *DatabaseUser_Verify, opts ...grpc.CallOption) (*DatabaseUser, error)
 	// AddRedirectWhisperGroup add a whisper targets redirection for the given
 	// user. Whenever a user whispers to group "source", the whisper will be
@@ -2984,84 +2988,85 @@ type V1Server interface {
 	GetVersion(context.Context, *Void) (*Version, error)
 	// Events returns a stream of murmur events.
 	Events(*Void, V1_EventsServer) error
-	// Create creates a new virtual server. The returned server object contains
-	// the newly created server's ID.
+	// CreateServer creates a new virtual server. The returned server object
+	// contains the newly created server's ID.
 	CreateServer(context.Context, *Void) (*Server, error)
-	// Query returns a list of servers that match the given query.
+	// QueryServers returns a list of servers that match the given query.
 	QueryServers(context.Context, *Server_Query) (*Server_List, error)
-	// Get returns information about the given server.
+	// GetServer returns information about the given server.
 	GetServer(context.Context, *Server) (*Server, error)
-	// Start starts the given stopped server.
+	// StartServer starts the given stopped server.
 	StartServer(context.Context, *Server) (*Void, error)
-	// Stop stops the given virtual server.
+	// StopServer stops the given virtual server.
 	StopServer(context.Context, *Server) (*Void, error)
-	// Remove removes the given virtual server and its configuration.
+	// RemoveServer removes the given virtual server and its configuration.
 	RemoveServer(context.Context, *Server) (*Void, error)
-	// Events returns a stream of events that happen on the given server.
+	// ServerEvents returns a stream of events that happen on the given server.
 	ServerEvents(*Server, V1_ServerEventsServer) error
-	// Add adds a context action to the given user's client. The following
-	// ContextAction fields must be set:
+	// AddContextAction adds a context action to the given user's client. The
+	// following ContextAction fields must be set:
 	//   context, action, text, and user.
 	AddContextAction(context.Context, *ContextAction) (*Void, error)
-	// Remove removes a context action from the given user's client. The
-	// following ContextAction must be set:
+	// RemoveContextAction removes a context action from the given user's client.
+	// The following ContextAction must be set:
 	//   action
 	// If no user is given, the context action is removed from all users.
 	RemoveContextAction(context.Context, *ContextAction) (*Void, error)
-	// Events returns a stream of context action events that are triggered by
-	// users.
+	// ContextActionEvents returns a stream of context action events that are
+	// triggered by users.
 	ContextActionEvents(*ContextAction, V1_ContextActionEventsServer) error
-	// Send sends the given TextMessage to the server.
+	// SendTextMessage sends the given TextMessage to the server.
 	//
 	// If no users, channels, or trees are added to the TextMessage, the message
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	SendTextMessage(context.Context, *TextMessage) (*Void, error)
-	// Query returns a list of log entries from the given server.
+	// QueryLogs returns a list of log entries from the given server.
 	//
 	// To get the total number of log entries, omit min and/or max from the
 	// query.
 	QueryLogs(context.Context, *Log_Query) (*Log_List, error)
-	// Get returns the explicitly set configuration for the given server.
+	// GetConfig returns the explicitly set configuration for the given server.
 	GetConfig(context.Context, *Server) (*Config, error)
-	// GetField returns the configuration value for the given key.
+	// GetConfigField returns the configuration value for the given key.
 	GetConfigField(context.Context, *Config_Field) (*Config_Field, error)
-	// SetField sets the configuration value to the given value.
+	// SetConfigField sets the configuration value to the given value.
 	SetConfigField(context.Context, *Config_Field) (*Void, error)
-	// GetDefaults returns the default server configuration.
+	// GetDefaultConfig returns the default server configuration.
 	GetDefaultConfig(context.Context, *Void) (*Config, error)
-	// Query returns a list of channels that match the given query.
+	// QueryChannels returns a list of channels that match the given query.
 	QueryChannels(context.Context, *Channel_Query) (*Channel_List, error)
-	// Get returns the channel with the given ID.
+	// GetChannel returns the channel with the given ID.
 	GetChannel(context.Context, *Channel) (*Channel, error)
-	// Add adds the channel to the given server. The parent and name of the
-	// channel must be set.
+	// AddChannel adds the channel to the given server. The parent and name of
+	// the channel must be set.
 	AddChannel(context.Context, *Channel) (*Channel, error)
-	// Remove removes the given channel from the server.
+	// RemoveChannel removes the given channel from the server.
 	RemoveChannel(context.Context, *Channel) (*Void, error)
-	// Update updates the given channel's attributes. Only the fields that are
-	// set will be updated.
+	// UpdateChannel updates the given channel's attributes. Only the fields that
+	// are set will be updated.
 	UpdateChannel(context.Context, *Channel) (*Channel, error)
-	// Query returns a list of connected users who match the given query.
+	// QueryUsers returns a list of connected users who match the given query.
 	QueryUsers(context.Context, *User_Query) (*User_List, error)
-	// Get returns information on the connected user, given by the user's session
-	// or name.
+	// GetUser returns information on the connected user, given by the user's
+	// session or name.
 	GetUser(context.Context, *User) (*User, error)
-	// Update changes the given user's state. Only the following fields can be
-	// changed:
+	// UpdateUser changes the given user's state. Only the following fields can
+	// be changed:
 	//   name, mute, deaf, suppress, priority_speaker, channel, comment.
 	UpdateUser(context.Context, *User) (*User, error)
-	// Kick kicks the user from the server.
+	// KickUser kicks the user from the server.
 	KickUser(context.Context, *User_Kick) (*Void, error)
-	// Query returns a representation of the given server's channel/user tree.
+	// QueryTree returns a representation of the given server's channel/user
+	// tree.
 	QueryTree(context.Context, *Tree_Query) (*Tree, error)
-	// Get returns a list of bans for the given server.
+	// GetBans returns a list of bans for the given server.
 	GetBans(context.Context, *Ban_Query) (*Ban_List, error)
-	// Set replaces the server's ban list with the given list.
+	// SetBans replaces the server's ban list with the given list.
 	SetBans(context.Context, *Ban_List) (*Void, error)
-	// Get returns the ACL for the given channel.
+	// GetACL returns the ACL for the given channel.
 	GetACL(context.Context, *Channel) (*ACL_List, error)
-	// Set overrides the ACL of the given channel to what is provided.
+	// SetACL overrides the ACL of the given channel to what is provided.
 	SetACL(context.Context, *ACL_List) (*Void, error)
 	// GetEffectivePermissions returns the effective permissions for the given
 	// user in the given channel.
@@ -3070,23 +3075,26 @@ type V1Server interface {
 	AddTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
 	// RemoveTemporaryGroup removes a user from a temporary group.
 	RemoveTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
-	// Stream opens an authentication stream to the server.
+	// AuthenticatorStream opens an authentication stream to the server.
 	//
 	// There can only be one RPC client with an open Stream. If a new
 	// authenticator connects, the open connected will be closed.
 	AuthenticatorStream(V1_AuthenticatorStreamServer) error
-	// Query returns a list of registered users who match given query.
+	// QueryDatabaseUsers returns a list of registered users who match given
+	// query.
 	QueryDatabaseUsers(context.Context, *DatabaseUser_Query) (*DatabaseUser_List, error)
-	// Get returns the database user with the given ID.
+	// GetDatabaseUser returns the database user with the given ID.
 	GetDatabaseUser(context.Context, *DatabaseUser) (*DatabaseUser, error)
-	// Update updates the given database user.
+	// UpdateDatabaseUser updates the given database user.
 	UpdateDatabaseUser(context.Context, *DatabaseUser) (*Void, error)
-	// Register registers a user with the given information on the server. The
-	// returned DatabaseUser will contain the newly registered user's ID.
+	// RegisterDatabaseUser registers a user with the given information on the
+	// server. The returned DatabaseUser will contain the newly registered user's
+	// ID.
 	RegisterDatabaseUser(context.Context, *DatabaseUser) (*DatabaseUser, error)
-	// Deregister deregisters the given user.
+	// DeregisterDatabaseUser deregisters the given user.
 	DeregisterDatabaseUser(context.Context, *DatabaseUser) (*Void, error)
-	// Verify verifies the that the given user-password pair is correct.
+	// VerifyDatabaseUser verifies the that the given user-password pair is
+	// correct.
 	VerifyDatabaseUser(context.Context, *DatabaseUser_Verify) (*DatabaseUser, error)
 	// AddRedirectWhisperGroup add a whisper targets redirection for the given
 	// user. Whenever a user whispers to group "source", the whisper will be
