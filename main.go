@@ -32,6 +32,9 @@ Flags:
                                 By default, JSON objects are generated.
 
 Commands:
+  acl get <server id> <channel id>
+  acl get-effective-permissions <server id> <session> <channel id>
+
   ban get <server id>
 
   channel query <server id>
