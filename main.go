@@ -68,6 +68,10 @@ Commands:
       tree:<id>
 
   tree query <server id>
+
+  user query <server id>
+  user get <server id> <session>
+  user kick <server id> <session> [reason]
 `
 
 var outputTemplate *template.Template
