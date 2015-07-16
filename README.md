@@ -9,8 +9,6 @@ murmur-cli provides an interface to a grpc-enabled murmur server.
 ## TODO
 
 - Update URL in generate.go
-- Services
-    - AudioService
 
 ## Author
 
