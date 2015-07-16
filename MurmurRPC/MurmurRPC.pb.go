@@ -129,20 +129,17 @@ func (x *Event_Type) UnmarshalJSON(data []byte) error {
 type ContextAction_Context int32
 
 const (
-	ContextAction_None    ContextAction_Context = 0
 	ContextAction_Server  ContextAction_Context = 1
 	ContextAction_Channel ContextAction_Context = 2
 	ContextAction_User    ContextAction_Context = 4
 )
 
 var ContextAction_Context_name = map[int32]string{
-	0: "None",
 	1: "Server",
 	2: "Channel",
 	4: "User",
 }
 var ContextAction_Context_value = map[string]int32{
-	"None":    0,
 	"Server":  1,
 	"Channel": 2,
 	"User":    4,

@@ -57,6 +57,24 @@ func (a Args) String(i int) (string, bool) {
 	return a[i], true
 }
 
+func (a Args) MustBitmask(i int, values map[string]int32, allowEmpty bool) int32 {
+	if len(a) <= i {
+		panic(errors.New("missing bitmask value"))
+	}
+	var val int32
+	for _, item := range strings.Split(a[i], ",") {
+		itemVal, ok := values[item]
+		if !ok {
+			panic(errors.New("invalid bitmask value"))
+		}
+		val |= itemVal
+	}
+	if !allowEmpty && val == 0 {
+		panic(errors.New("empty bitmask value"))
+	}
+	return val
+}
+
 func (a Args) MustUint32(i int) uint32 {
 	if len(a) <= i {
 		panic(errors.New("missing uint32 value"))
@@ -66,6 +84,17 @@ func (a Args) MustUint32(i int) uint32 {
 		panic(err)
 	}
 	return uint32(n)
+}
+
+func (a Args) Uint32(i int) (uint32, bool) {
+	if len(a) <= i {
+		return 0, false
+	}
+	n, err := strconv.ParseUint(a[i], 10, 32)
+	if err != nil {
+		return 0, false
+	}
+	return uint32(n), true
 }
 
 func (a Args) PrefixedUint32(prefix string, i int) (uint32, bool) {

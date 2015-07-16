@@ -47,6 +47,14 @@ Commands:
   config set-field <server id> <key> <value>
   config get-defaults
 
+  contextaction add <server id> <context> <action> <text> <session>
+    Context is a comma seperated list of the following:
+      Server
+      Channel
+      User
+  contextaction remove <server id> <action> [session]
+  contextaction events <server id> <action>
+
   database query <server id> [filter]
   database get <server id> <user id>
 
