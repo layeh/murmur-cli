@@ -18,6 +18,6 @@ func init() {
 			query.Min = &min
 			query.Max = &max
 		}
-		Output(client.QueryLogs(ctx, query))
+		Output(client.LogQuery(ctx, query))
 	})
 }

@@ -15,13 +15,13 @@ func init() {
 		if filter, ok := args.String(1); ok {
 			query.Filter = &filter
 		}
-		Output(client.QueryDatabaseUsers(ctx, query))
+		Output(client.DatabaseUserQuery(ctx, query))
 	})
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
 		id := args.MustUint32(1)
-		Output(client.GetDatabaseUser(ctx, &MurmurRPC.DatabaseUser{
+		Output(client.DatabaseUserGet(ctx, &MurmurRPC.DatabaseUser{
 			Server: server,
 			Id:     &id,
 		}))

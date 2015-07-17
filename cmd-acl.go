@@ -10,7 +10,7 @@ func init() {
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
 		channelID := args.MustUint32(1)
-		Output(client.GetACL(ctx, &MurmurRPC.Channel{
+		Output(client.ACLGet(ctx, &MurmurRPC.Channel{
 			Server: server,
 			Id:     &channelID,
 		}))
@@ -20,7 +20,7 @@ func init() {
 		server := args.MustServer(0)
 		session := args.MustUint32(1)
 		channelID := args.MustUint32(2)
-		Output(client.GetEffectivePermissions(ctx, &MurmurRPC.ACL_Query{
+		Output(client.ACLGetEffectivePermissions(ctx, &MurmurRPC.ACL_Query{
 			Server: server,
 			User: &MurmurRPC.User{
 				Session: &session,

@@ -45,6 +45,6 @@ func init() {
 			}
 		}
 
-		Output(client.SendTextMessage(ctx, tm))
+		Output(client.TextMessageSend(ctx, tm))
 	})
 }

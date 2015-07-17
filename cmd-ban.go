@@ -9,7 +9,7 @@ func init() {
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.GetBans(ctx, &MurmurRPC.Ban_Query{
+		Output(client.BansGet(ctx, &MurmurRPC.Ban_Query{
 			Server: server,
 		}))
 	})

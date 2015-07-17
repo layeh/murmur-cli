@@ -9,7 +9,7 @@ func init() {
 
 	cmd.Add("query", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.QueryUsers(ctx, &MurmurRPC.User_Query{
+		Output(client.UserQuery(ctx, &MurmurRPC.User_Query{
 			Server: server,
 		}))
 	})
@@ -17,7 +17,7 @@ func init() {
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
 		session := args.MustUint32(1)
-		Output(client.GetUser(ctx, &MurmurRPC.User{
+		Output(client.UserGet(ctx, &MurmurRPC.User{
 			Server:  server,
 			Session: &session,
 		}))
@@ -35,6 +35,6 @@ func init() {
 		if reason, ok := args.String(2); ok {
 			kick.Reason = &reason
 		}
-		Output(client.KickUser(ctx, kick))
+		Output(client.UserKick(ctx, kick))
 	})
 }

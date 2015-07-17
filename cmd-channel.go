@@ -9,7 +9,7 @@ func init() {
 
 	cmd.Add("query", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.QueryChannels(ctx, &MurmurRPC.Channel_Query{
+		Output(client.ChannelQuery(ctx, &MurmurRPC.Channel_Query{
 			Server: server,
 		}))
 	})
@@ -17,7 +17,7 @@ func init() {
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
 		id := args.MustUint32(1)
-		Output(client.GetChannel(ctx, &MurmurRPC.Channel{
+		Output(client.ChannelGet(ctx, &MurmurRPC.Channel{
 			Server: server,
 			Id:     &id,
 		}))
@@ -27,7 +27,7 @@ func init() {
 		server := args.MustServer(0)
 		id := args.MustUint32(1)
 		name := args.MustString(2)
-		Output(client.AddChannel(ctx, &MurmurRPC.Channel{
+		Output(client.ChannelAdd(ctx, &MurmurRPC.Channel{
 			Server: server,
 			Parent: &MurmurRPC.Channel{
 				Id: &id,
@@ -39,7 +39,7 @@ func init() {
 	cmd.Add("remove", func(args Args) {
 		server := args.MustServer(0)
 		id := args.MustUint32(1)
-		Output(client.RemoveChannel(ctx, &MurmurRPC.Channel{
+		Output(client.ChannelRemove(ctx, &MurmurRPC.Channel{
 			Server: server,
 			Id:     &id,
 		}))

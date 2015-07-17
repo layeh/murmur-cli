@@ -2355,121 +2355,121 @@ type V1Client interface {
 	GetVersion(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Version, error)
 	// Events returns a stream of murmur events.
 	Events(ctx context.Context, in *Void, opts ...grpc.CallOption) (V1_EventsClient, error)
-	// CreateServer creates a new virtual server. The returned server object
+	// ServerCreate creates a new virtual server. The returned server object
 	// contains the newly created server's ID.
-	CreateServer(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Server, error)
-	// QueryServers returns a list of servers that match the given query.
-	QueryServers(ctx context.Context, in *Server_Query, opts ...grpc.CallOption) (*Server_List, error)
-	// GetServer returns information about the given server.
-	GetServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Server, error)
-	// StartServer starts the given stopped server.
-	StartServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
-	// StopServer stops the given virtual server.
-	StopServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
-	// RemoveServer removes the given virtual server and its configuration.
-	RemoveServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
+	ServerCreate(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Server, error)
+	// ServerQuery returns a list of servers that match the given query.
+	ServerQuery(ctx context.Context, in *Server_Query, opts ...grpc.CallOption) (*Server_List, error)
+	// ServerGet returns information about the given server.
+	ServerGet(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Server, error)
+	// ServerStart starts the given stopped server.
+	ServerStart(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
+	// ServerStop stops the given virtual server.
+	ServerStop(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
+	// ServerRemove removes the given virtual server and its configuration.
+	ServerRemove(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error)
 	// ServerEvents returns a stream of events that happen on the given server.
 	ServerEvents(ctx context.Context, in *Server, opts ...grpc.CallOption) (V1_ServerEventsClient, error)
-	// AddContextAction adds a context action to the given user's client. The
+	// ContextActionAdd adds a context action to the given user's client. The
 	// following ContextAction fields must be set:
 	//   context, action, text, and user.
-	AddContextAction(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
-	// RemoveContextAction removes a context action from the given user's client.
+	ContextActionAdd(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
+	// ContextActionRemove removes a context action from the given user's client.
 	// The following ContextAction must be set:
 	//   action
 	// If no user is given, the context action is removed from all users.
-	RemoveContextAction(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
+	ContextActionRemove(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
 	// ContextActionEvents returns a stream of context action events that are
 	// triggered by users.
 	ContextActionEvents(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (V1_ContextActionEventsClient, error)
-	// SendTextMessage sends the given TextMessage to the server.
+	// TextMessageSend sends the given TextMessage to the server.
 	//
 	// If no users, channels, or trees are added to the TextMessage, the message
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
-	SendTextMessage(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error)
-	// QueryLogs returns a list of log entries from the given server.
+	TextMessageSend(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error)
+	// LogQuery returns a list of log entries from the given server.
 	//
 	// To get the total number of log entries, omit min and/or max from the
 	// query.
-	QueryLogs(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error)
-	// GetConfig returns the explicitly set configuration for the given server.
-	GetConfig(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error)
-	// GetConfigField returns the configuration value for the given key.
-	GetConfigField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error)
-	// SetConfigField sets the configuration value to the given value.
-	SetConfigField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error)
-	// GetDefaultConfig returns the default server configuration.
-	GetDefaultConfig(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error)
-	// QueryChannels returns a list of channels that match the given query.
-	QueryChannels(ctx context.Context, in *Channel_Query, opts ...grpc.CallOption) (*Channel_List, error)
-	// GetChannel returns the channel with the given ID.
-	GetChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
-	// AddChannel adds the channel to the given server. The parent and name of
+	LogQuery(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error)
+	// ConfigGet returns the explicitly set configuration for the given server.
+	ConfigGet(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error)
+	// ConfigGetField returns the configuration value for the given key.
+	ConfigGetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error)
+	// ConfigSetField sets the configuration value to the given value.
+	ConfigSetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error)
+	// ConfigGetDefault returns the default server configuration.
+	ConfigGetDefault(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error)
+	// ChannelQuery returns a list of channels that match the given query.
+	ChannelQuery(ctx context.Context, in *Channel_Query, opts ...grpc.CallOption) (*Channel_List, error)
+	// ChannelGet returns the channel with the given ID.
+	ChannelGet(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
+	// ChannelAdd adds the channel to the given server. The parent and name of
 	// the channel must be set.
-	AddChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
-	// RemoveChannel removes the given channel from the server.
-	RemoveChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Void, error)
-	// UpdateChannel updates the given channel's attributes. Only the fields that
+	ChannelAdd(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
+	// ChannelRemove removes the given channel from the server.
+	ChannelRemove(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Void, error)
+	// ChannelUpdate updates the given channel's attributes. Only the fields that
 	// are set will be updated.
-	UpdateChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
-	// QueryUsers returns a list of connected users who match the given query.
-	QueryUsers(ctx context.Context, in *User_Query, opts ...grpc.CallOption) (*User_List, error)
-	// GetUser returns information on the connected user, given by the user's
+	ChannelUpdate(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error)
+	// UserQuery returns a list of connected users who match the given query.
+	UserQuery(ctx context.Context, in *User_Query, opts ...grpc.CallOption) (*User_List, error)
+	// UserGet returns information on the connected user, given by the user's
 	// session or name.
-	GetUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
-	// UpdateUser changes the given user's state. Only the following fields can
+	UserGet(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
+	// UserUpdate changes the given user's state. Only the following fields can
 	// be changed:
 	//   name, mute, deaf, suppress, priority_speaker, channel, comment.
-	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
-	// KickUser kicks the user from the server.
-	KickUser(ctx context.Context, in *User_Kick, opts ...grpc.CallOption) (*Void, error)
-	// QueryTree returns a representation of the given server's channel/user
+	UserUpdate(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
+	// UserKick kicks the user from the server.
+	UserKick(ctx context.Context, in *User_Kick, opts ...grpc.CallOption) (*Void, error)
+	// TreeQuery returns a representation of the given server's channel/user
 	// tree.
-	QueryTree(ctx context.Context, in *Tree_Query, opts ...grpc.CallOption) (*Tree, error)
-	// GetBans returns a list of bans for the given server.
-	GetBans(ctx context.Context, in *Ban_Query, opts ...grpc.CallOption) (*Ban_List, error)
-	// SetBans replaces the server's ban list with the given list.
-	SetBans(ctx context.Context, in *Ban_List, opts ...grpc.CallOption) (*Void, error)
-	// GetACL returns the ACL for the given channel.
-	GetACL(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*ACL_List, error)
-	// SetACL overrides the ACL of the given channel to what is provided.
-	SetACL(ctx context.Context, in *ACL_List, opts ...grpc.CallOption) (*Void, error)
-	// GetEffectivePermissions returns the effective permissions for the given
+	TreeQuery(ctx context.Context, in *Tree_Query, opts ...grpc.CallOption) (*Tree, error)
+	// BansGet returns a list of bans for the given server.
+	BansGet(ctx context.Context, in *Ban_Query, opts ...grpc.CallOption) (*Ban_List, error)
+	// BansSet replaces the server's ban list with the given list.
+	BansSet(ctx context.Context, in *Ban_List, opts ...grpc.CallOption) (*Void, error)
+	// ACLGet returns the ACL for the given channel.
+	ACLGet(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*ACL_List, error)
+	// ACLSet overrides the ACL of the given channel to what is provided.
+	ACLSet(ctx context.Context, in *ACL_List, opts ...grpc.CallOption) (*Void, error)
+	// ACLGetEffectivePermissions returns the effective permissions for the given
 	// user in the given channel.
-	GetEffectivePermissions(ctx context.Context, in *ACL_Query, opts ...grpc.CallOption) (*ACL, error)
-	// AddTemporaryGroup adds a user to a temporary group.
-	AddTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
-	// RemoveTemporaryGroup removes a user from a temporary group.
-	RemoveTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
+	ACLGetEffectivePermissions(ctx context.Context, in *ACL_Query, opts ...grpc.CallOption) (*ACL, error)
+	// ACLAddTemporaryGroup adds a user to a temporary group.
+	ACLAddTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
+	// ACLRemoveTemporaryGroup removes a user from a temporary group.
+	ACLRemoveTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error)
 	// AuthenticatorStream opens an authentication stream to the server.
 	//
 	// There can only be one RPC client with an open Stream. If a new
 	// authenticator connects, the open connected will be closed.
 	AuthenticatorStream(ctx context.Context, opts ...grpc.CallOption) (V1_AuthenticatorStreamClient, error)
-	// QueryDatabaseUsers returns a list of registered users who match given
+	// DatabaseUserQuery returns a list of registered users who match given
 	// query.
-	QueryDatabaseUsers(ctx context.Context, in *DatabaseUser_Query, opts ...grpc.CallOption) (*DatabaseUser_List, error)
-	// GetDatabaseUser returns the database user with the given ID.
-	GetDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error)
-	// UpdateDatabaseUser updates the given database user.
-	UpdateDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error)
-	// RegisterDatabaseUser registers a user with the given information on the
+	DatabaseUserQuery(ctx context.Context, in *DatabaseUser_Query, opts ...grpc.CallOption) (*DatabaseUser_List, error)
+	// DatabaseUserGet returns the database user with the given ID.
+	DatabaseUserGet(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error)
+	// DatabaseUserUpdate updates the given database user.
+	DatabaseUserUpdate(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error)
+	// DatabaseUserRegister registers a user with the given information on the
 	// server. The returned DatabaseUser will contain the newly registered user's
 	// ID.
-	RegisterDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error)
-	// DeregisterDatabaseUser deregisters the given user.
-	DeregisterDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error)
-	// VerifyDatabaseUser verifies the that the given user-password pair is
+	DatabaseUserRegister(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error)
+	// DatabaseUserDeregister deregisters the given user.
+	DatabaseUserDeregister(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error)
+	// DatabaseUserVerify verifies the that the given user-password pair is
 	// correct.
-	VerifyDatabaseUser(ctx context.Context, in *DatabaseUser_Verify, opts ...grpc.CallOption) (*DatabaseUser, error)
+	DatabaseUserVerify(ctx context.Context, in *DatabaseUser_Verify, opts ...grpc.CallOption) (*DatabaseUser, error)
 	// AddRedirectWhisperGroup add a whisper targets redirection for the given
 	// user. Whenever a user whispers to group "source", the whisper will be
 	// redirected to group "target".
-	AddRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
+	RedirectWhisperGroupAdd(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
 	// RemoveRedirectWhisperGroup removes a whisper target redirection for
 	// the the given user.
-	RemoveRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
+	RedirectWhisperGroupRemove(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error)
 }
 
 type v1Client struct {
@@ -2530,54 +2530,54 @@ func (x *v1EventsClient) Recv() (*Event, error) {
 	return m, nil
 }
 
-func (c *v1Client) CreateServer(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Server, error) {
+func (c *v1Client) ServerCreate(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Server, error) {
 	out := new(Server)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/CreateServer", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ServerCreate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) QueryServers(ctx context.Context, in *Server_Query, opts ...grpc.CallOption) (*Server_List, error) {
+func (c *v1Client) ServerQuery(ctx context.Context, in *Server_Query, opts ...grpc.CallOption) (*Server_List, error) {
 	out := new(Server_List)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/QueryServers", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ServerQuery", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Server, error) {
+func (c *v1Client) ServerGet(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Server, error) {
 	out := new(Server)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetServer", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ServerGet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) StartServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ServerStart(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/StartServer", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ServerStart", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) StopServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ServerStop(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/StopServer", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ServerStop", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) RemoveServer(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ServerRemove(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RemoveServer", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ServerRemove", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2616,18 +2616,18 @@ func (x *v1ServerEventsClient) Recv() (*Server_Event, error) {
 	return m, nil
 }
 
-func (c *v1Client) AddContextAction(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ContextActionAdd(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/AddContextAction", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ContextActionAdd", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) RemoveContextAction(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ContextActionRemove(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RemoveContextAction", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ContextActionRemove", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2666,207 +2666,207 @@ func (x *v1ContextActionEventsClient) Recv() (*ContextAction, error) {
 	return m, nil
 }
 
-func (c *v1Client) SendTextMessage(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) TextMessageSend(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/SendTextMessage", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/TextMessageSend", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) QueryLogs(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error) {
+func (c *v1Client) LogQuery(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error) {
 	out := new(Log_List)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/QueryLogs", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/LogQuery", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetConfig(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error) {
+func (c *v1Client) ConfigGet(ctx context.Context, in *Server, opts ...grpc.CallOption) (*Config, error) {
 	out := new(Config)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetConfig", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ConfigGet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetConfigField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error) {
+func (c *v1Client) ConfigGetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Config_Field, error) {
 	out := new(Config_Field)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetConfigField", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ConfigGetField", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) SetConfigField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ConfigSetField(ctx context.Context, in *Config_Field, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/SetConfigField", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ConfigSetField", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetDefaultConfig(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error) {
+func (c *v1Client) ConfigGetDefault(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Config, error) {
 	out := new(Config)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetDefaultConfig", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ConfigGetDefault", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) QueryChannels(ctx context.Context, in *Channel_Query, opts ...grpc.CallOption) (*Channel_List, error) {
+func (c *v1Client) ChannelQuery(ctx context.Context, in *Channel_Query, opts ...grpc.CallOption) (*Channel_List, error) {
 	out := new(Channel_List)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/QueryChannels", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ChannelQuery", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error) {
+func (c *v1Client) ChannelGet(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error) {
 	out := new(Channel)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetChannel", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ChannelGet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) AddChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error) {
+func (c *v1Client) ChannelAdd(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error) {
 	out := new(Channel)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/AddChannel", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ChannelAdd", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) RemoveChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ChannelRemove(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RemoveChannel", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ChannelRemove", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) UpdateChannel(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error) {
+func (c *v1Client) ChannelUpdate(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*Channel, error) {
 	out := new(Channel)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/UpdateChannel", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ChannelUpdate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) QueryUsers(ctx context.Context, in *User_Query, opts ...grpc.CallOption) (*User_List, error) {
+func (c *v1Client) UserQuery(ctx context.Context, in *User_Query, opts ...grpc.CallOption) (*User_List, error) {
 	out := new(User_List)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/QueryUsers", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/UserQuery", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error) {
+func (c *v1Client) UserGet(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/UserGet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error) {
+func (c *v1Client) UserUpdate(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error) {
 	out := new(User)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/UpdateUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/UserUpdate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) KickUser(ctx context.Context, in *User_Kick, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) UserKick(ctx context.Context, in *User_Kick, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/KickUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/UserKick", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) QueryTree(ctx context.Context, in *Tree_Query, opts ...grpc.CallOption) (*Tree, error) {
+func (c *v1Client) TreeQuery(ctx context.Context, in *Tree_Query, opts ...grpc.CallOption) (*Tree, error) {
 	out := new(Tree)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/QueryTree", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/TreeQuery", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetBans(ctx context.Context, in *Ban_Query, opts ...grpc.CallOption) (*Ban_List, error) {
+func (c *v1Client) BansGet(ctx context.Context, in *Ban_Query, opts ...grpc.CallOption) (*Ban_List, error) {
 	out := new(Ban_List)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetBans", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/BansGet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) SetBans(ctx context.Context, in *Ban_List, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) BansSet(ctx context.Context, in *Ban_List, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/SetBans", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/BansSet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetACL(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*ACL_List, error) {
+func (c *v1Client) ACLGet(ctx context.Context, in *Channel, opts ...grpc.CallOption) (*ACL_List, error) {
 	out := new(ACL_List)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetACL", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ACLGet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) SetACL(ctx context.Context, in *ACL_List, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ACLSet(ctx context.Context, in *ACL_List, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/SetACL", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ACLSet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetEffectivePermissions(ctx context.Context, in *ACL_Query, opts ...grpc.CallOption) (*ACL, error) {
+func (c *v1Client) ACLGetEffectivePermissions(ctx context.Context, in *ACL_Query, opts ...grpc.CallOption) (*ACL, error) {
 	out := new(ACL)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetEffectivePermissions", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ACLGetEffectivePermissions", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) AddTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ACLAddTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/AddTemporaryGroup", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ACLAddTemporaryGroup", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) RemoveTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) ACLRemoveTemporaryGroup(ctx context.Context, in *ACL_TemporaryGroup, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RemoveTemporaryGroup", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/ACLRemoveTemporaryGroup", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2904,72 +2904,72 @@ func (x *v1AuthenticatorStreamClient) Recv() (*Authenticator_Request, error) {
 	return m, nil
 }
 
-func (c *v1Client) QueryDatabaseUsers(ctx context.Context, in *DatabaseUser_Query, opts ...grpc.CallOption) (*DatabaseUser_List, error) {
+func (c *v1Client) DatabaseUserQuery(ctx context.Context, in *DatabaseUser_Query, opts ...grpc.CallOption) (*DatabaseUser_List, error) {
 	out := new(DatabaseUser_List)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/QueryDatabaseUsers", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/DatabaseUserQuery", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) GetDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error) {
+func (c *v1Client) DatabaseUserGet(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error) {
 	out := new(DatabaseUser)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/GetDatabaseUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/DatabaseUserGet", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) UpdateDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) DatabaseUserUpdate(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/UpdateDatabaseUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/DatabaseUserUpdate", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) RegisterDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error) {
+func (c *v1Client) DatabaseUserRegister(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*DatabaseUser, error) {
 	out := new(DatabaseUser)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RegisterDatabaseUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/DatabaseUserRegister", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) DeregisterDatabaseUser(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) DatabaseUserDeregister(ctx context.Context, in *DatabaseUser, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/DeregisterDatabaseUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/DatabaseUserDeregister", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) VerifyDatabaseUser(ctx context.Context, in *DatabaseUser_Verify, opts ...grpc.CallOption) (*DatabaseUser, error) {
+func (c *v1Client) DatabaseUserVerify(ctx context.Context, in *DatabaseUser_Verify, opts ...grpc.CallOption) (*DatabaseUser, error) {
 	out := new(DatabaseUser)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/VerifyDatabaseUser", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/DatabaseUserVerify", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) AddRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) RedirectWhisperGroupAdd(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/AddRedirectWhisperGroup", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RedirectWhisperGroupAdd", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1Client) RemoveRedirectWhisperGroup(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error) {
+func (c *v1Client) RedirectWhisperGroupRemove(ctx context.Context, in *RedirectWhisperGroup, opts ...grpc.CallOption) (*Void, error) {
 	out := new(Void)
-	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RemoveRedirectWhisperGroup", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/MurmurRPC.V1/RedirectWhisperGroupRemove", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -2985,121 +2985,121 @@ type V1Server interface {
 	GetVersion(context.Context, *Void) (*Version, error)
 	// Events returns a stream of murmur events.
 	Events(*Void, V1_EventsServer) error
-	// CreateServer creates a new virtual server. The returned server object
+	// ServerCreate creates a new virtual server. The returned server object
 	// contains the newly created server's ID.
-	CreateServer(context.Context, *Void) (*Server, error)
-	// QueryServers returns a list of servers that match the given query.
-	QueryServers(context.Context, *Server_Query) (*Server_List, error)
-	// GetServer returns information about the given server.
-	GetServer(context.Context, *Server) (*Server, error)
-	// StartServer starts the given stopped server.
-	StartServer(context.Context, *Server) (*Void, error)
-	// StopServer stops the given virtual server.
-	StopServer(context.Context, *Server) (*Void, error)
-	// RemoveServer removes the given virtual server and its configuration.
-	RemoveServer(context.Context, *Server) (*Void, error)
+	ServerCreate(context.Context, *Void) (*Server, error)
+	// ServerQuery returns a list of servers that match the given query.
+	ServerQuery(context.Context, *Server_Query) (*Server_List, error)
+	// ServerGet returns information about the given server.
+	ServerGet(context.Context, *Server) (*Server, error)
+	// ServerStart starts the given stopped server.
+	ServerStart(context.Context, *Server) (*Void, error)
+	// ServerStop stops the given virtual server.
+	ServerStop(context.Context, *Server) (*Void, error)
+	// ServerRemove removes the given virtual server and its configuration.
+	ServerRemove(context.Context, *Server) (*Void, error)
 	// ServerEvents returns a stream of events that happen on the given server.
 	ServerEvents(*Server, V1_ServerEventsServer) error
-	// AddContextAction adds a context action to the given user's client. The
+	// ContextActionAdd adds a context action to the given user's client. The
 	// following ContextAction fields must be set:
 	//   context, action, text, and user.
-	AddContextAction(context.Context, *ContextAction) (*Void, error)
-	// RemoveContextAction removes a context action from the given user's client.
+	ContextActionAdd(context.Context, *ContextAction) (*Void, error)
+	// ContextActionRemove removes a context action from the given user's client.
 	// The following ContextAction must be set:
 	//   action
 	// If no user is given, the context action is removed from all users.
-	RemoveContextAction(context.Context, *ContextAction) (*Void, error)
+	ContextActionRemove(context.Context, *ContextAction) (*Void, error)
 	// ContextActionEvents returns a stream of context action events that are
 	// triggered by users.
 	ContextActionEvents(*ContextAction, V1_ContextActionEventsServer) error
-	// SendTextMessage sends the given TextMessage to the server.
+	// TextMessageSend sends the given TextMessage to the server.
 	//
 	// If no users, channels, or trees are added to the TextMessage, the message
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
-	SendTextMessage(context.Context, *TextMessage) (*Void, error)
-	// QueryLogs returns a list of log entries from the given server.
+	TextMessageSend(context.Context, *TextMessage) (*Void, error)
+	// LogQuery returns a list of log entries from the given server.
 	//
 	// To get the total number of log entries, omit min and/or max from the
 	// query.
-	QueryLogs(context.Context, *Log_Query) (*Log_List, error)
-	// GetConfig returns the explicitly set configuration for the given server.
-	GetConfig(context.Context, *Server) (*Config, error)
-	// GetConfigField returns the configuration value for the given key.
-	GetConfigField(context.Context, *Config_Field) (*Config_Field, error)
-	// SetConfigField sets the configuration value to the given value.
-	SetConfigField(context.Context, *Config_Field) (*Void, error)
-	// GetDefaultConfig returns the default server configuration.
-	GetDefaultConfig(context.Context, *Void) (*Config, error)
-	// QueryChannels returns a list of channels that match the given query.
-	QueryChannels(context.Context, *Channel_Query) (*Channel_List, error)
-	// GetChannel returns the channel with the given ID.
-	GetChannel(context.Context, *Channel) (*Channel, error)
-	// AddChannel adds the channel to the given server. The parent and name of
+	LogQuery(context.Context, *Log_Query) (*Log_List, error)
+	// ConfigGet returns the explicitly set configuration for the given server.
+	ConfigGet(context.Context, *Server) (*Config, error)
+	// ConfigGetField returns the configuration value for the given key.
+	ConfigGetField(context.Context, *Config_Field) (*Config_Field, error)
+	// ConfigSetField sets the configuration value to the given value.
+	ConfigSetField(context.Context, *Config_Field) (*Void, error)
+	// ConfigGetDefault returns the default server configuration.
+	ConfigGetDefault(context.Context, *Void) (*Config, error)
+	// ChannelQuery returns a list of channels that match the given query.
+	ChannelQuery(context.Context, *Channel_Query) (*Channel_List, error)
+	// ChannelGet returns the channel with the given ID.
+	ChannelGet(context.Context, *Channel) (*Channel, error)
+	// ChannelAdd adds the channel to the given server. The parent and name of
 	// the channel must be set.
-	AddChannel(context.Context, *Channel) (*Channel, error)
-	// RemoveChannel removes the given channel from the server.
-	RemoveChannel(context.Context, *Channel) (*Void, error)
-	// UpdateChannel updates the given channel's attributes. Only the fields that
+	ChannelAdd(context.Context, *Channel) (*Channel, error)
+	// ChannelRemove removes the given channel from the server.
+	ChannelRemove(context.Context, *Channel) (*Void, error)
+	// ChannelUpdate updates the given channel's attributes. Only the fields that
 	// are set will be updated.
-	UpdateChannel(context.Context, *Channel) (*Channel, error)
-	// QueryUsers returns a list of connected users who match the given query.
-	QueryUsers(context.Context, *User_Query) (*User_List, error)
-	// GetUser returns information on the connected user, given by the user's
+	ChannelUpdate(context.Context, *Channel) (*Channel, error)
+	// UserQuery returns a list of connected users who match the given query.
+	UserQuery(context.Context, *User_Query) (*User_List, error)
+	// UserGet returns information on the connected user, given by the user's
 	// session or name.
-	GetUser(context.Context, *User) (*User, error)
-	// UpdateUser changes the given user's state. Only the following fields can
+	UserGet(context.Context, *User) (*User, error)
+	// UserUpdate changes the given user's state. Only the following fields can
 	// be changed:
 	//   name, mute, deaf, suppress, priority_speaker, channel, comment.
-	UpdateUser(context.Context, *User) (*User, error)
-	// KickUser kicks the user from the server.
-	KickUser(context.Context, *User_Kick) (*Void, error)
-	// QueryTree returns a representation of the given server's channel/user
+	UserUpdate(context.Context, *User) (*User, error)
+	// UserKick kicks the user from the server.
+	UserKick(context.Context, *User_Kick) (*Void, error)
+	// TreeQuery returns a representation of the given server's channel/user
 	// tree.
-	QueryTree(context.Context, *Tree_Query) (*Tree, error)
-	// GetBans returns a list of bans for the given server.
-	GetBans(context.Context, *Ban_Query) (*Ban_List, error)
-	// SetBans replaces the server's ban list with the given list.
-	SetBans(context.Context, *Ban_List) (*Void, error)
-	// GetACL returns the ACL for the given channel.
-	GetACL(context.Context, *Channel) (*ACL_List, error)
-	// SetACL overrides the ACL of the given channel to what is provided.
-	SetACL(context.Context, *ACL_List) (*Void, error)
-	// GetEffectivePermissions returns the effective permissions for the given
+	TreeQuery(context.Context, *Tree_Query) (*Tree, error)
+	// BansGet returns a list of bans for the given server.
+	BansGet(context.Context, *Ban_Query) (*Ban_List, error)
+	// BansSet replaces the server's ban list with the given list.
+	BansSet(context.Context, *Ban_List) (*Void, error)
+	// ACLGet returns the ACL for the given channel.
+	ACLGet(context.Context, *Channel) (*ACL_List, error)
+	// ACLSet overrides the ACL of the given channel to what is provided.
+	ACLSet(context.Context, *ACL_List) (*Void, error)
+	// ACLGetEffectivePermissions returns the effective permissions for the given
 	// user in the given channel.
-	GetEffectivePermissions(context.Context, *ACL_Query) (*ACL, error)
-	// AddTemporaryGroup adds a user to a temporary group.
-	AddTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
-	// RemoveTemporaryGroup removes a user from a temporary group.
-	RemoveTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
+	ACLGetEffectivePermissions(context.Context, *ACL_Query) (*ACL, error)
+	// ACLAddTemporaryGroup adds a user to a temporary group.
+	ACLAddTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
+	// ACLRemoveTemporaryGroup removes a user from a temporary group.
+	ACLRemoveTemporaryGroup(context.Context, *ACL_TemporaryGroup) (*Void, error)
 	// AuthenticatorStream opens an authentication stream to the server.
 	//
 	// There can only be one RPC client with an open Stream. If a new
 	// authenticator connects, the open connected will be closed.
 	AuthenticatorStream(V1_AuthenticatorStreamServer) error
-	// QueryDatabaseUsers returns a list of registered users who match given
+	// DatabaseUserQuery returns a list of registered users who match given
 	// query.
-	QueryDatabaseUsers(context.Context, *DatabaseUser_Query) (*DatabaseUser_List, error)
-	// GetDatabaseUser returns the database user with the given ID.
-	GetDatabaseUser(context.Context, *DatabaseUser) (*DatabaseUser, error)
-	// UpdateDatabaseUser updates the given database user.
-	UpdateDatabaseUser(context.Context, *DatabaseUser) (*Void, error)
-	// RegisterDatabaseUser registers a user with the given information on the
+	DatabaseUserQuery(context.Context, *DatabaseUser_Query) (*DatabaseUser_List, error)
+	// DatabaseUserGet returns the database user with the given ID.
+	DatabaseUserGet(context.Context, *DatabaseUser) (*DatabaseUser, error)
+	// DatabaseUserUpdate updates the given database user.
+	DatabaseUserUpdate(context.Context, *DatabaseUser) (*Void, error)
+	// DatabaseUserRegister registers a user with the given information on the
 	// server. The returned DatabaseUser will contain the newly registered user's
 	// ID.
-	RegisterDatabaseUser(context.Context, *DatabaseUser) (*DatabaseUser, error)
-	// DeregisterDatabaseUser deregisters the given user.
-	DeregisterDatabaseUser(context.Context, *DatabaseUser) (*Void, error)
-	// VerifyDatabaseUser verifies the that the given user-password pair is
+	DatabaseUserRegister(context.Context, *DatabaseUser) (*DatabaseUser, error)
+	// DatabaseUserDeregister deregisters the given user.
+	DatabaseUserDeregister(context.Context, *DatabaseUser) (*Void, error)
+	// DatabaseUserVerify verifies the that the given user-password pair is
 	// correct.
-	VerifyDatabaseUser(context.Context, *DatabaseUser_Verify) (*DatabaseUser, error)
+	DatabaseUserVerify(context.Context, *DatabaseUser_Verify) (*DatabaseUser, error)
 	// AddRedirectWhisperGroup add a whisper targets redirection for the given
 	// user. Whenever a user whispers to group "source", the whisper will be
 	// redirected to group "target".
-	AddRedirectWhisperGroup(context.Context, *RedirectWhisperGroup) (*Void, error)
+	RedirectWhisperGroupAdd(context.Context, *RedirectWhisperGroup) (*Void, error)
 	// RemoveRedirectWhisperGroup removes a whisper target redirection for
 	// the the given user.
-	RemoveRedirectWhisperGroup(context.Context, *RedirectWhisperGroup) (*Void, error)
+	RedirectWhisperGroupRemove(context.Context, *RedirectWhisperGroup) (*Void, error)
 }
 
 func RegisterV1Server(s *grpc.Server, srv V1Server) {
@@ -3151,72 +3151,72 @@ func (x *v1EventsServer) Send(m *Event) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _V1_CreateServer_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerCreate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Void)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).CreateServer(ctx, in)
+	out, err := srv.(V1Server).ServerCreate(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_QueryServers_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Server_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).QueryServers(ctx, in)
+	out, err := srv.(V1Server).ServerQuery(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetServer_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Server)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetServer(ctx, in)
+	out, err := srv.(V1Server).ServerGet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_StartServer_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerStart_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Server)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).StartServer(ctx, in)
+	out, err := srv.(V1Server).ServerStart(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_StopServer_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerStop_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Server)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).StopServer(ctx, in)
+	out, err := srv.(V1Server).ServerStop(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_RemoveServer_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Server)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RemoveServer(ctx, in)
+	out, err := srv.(V1Server).ServerRemove(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -3244,24 +3244,24 @@ func (x *v1ServerEventsServer) Send(m *Server_Event) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _V1_AddContextAction_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ContextActionAdd_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(ContextAction)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).AddContextAction(ctx, in)
+	out, err := srv.(V1Server).ContextActionAdd(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_RemoveContextAction_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ContextActionRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(ContextAction)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RemoveContextAction(ctx, in)
+	out, err := srv.(V1Server).ContextActionRemove(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -3289,276 +3289,276 @@ func (x *v1ContextActionEventsServer) Send(m *ContextAction) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _V1_SendTextMessage_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_TextMessageSend_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(TextMessage)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).SendTextMessage(ctx, in)
+	out, err := srv.(V1Server).TextMessageSend(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_QueryLogs_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_LogQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Log_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).QueryLogs(ctx, in)
+	out, err := srv.(V1Server).LogQuery(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetConfig_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Server)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetConfig(ctx, in)
+	out, err := srv.(V1Server).ConfigGet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetConfigField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigGetField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Config_Field)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetConfigField(ctx, in)
+	out, err := srv.(V1Server).ConfigGetField(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_SetConfigField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigSetField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Config_Field)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).SetConfigField(ctx, in)
+	out, err := srv.(V1Server).ConfigSetField(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetDefaultConfig_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigGetDefault_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Void)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetDefaultConfig(ctx, in)
+	out, err := srv.(V1Server).ConfigGetDefault(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_QueryChannels_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Channel_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).QueryChannels(ctx, in)
+	out, err := srv.(V1Server).ChannelQuery(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetChannel_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Channel)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetChannel(ctx, in)
+	out, err := srv.(V1Server).ChannelGet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_AddChannel_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelAdd_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Channel)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).AddChannel(ctx, in)
+	out, err := srv.(V1Server).ChannelAdd(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_RemoveChannel_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Channel)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RemoveChannel(ctx, in)
+	out, err := srv.(V1Server).ChannelRemove(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_UpdateChannel_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelUpdate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Channel)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).UpdateChannel(ctx, in)
+	out, err := srv.(V1Server).ChannelUpdate(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_QueryUsers_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(User_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).QueryUsers(ctx, in)
+	out, err := srv.(V1Server).UserQuery(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(User)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetUser(ctx, in)
+	out, err := srv.(V1Server).UserGet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_UpdateUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserUpdate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(User)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).UpdateUser(ctx, in)
+	out, err := srv.(V1Server).UserUpdate(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_KickUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserKick_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(User_Kick)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).KickUser(ctx, in)
+	out, err := srv.(V1Server).UserKick(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_QueryTree_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_TreeQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Tree_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).QueryTree(ctx, in)
+	out, err := srv.(V1Server).TreeQuery(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetBans_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_BansGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Ban_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetBans(ctx, in)
+	out, err := srv.(V1Server).BansGet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_SetBans_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_BansSet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Ban_List)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).SetBans(ctx, in)
+	out, err := srv.(V1Server).BansSet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetACL_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(Channel)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetACL(ctx, in)
+	out, err := srv.(V1Server).ACLGet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_SetACL_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLSet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(ACL_List)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).SetACL(ctx, in)
+	out, err := srv.(V1Server).ACLSet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetEffectivePermissions_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLGetEffectivePermissions_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(ACL_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetEffectivePermissions(ctx, in)
+	out, err := srv.(V1Server).ACLGetEffectivePermissions(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_AddTemporaryGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLAddTemporaryGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(ACL_TemporaryGroup)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).AddTemporaryGroup(ctx, in)
+	out, err := srv.(V1Server).ACLAddTemporaryGroup(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_RemoveTemporaryGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLRemoveTemporaryGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(ACL_TemporaryGroup)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RemoveTemporaryGroup(ctx, in)
+	out, err := srv.(V1Server).ACLRemoveTemporaryGroup(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -3591,96 +3591,96 @@ func (x *v1AuthenticatorStreamServer) Recv() (*Authenticator_Response, error) {
 	return m, nil
 }
 
-func _V1_QueryDatabaseUsers_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(DatabaseUser_Query)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).QueryDatabaseUsers(ctx, in)
+	out, err := srv.(V1Server).DatabaseUserQuery(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_GetDatabaseUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(DatabaseUser)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetDatabaseUser(ctx, in)
+	out, err := srv.(V1Server).DatabaseUserGet(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_UpdateDatabaseUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserUpdate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(DatabaseUser)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).UpdateDatabaseUser(ctx, in)
+	out, err := srv.(V1Server).DatabaseUserUpdate(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_RegisterDatabaseUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserRegister_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(DatabaseUser)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RegisterDatabaseUser(ctx, in)
+	out, err := srv.(V1Server).DatabaseUserRegister(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_DeregisterDatabaseUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserDeregister_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(DatabaseUser)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).DeregisterDatabaseUser(ctx, in)
+	out, err := srv.(V1Server).DatabaseUserDeregister(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_VerifyDatabaseUser_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserVerify_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(DatabaseUser_Verify)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).VerifyDatabaseUser(ctx, in)
+	out, err := srv.(V1Server).DatabaseUserVerify(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_AddRedirectWhisperGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_RedirectWhisperGroupAdd_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(RedirectWhisperGroup)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).AddRedirectWhisperGroup(ctx, in)
+	out, err := srv.(V1Server).RedirectWhisperGroupAdd(ctx, in)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func _V1_RemoveRedirectWhisperGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_RedirectWhisperGroupRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
 	in := new(RedirectWhisperGroup)
 	if err := codec.Unmarshal(buf, in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RemoveRedirectWhisperGroup(ctx, in)
+	out, err := srv.(V1Server).RedirectWhisperGroupRemove(ctx, in)
 	if err != nil {
 		return nil, err
 	}
@@ -3700,160 +3700,160 @@ var _V1_serviceDesc = grpc.ServiceDesc{
 			Handler:    _V1_GetVersion_Handler,
 		},
 		{
-			MethodName: "CreateServer",
-			Handler:    _V1_CreateServer_Handler,
+			MethodName: "ServerCreate",
+			Handler:    _V1_ServerCreate_Handler,
 		},
 		{
-			MethodName: "QueryServers",
-			Handler:    _V1_QueryServers_Handler,
+			MethodName: "ServerQuery",
+			Handler:    _V1_ServerQuery_Handler,
 		},
 		{
-			MethodName: "GetServer",
-			Handler:    _V1_GetServer_Handler,
+			MethodName: "ServerGet",
+			Handler:    _V1_ServerGet_Handler,
 		},
 		{
-			MethodName: "StartServer",
-			Handler:    _V1_StartServer_Handler,
+			MethodName: "ServerStart",
+			Handler:    _V1_ServerStart_Handler,
 		},
 		{
-			MethodName: "StopServer",
-			Handler:    _V1_StopServer_Handler,
+			MethodName: "ServerStop",
+			Handler:    _V1_ServerStop_Handler,
 		},
 		{
-			MethodName: "RemoveServer",
-			Handler:    _V1_RemoveServer_Handler,
+			MethodName: "ServerRemove",
+			Handler:    _V1_ServerRemove_Handler,
 		},
 		{
-			MethodName: "AddContextAction",
-			Handler:    _V1_AddContextAction_Handler,
+			MethodName: "ContextActionAdd",
+			Handler:    _V1_ContextActionAdd_Handler,
 		},
 		{
-			MethodName: "RemoveContextAction",
-			Handler:    _V1_RemoveContextAction_Handler,
+			MethodName: "ContextActionRemove",
+			Handler:    _V1_ContextActionRemove_Handler,
 		},
 		{
-			MethodName: "SendTextMessage",
-			Handler:    _V1_SendTextMessage_Handler,
+			MethodName: "TextMessageSend",
+			Handler:    _V1_TextMessageSend_Handler,
 		},
 		{
-			MethodName: "QueryLogs",
-			Handler:    _V1_QueryLogs_Handler,
+			MethodName: "LogQuery",
+			Handler:    _V1_LogQuery_Handler,
 		},
 		{
-			MethodName: "GetConfig",
-			Handler:    _V1_GetConfig_Handler,
+			MethodName: "ConfigGet",
+			Handler:    _V1_ConfigGet_Handler,
 		},
 		{
-			MethodName: "GetConfigField",
-			Handler:    _V1_GetConfigField_Handler,
+			MethodName: "ConfigGetField",
+			Handler:    _V1_ConfigGetField_Handler,
 		},
 		{
-			MethodName: "SetConfigField",
-			Handler:    _V1_SetConfigField_Handler,
+			MethodName: "ConfigSetField",
+			Handler:    _V1_ConfigSetField_Handler,
 		},
 		{
-			MethodName: "GetDefaultConfig",
-			Handler:    _V1_GetDefaultConfig_Handler,
+			MethodName: "ConfigGetDefault",
+			Handler:    _V1_ConfigGetDefault_Handler,
 		},
 		{
-			MethodName: "QueryChannels",
-			Handler:    _V1_QueryChannels_Handler,
+			MethodName: "ChannelQuery",
+			Handler:    _V1_ChannelQuery_Handler,
 		},
 		{
-			MethodName: "GetChannel",
-			Handler:    _V1_GetChannel_Handler,
+			MethodName: "ChannelGet",
+			Handler:    _V1_ChannelGet_Handler,
 		},
 		{
-			MethodName: "AddChannel",
-			Handler:    _V1_AddChannel_Handler,
+			MethodName: "ChannelAdd",
+			Handler:    _V1_ChannelAdd_Handler,
 		},
 		{
-			MethodName: "RemoveChannel",
-			Handler:    _V1_RemoveChannel_Handler,
+			MethodName: "ChannelRemove",
+			Handler:    _V1_ChannelRemove_Handler,
 		},
 		{
-			MethodName: "UpdateChannel",
-			Handler:    _V1_UpdateChannel_Handler,
+			MethodName: "ChannelUpdate",
+			Handler:    _V1_ChannelUpdate_Handler,
 		},
 		{
-			MethodName: "QueryUsers",
-			Handler:    _V1_QueryUsers_Handler,
+			MethodName: "UserQuery",
+			Handler:    _V1_UserQuery_Handler,
 		},
 		{
-			MethodName: "GetUser",
-			Handler:    _V1_GetUser_Handler,
+			MethodName: "UserGet",
+			Handler:    _V1_UserGet_Handler,
 		},
 		{
-			MethodName: "UpdateUser",
-			Handler:    _V1_UpdateUser_Handler,
+			MethodName: "UserUpdate",
+			Handler:    _V1_UserUpdate_Handler,
 		},
 		{
-			MethodName: "KickUser",
-			Handler:    _V1_KickUser_Handler,
+			MethodName: "UserKick",
+			Handler:    _V1_UserKick_Handler,
 		},
 		{
-			MethodName: "QueryTree",
-			Handler:    _V1_QueryTree_Handler,
+			MethodName: "TreeQuery",
+			Handler:    _V1_TreeQuery_Handler,
 		},
 		{
-			MethodName: "GetBans",
-			Handler:    _V1_GetBans_Handler,
+			MethodName: "BansGet",
+			Handler:    _V1_BansGet_Handler,
 		},
 		{
-			MethodName: "SetBans",
-			Handler:    _V1_SetBans_Handler,
+			MethodName: "BansSet",
+			Handler:    _V1_BansSet_Handler,
 		},
 		{
-			MethodName: "GetACL",
-			Handler:    _V1_GetACL_Handler,
+			MethodName: "ACLGet",
+			Handler:    _V1_ACLGet_Handler,
 		},
 		{
-			MethodName: "SetACL",
-			Handler:    _V1_SetACL_Handler,
+			MethodName: "ACLSet",
+			Handler:    _V1_ACLSet_Handler,
 		},
 		{
-			MethodName: "GetEffectivePermissions",
-			Handler:    _V1_GetEffectivePermissions_Handler,
+			MethodName: "ACLGetEffectivePermissions",
+			Handler:    _V1_ACLGetEffectivePermissions_Handler,
 		},
 		{
-			MethodName: "AddTemporaryGroup",
-			Handler:    _V1_AddTemporaryGroup_Handler,
+			MethodName: "ACLAddTemporaryGroup",
+			Handler:    _V1_ACLAddTemporaryGroup_Handler,
 		},
 		{
-			MethodName: "RemoveTemporaryGroup",
-			Handler:    _V1_RemoveTemporaryGroup_Handler,
+			MethodName: "ACLRemoveTemporaryGroup",
+			Handler:    _V1_ACLRemoveTemporaryGroup_Handler,
 		},
 		{
-			MethodName: "QueryDatabaseUsers",
-			Handler:    _V1_QueryDatabaseUsers_Handler,
+			MethodName: "DatabaseUserQuery",
+			Handler:    _V1_DatabaseUserQuery_Handler,
 		},
 		{
-			MethodName: "GetDatabaseUser",
-			Handler:    _V1_GetDatabaseUser_Handler,
+			MethodName: "DatabaseUserGet",
+			Handler:    _V1_DatabaseUserGet_Handler,
 		},
 		{
-			MethodName: "UpdateDatabaseUser",
-			Handler:    _V1_UpdateDatabaseUser_Handler,
+			MethodName: "DatabaseUserUpdate",
+			Handler:    _V1_DatabaseUserUpdate_Handler,
 		},
 		{
-			MethodName: "RegisterDatabaseUser",
-			Handler:    _V1_RegisterDatabaseUser_Handler,
+			MethodName: "DatabaseUserRegister",
+			Handler:    _V1_DatabaseUserRegister_Handler,
 		},
 		{
-			MethodName: "DeregisterDatabaseUser",
-			Handler:    _V1_DeregisterDatabaseUser_Handler,
+			MethodName: "DatabaseUserDeregister",
+			Handler:    _V1_DatabaseUserDeregister_Handler,
 		},
 		{
-			MethodName: "VerifyDatabaseUser",
-			Handler:    _V1_VerifyDatabaseUser_Handler,
+			MethodName: "DatabaseUserVerify",
+			Handler:    _V1_DatabaseUserVerify_Handler,
 		},
 		{
-			MethodName: "AddRedirectWhisperGroup",
-			Handler:    _V1_AddRedirectWhisperGroup_Handler,
+			MethodName: "RedirectWhisperGroupAdd",
+			Handler:    _V1_RedirectWhisperGroupAdd_Handler,
 		},
 		{
-			MethodName: "RemoveRedirectWhisperGroup",
-			Handler:    _V1_RemoveRedirectWhisperGroup_Handler,
+			MethodName: "RedirectWhisperGroupRemove",
+			Handler:    _V1_RedirectWhisperGroupRemove_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

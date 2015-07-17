@@ -9,13 +9,13 @@ func init() {
 
 	cmd.Add("get", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.GetConfig(ctx, server))
+		Output(client.ConfigGet(ctx, server))
 	})
 
 	cmd.Add("get-field", func(args Args) {
 		server := args.MustServer(0)
 		key := args.MustString(1)
-		Output(client.GetConfigField(ctx, &MurmurRPC.Config_Field{
+		Output(client.ConfigGetField(ctx, &MurmurRPC.Config_Field{
 			Server: server,
 			Key:    &key,
 		}))
@@ -25,7 +25,7 @@ func init() {
 		server := args.MustServer(0)
 		key := args.MustString(1)
 		value := args.MustString(2)
-		Output(client.SetConfigField(ctx, &MurmurRPC.Config_Field{
+		Output(client.ConfigSetField(ctx, &MurmurRPC.Config_Field{
 			Server: server,
 			Key:    &key,
 			Value:  &value,
@@ -33,6 +33,6 @@ func init() {
 	})
 
 	cmd.Add("get-default", func(args Args) {
-		Output(client.GetDefaultConfig(ctx, void))
+		Output(client.ConfigGetDefault(ctx, void))
 	})
 }

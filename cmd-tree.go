@@ -9,7 +9,7 @@ func init() {
 
 	cmd.Add("query", func(args Args) {
 		server := args.MustServer(0)
-		Output(client.QueryTree(ctx, &MurmurRPC.Tree_Query{
+		Output(client.TreeQuery(ctx, &MurmurRPC.Tree_Query{
 			Server: server,
 		}))
 	})

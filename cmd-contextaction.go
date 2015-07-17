@@ -17,7 +17,7 @@ func init() {
 		action := args.MustString(2)
 		text := args.MustString(3)
 		session := args.MustUint32(4)
-		Output(client.AddContextAction(ctx, &MurmurRPC.ContextAction{
+		Output(client.ContextActionAdd(ctx, &MurmurRPC.ContextAction{
 			Server:  server,
 			Context: proto.Uint32(uint32(context)),
 			Action:  &action,
@@ -40,7 +40,7 @@ func init() {
 				Session: &session,
 			}
 		}
-		Output(client.RemoveContextAction(ctx, contextAction))
+		Output(client.ContextActionRemove(ctx, contextAction))
 	})
 
 	cmd.Add("events", func(args Args) {
