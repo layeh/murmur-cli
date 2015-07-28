@@ -240,9 +240,14 @@ func (x *ACL_Permission) UnmarshalJSON(data []byte) error {
 type Authenticator_Response_Status int32
 
 const (
-	Authenticator_Response_Fallthrough      Authenticator_Response_Status = 0
-	Authenticator_Response_Success          Authenticator_Response_Status = 1
-	Authenticator_Response_Failure          Authenticator_Response_Status = 2
+	// The request should fallthrough to murmur's default action.
+	Authenticator_Response_Fallthrough Authenticator_Response_Status = 0
+	// The request was successful.
+	Authenticator_Response_Success Authenticator_Response_Status = 1
+	// The request failed; there was some error.
+	Authenticator_Response_Failure Authenticator_Response_Status = 2
+	// A temporary failure prevented the request from succeeding (e.g. a
+	// database was unavailable).
 	Authenticator_Response_TemporaryFailure Authenticator_Response_Status = 3
 )
 
@@ -1815,7 +1820,9 @@ func (m *Authenticator_Request_Authenticate) GetStrongCertificate() bool {
 // A request for information about a user, given by either the user's ID
 // or name.
 type Authenticator_Request_Find struct {
-	Id               *uint32 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
+	// The user's ID used for lookup.
+	Id *uint32 `protobuf:"varint,1,opt,name=id" json:"id,omitempty"`
+	// The user's name used for lookup.
 	Name             *string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1841,6 +1848,7 @@ func (m *Authenticator_Request_Find) GetName() string {
 // A query of all the registered users, optionally filtered by the given
 // filter string.
 type Authenticator_Request_Query struct {
+	// A user name filter (% is often used as a wildcard)
 	Filter           *string `protobuf:"bytes,1,opt,name=filter" json:"filter,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
@@ -1858,6 +1866,7 @@ func (m *Authenticator_Request_Query) GetFilter() string {
 
 // A request for a new user registration.
 type Authenticator_Request_Register struct {
+	// The database user to register.
 	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
 }
@@ -1875,6 +1884,7 @@ func (m *Authenticator_Request_Register) GetUser() *DatabaseUser {
 
 // A request for deregistering a registered user.
 type Authenticator_Request_Deregister struct {
+	// The database user to deregister.
 	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
 }
@@ -1893,6 +1903,7 @@ func (m *Authenticator_Request_Deregister) GetUser() *DatabaseUser {
 // A request to update a registered user's information. The information
 // provided should be merged with existing data.
 type Authenticator_Request_Update struct {
+	// The database user to update.
 	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
 }
@@ -1991,11 +2002,15 @@ func (m *Authenticator_Response_Initialize) GetServer() *Server {
 }
 
 type Authenticator_Response_Authenticate struct {
-	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
-	Id               *uint32                        `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
-	Name             *string                        `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
-	Groups           []*ACL_Group                   `protobuf:"bytes,4,rep,name=groups" json:"groups,omitempty"`
-	XXX_unrecognized []byte                         `json:"-"`
+	// The status of the request.
+	Status *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
+	// The user's registered ID.
+	Id *uint32 `protobuf:"varint,2,opt,name=id" json:"id,omitempty"`
+	// The corrected user's name;
+	Name *string `protobuf:"bytes,3,opt,name=name" json:"name,omitempty"`
+	// Additional ACL groups that the user belongs too.
+	Groups           []*ACL_Group `protobuf:"bytes,4,rep,name=groups" json:"groups,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
 }
 
 func (m *Authenticator_Response_Authenticate) Reset()         { *m = Authenticator_Response_Authenticate{} }
@@ -2031,6 +2046,7 @@ func (m *Authenticator_Response_Authenticate) GetGroups() []*ACL_Group {
 }
 
 type Authenticator_Response_Find struct {
+	// The database user (if found).
 	User             *DatabaseUser `protobuf:"bytes,1,opt,name=user" json:"user,omitempty"`
 	XXX_unrecognized []byte        `json:"-"`
 }
@@ -2047,6 +2063,7 @@ func (m *Authenticator_Response_Find) GetUser() *DatabaseUser {
 }
 
 type Authenticator_Response_Query struct {
+	// The matched database users.
 	Users            []*DatabaseUser `protobuf:"bytes,1,rep,name=users" json:"users,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
@@ -2063,9 +2080,11 @@ func (m *Authenticator_Response_Query) GetUsers() []*DatabaseUser {
 }
 
 type Authenticator_Response_Register struct {
-	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
-	User             *DatabaseUser                  `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
-	XXX_unrecognized []byte                         `json:"-"`
+	// The status of the request.
+	Status *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
+	// The registered database user (must contain the registered user's ID).
+	User             *DatabaseUser `protobuf:"bytes,2,opt,name=user" json:"user,omitempty"`
+	XXX_unrecognized []byte        `json:"-"`
 }
 
 func (m *Authenticator_Response_Register) Reset()         { *m = Authenticator_Response_Register{} }
@@ -2087,6 +2106,7 @@ func (m *Authenticator_Response_Register) GetUser() *DatabaseUser {
 }
 
 type Authenticator_Response_Deregister struct {
+	// The status of the request.
 	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
 	XXX_unrecognized []byte                         `json:"-"`
 }
@@ -2103,6 +2123,7 @@ func (m *Authenticator_Response_Deregister) GetStatus() Authenticator_Response_S
 }
 
 type Authenticator_Response_Update struct {
+	// The status of the request.
 	Status           *Authenticator_Response_Status `protobuf:"varint,1,opt,name=status,enum=MurmurRPC.Authenticator_Response_Status" json:"status,omitempty"`
 	XXX_unrecognized []byte                         `json:"-"`
 }
