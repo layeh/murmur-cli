@@ -30,7 +30,10 @@ Flags:
   --timeout="10s"               duration to wait for connection.
   --template=""                 Go text/template template to use when outputing
                                 data. By default, JSON objects are printed.
+  --help                        Print command list.
+`
 
+const usageCommands = `
 Commands:
   acl get <server id> <channel id>
   acl get-effective-permissions <server id> <session> <channel id>
@@ -89,10 +92,6 @@ var outputTemplate *template.Template
 
 func main() {
 	// Flags
-	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, usage)
-	}
-
 	defaultAddress := "127.0.0.1:50051"
 	if envAddress := os.Getenv("MURMUR_ADDRESS"); envAddress != "" {
 		defaultAddress = envAddress
@@ -101,6 +100,17 @@ func main() {
 	address := flag.String("address", defaultAddress, "")
 	timeout := flag.Duration("timeout", time.Second*10, "")
 	templateText := flag.String("template", "", "")
+
+	help := flag.Bool("help", false, "")
+	helpShort := flag.Bool("h", false, "")
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, usage)
+		if *help || *helpShort {
+			fmt.Fprintf(os.Stderr, usageCommands)
+		}
+	}
+
 	flag.Parse()
 
 	if *templateText != "" {
