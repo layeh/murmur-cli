@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -12,6 +13,7 @@ import (
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 var (
@@ -30,6 +32,7 @@ Flags:
   --timeout="10s"               duration to wait for connection.
   --template=""                 Go text/template template to use when outputing
                                 data. By default, JSON objects are printed.
+  --insecure=false              Disable TLS encryption.
   --help                        Print command list.
 `
 
@@ -100,6 +103,7 @@ func main() {
 	address := flag.String("address", defaultAddress, "")
 	timeout := flag.Duration("timeout", time.Second*10, "")
 	templateText := flag.String("template", "", "")
+	insecure := flag.Bool("insecure", false, "")
 
 	help := flag.Bool("help", false, "")
 	helpShort := flag.Bool("h", false, "")
@@ -123,7 +127,15 @@ func main() {
 	}
 
 	// grpc connection
-	conn, err := grpc.Dial(*address, grpc.WithTimeout(*timeout))
+	opts := []grpc.DialOption{
+		grpc.WithBlock(),
+		grpc.WithTimeout(*timeout),
+	}
+	if !*insecure {
+		var tlsConfig tls.Config
+		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tlsConfig)))
+	}
+	conn, err := grpc.Dial(*address, opts...)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
