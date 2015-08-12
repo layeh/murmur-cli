@@ -162,6 +162,45 @@ func (x *ContextAction_Context) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
+type TextMessage_Filter_Action int32
+
+const (
+	// Accept the message.
+	TextMessage_Filter_Accept TextMessage_Filter_Action = 0
+	// Reject the message with a permission error.
+	TextMessage_Filter_Reject TextMessage_Filter_Action = 1
+	// Silently drop the message.
+	TextMessage_Filter_Drop TextMessage_Filter_Action = 2
+)
+
+var TextMessage_Filter_Action_name = map[int32]string{
+	0: "Accept",
+	1: "Reject",
+	2: "Drop",
+}
+var TextMessage_Filter_Action_value = map[string]int32{
+	"Accept": 0,
+	"Reject": 1,
+	"Drop":   2,
+}
+
+func (x TextMessage_Filter_Action) Enum() *TextMessage_Filter_Action {
+	p := new(TextMessage_Filter_Action)
+	*p = x
+	return p
+}
+func (x TextMessage_Filter_Action) String() string {
+	return proto.EnumName(TextMessage_Filter_Action_name, int32(x))
+}
+func (x *TextMessage_Filter_Action) UnmarshalJSON(data []byte) error {
+	value, err := proto.UnmarshalJSONEnum(TextMessage_Filter_Action_value, data, "TextMessage_Filter_Action")
+	if err != nil {
+		return err
+	}
+	*x = TextMessage_Filter_Action(value)
+	return nil
+}
+
 type ACL_Permission int32
 
 const (
@@ -621,6 +660,41 @@ func (m *TextMessage) GetText() string {
 		return *m.Text
 	}
 	return ""
+}
+
+type TextMessage_Filter struct {
+	// The server on which the message originated.
+	Server *Server `protobuf:"bytes,1,opt,name=server" json:"server,omitempty"`
+	// The action to perform for the message.
+	Action *TextMessage_Filter_Action `protobuf:"varint,2,opt,name=action,enum=MurmurRPC.TextMessage_Filter_Action" json:"action,omitempty"`
+	// The text message.
+	Message          *TextMessage `protobuf:"bytes,3,opt,name=message" json:"message,omitempty"`
+	XXX_unrecognized []byte       `json:"-"`
+}
+
+func (m *TextMessage_Filter) Reset()         { *m = TextMessage_Filter{} }
+func (m *TextMessage_Filter) String() string { return proto.CompactTextString(m) }
+func (*TextMessage_Filter) ProtoMessage()    {}
+
+func (m *TextMessage_Filter) GetServer() *Server {
+	if m != nil {
+		return m.Server
+	}
+	return nil
+}
+
+func (m *TextMessage_Filter) GetAction() TextMessage_Filter_Action {
+	if m != nil && m.Action != nil {
+		return *m.Action
+	}
+	return TextMessage_Filter_Accept
+}
+
+func (m *TextMessage_Filter) GetMessage() *TextMessage {
+	if m != nil {
+		return m.Message
+	}
+	return nil
 }
 
 type Log struct {
@@ -2363,6 +2437,7 @@ func init() {
 	proto.RegisterEnum("MurmurRPC.Server_Event_Type", Server_Event_Type_name, Server_Event_Type_value)
 	proto.RegisterEnum("MurmurRPC.Event_Type", Event_Type_name, Event_Type_value)
 	proto.RegisterEnum("MurmurRPC.ContextAction_Context", ContextAction_Context_name, ContextAction_Context_value)
+	proto.RegisterEnum("MurmurRPC.TextMessage_Filter_Action", TextMessage_Filter_Action_name, TextMessage_Filter_Action_value)
 	proto.RegisterEnum("MurmurRPC.ACL_Permission", ACL_Permission_name, ACL_Permission_value)
 	proto.RegisterEnum("MurmurRPC.Authenticator_Response_Status", Authenticator_Response_Status_name, Authenticator_Response_Status_value)
 }
@@ -2394,6 +2469,11 @@ type V1Client interface {
 	// ContextActionAdd adds a context action to the given user's client. The
 	// following ContextAction fields must be set:
 	//   context, action, text, and user.
+	//
+	// Added context actions are valid until:
+	//  - The context action is removed with ContextActionRemove, or
+	//  - The user disconnects from the server, or
+	//  - The server stops.
 	ContextActionAdd(ctx context.Context, in *ContextAction, opts ...grpc.CallOption) (*Void, error)
 	// ContextActionRemove removes a context action from the given user's client.
 	// The following ContextAction must be set:
@@ -2409,6 +2489,8 @@ type V1Client interface {
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	TextMessageSend(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error)
+	// TextMessageFilter filters text messages on a given server.
+	TextMessageFilter(ctx context.Context, opts ...grpc.CallOption) (V1_TextMessageFilterClient, error)
 	// LogQuery returns a list of log entries from the given server.
 	//
 	// To get the total number of log entries, omit min and/or max from the
@@ -2696,6 +2778,37 @@ func (c *v1Client) TextMessageSend(ctx context.Context, in *TextMessage, opts ..
 	return out, nil
 }
 
+func (c *v1Client) TextMessageFilter(ctx context.Context, opts ...grpc.CallOption) (V1_TextMessageFilterClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_V1_serviceDesc.Streams[3], c.cc, "/MurmurRPC.V1/TextMessageFilter", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &v1TextMessageFilterClient{stream}
+	return x, nil
+}
+
+type V1_TextMessageFilterClient interface {
+	Send(*TextMessage_Filter) error
+	Recv() (*TextMessage_Filter, error)
+	grpc.ClientStream
+}
+
+type v1TextMessageFilterClient struct {
+	grpc.ClientStream
+}
+
+func (x *v1TextMessageFilterClient) Send(m *TextMessage_Filter) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *v1TextMessageFilterClient) Recv() (*TextMessage_Filter, error) {
+	m := new(TextMessage_Filter)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 func (c *v1Client) LogQuery(ctx context.Context, in *Log_Query, opts ...grpc.CallOption) (*Log_List, error) {
 	out := new(Log_List)
 	err := grpc.Invoke(ctx, "/MurmurRPC.V1/LogQuery", in, out, c.cc, opts...)
@@ -2895,7 +3008,7 @@ func (c *v1Client) ACLRemoveTemporaryGroup(ctx context.Context, in *ACL_Temporar
 }
 
 func (c *v1Client) AuthenticatorStream(ctx context.Context, opts ...grpc.CallOption) (V1_AuthenticatorStreamClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_V1_serviceDesc.Streams[3], c.cc, "/MurmurRPC.V1/AuthenticatorStream", opts...)
+	stream, err := grpc.NewClientStream(ctx, &_V1_serviceDesc.Streams[4], c.cc, "/MurmurRPC.V1/AuthenticatorStream", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -3024,6 +3137,11 @@ type V1Server interface {
 	// ContextActionAdd adds a context action to the given user's client. The
 	// following ContextAction fields must be set:
 	//   context, action, text, and user.
+	//
+	// Added context actions are valid until:
+	//  - The context action is removed with ContextActionRemove, or
+	//  - The user disconnects from the server, or
+	//  - The server stops.
 	ContextActionAdd(context.Context, *ContextAction) (*Void, error)
 	// ContextActionRemove removes a context action from the given user's client.
 	// The following ContextAction must be set:
@@ -3039,6 +3157,8 @@ type V1Server interface {
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	TextMessageSend(context.Context, *TextMessage) (*Void, error)
+	// TextMessageFilter filters text messages on a given server.
+	TextMessageFilter(V1_TextMessageFilterServer) error
 	// LogQuery returns a list of log entries from the given server.
 	//
 	// To get the total number of log entries, omit min and/or max from the
@@ -3320,6 +3440,32 @@ func _V1_TextMessageSend_Handler(srv interface{}, ctx context.Context, codec grp
 		return nil, err
 	}
 	return out, nil
+}
+
+func _V1_TextMessageFilter_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(V1Server).TextMessageFilter(&v1TextMessageFilterServer{stream})
+}
+
+type V1_TextMessageFilterServer interface {
+	Send(*TextMessage_Filter) error
+	Recv() (*TextMessage_Filter, error)
+	grpc.ServerStream
+}
+
+type v1TextMessageFilterServer struct {
+	grpc.ServerStream
+}
+
+func (x *v1TextMessageFilterServer) Send(m *TextMessage_Filter) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *v1TextMessageFilterServer) Recv() (*TextMessage_Filter, error) {
+	m := new(TextMessage_Filter)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func _V1_LogQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
@@ -3892,6 +4038,12 @@ var _V1_serviceDesc = grpc.ServiceDesc{
 			StreamName:    "ContextActionEvents",
 			Handler:       _V1_ContextActionEvents_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "TextMessageFilter",
+			Handler:       _V1_TextMessageFilter_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
 		},
 		{
 			StreamName:    "AuthenticatorStream",

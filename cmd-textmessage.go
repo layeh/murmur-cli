@@ -1,6 +1,11 @@
 package main
 
 import (
+	"encoding/json"
+	"io"
+	"os"
+	"os/exec"
+
 	"github.com/layeh/murmur-cli/MurmurRPC"
 )
 
@@ -46,5 +51,48 @@ func init() {
 		}
 
 		Output(client.TextMessageSend(ctx, tm))
+	})
+
+	cmd.Add("filter", func(args Args) {
+		server := args.MustServer(0)
+		program := args.MustString(1)
+		arguments := args[2:]
+
+		stream, err := client.TextMessageFilter(ctx)
+		if err != nil {
+			panic(err)
+		}
+		msg := MurmurRPC.TextMessage_Filter{
+			Server: server,
+		}
+		if err := stream.Send(&msg); err != nil {
+			panic(err)
+		}
+
+		for {
+			req, err := stream.Recv()
+			if err != nil {
+				if err != io.EOF {
+					panic(err)
+				}
+				return
+			}
+			var resp MurmurRPC.TextMessage_Filter
+			cmd := exec.Command(program, arguments...)
+			cmd.Stdout = os.Stdout
+			cmd.Stderr = os.Stderr
+			pipe, err := cmd.StdinPipe()
+			if err == nil {
+				encoder := json.NewEncoder(pipe)
+				go encoder.Encode(req.Message)
+				cmd.Run()
+				if cmd.ProcessState != nil {
+					if !cmd.ProcessState.Success() {
+						resp.Action = MurmurRPC.TextMessage_Filter_Reject.Enum()
+					}
+				}
+			}
+			stream.Send(&resp)
+		}
 	})
 }

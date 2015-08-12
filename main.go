@@ -83,6 +83,7 @@ Commands:
       user:<session>
       channel:<id>
       tree:<id>
+  textmessage filter <server id> <program> [args...]
 
   tree query <server id>
 
