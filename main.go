@@ -118,6 +118,14 @@ func main() {
 
 	flag.Parse()
 
+	if *help || *helpShort {
+		fmt.Fprintf(os.Stderr, usage)
+		if *help || *helpShort {
+			fmt.Fprintf(os.Stderr, usageCommands)
+		}
+		os.Exit(0)
+	}
+
 	if *templateText != "" {
 		var err error
 		outputTemplate, err = template.New("output").Parse(*templateText)
