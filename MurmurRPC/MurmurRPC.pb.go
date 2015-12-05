@@ -30,6 +30,7 @@ It has these top-level messages:
 package MurmurRPC
 
 import proto "github.com/golang/protobuf/proto"
+import fmt "fmt"
 import math "math"
 
 import (
@@ -38,11 +39,8 @@ import (
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
-
-// Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
+var _ = fmt.Errorf
 var _ = math.Inf
 
 type Server_Event_Type int32
@@ -2442,6 +2440,10 @@ func init() {
 	proto.RegisterEnum("MurmurRPC.Authenticator_Response_Status", Authenticator_Response_Status_name, Authenticator_Response_Status_value)
 }
 
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
 // Client API for V1 service
 
 type V1Client interface {
@@ -2489,7 +2491,15 @@ type V1Client interface {
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	TextMessageSend(ctx context.Context, in *TextMessage, opts ...grpc.CallOption) (*Void, error)
-	// TextMessageFilter filters text messages on a given server.
+	// TextMessageFilter filters text messages for a given server.
+	//
+	// When a filter stream is active, text messages sent from users to the
+	// server are sent over the stream. The RPC client then sends a message back
+	// on the same stream, containing an action: whether the message should be
+	// accepted, rejected, or dropped.
+	//
+	// To activate the filter stream, an initial TextMessage.Filter message must
+	// be sent that contains the server on which the filter will be active.
 	TextMessageFilter(ctx context.Context, opts ...grpc.CallOption) (V1_TextMessageFilterClient, error)
 	// LogQuery returns a list of log entries from the given server.
 	//
@@ -3157,7 +3167,15 @@ type V1Server interface {
 	// will be broadcast the entire server. Otherwise, the message will be
 	// targeted to the specified users, channels, and trees.
 	TextMessageSend(context.Context, *TextMessage) (*Void, error)
-	// TextMessageFilter filters text messages on a given server.
+	// TextMessageFilter filters text messages for a given server.
+	//
+	// When a filter stream is active, text messages sent from users to the
+	// server are sent over the stream. The RPC client then sends a message back
+	// on the same stream, containing an action: whether the message should be
+	// accepted, rejected, or dropped.
+	//
+	// To activate the filter stream, an initial TextMessage.Filter message must
+	// be sent that contains the server on which the filter will be active.
 	TextMessageFilter(V1_TextMessageFilterServer) error
 	// LogQuery returns a list of log entries from the given server.
 	//
