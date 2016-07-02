@@ -43,6 +43,12 @@ var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
 
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the proto package it is being compiled against.
+// A compilation error at this line likely means your copy of the
+// proto package needs to be updated.
+const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+
 type Server_Event_Type int32
 
 const (
@@ -90,6 +96,7 @@ func (x *Server_Event_Type) UnmarshalJSON(data []byte) error {
 	*x = Server_Event_Type(value)
 	return nil
 }
+func (Server_Event_Type) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{3, 0, 0} }
 
 type Event_Type int32
 
@@ -123,6 +130,7 @@ func (x *Event_Type) UnmarshalJSON(data []byte) error {
 	*x = Event_Type(value)
 	return nil
 }
+func (Event_Type) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{4, 0} }
 
 type ContextAction_Context int32
 
@@ -159,6 +167,7 @@ func (x *ContextAction_Context) UnmarshalJSON(data []byte) error {
 	*x = ContextAction_Context(value)
 	return nil
 }
+func (ContextAction_Context) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{5, 0} }
 
 type TextMessage_Filter_Action int32
 
@@ -197,6 +206,9 @@ func (x *TextMessage_Filter_Action) UnmarshalJSON(data []byte) error {
 	}
 	*x = TextMessage_Filter_Action(value)
 	return nil
+}
+func (TextMessage_Filter_Action) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{6, 0, 0}
 }
 
 type ACL_Permission int32
@@ -273,6 +285,7 @@ func (x *ACL_Permission) UnmarshalJSON(data []byte) error {
 	*x = ACL_Permission(value)
 	return nil
 }
+func (ACL_Permission) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int{13, 0} }
 
 type Authenticator_Response_Status int32
 
@@ -317,14 +330,18 @@ func (x *Authenticator_Response_Status) UnmarshalJSON(data []byte) error {
 	*x = Authenticator_Response_Status(value)
 	return nil
 }
+func (Authenticator_Response_Status) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 0}
+}
 
 type Void struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *Void) Reset()         { *m = Void{} }
-func (m *Void) String() string { return proto.CompactTextString(m) }
-func (*Void) ProtoMessage()    {}
+func (m *Void) Reset()                    { *m = Void{} }
+func (m *Void) String() string            { return proto.CompactTextString(m) }
+func (*Void) ProtoMessage()               {}
+func (*Void) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
 type Version struct {
 	// 2-byte Major, 1-byte Minor and 1-byte Patch version number.
@@ -334,13 +351,14 @@ type Version struct {
 	// Client OS name.
 	Os *string `protobuf:"bytes,3,opt,name=os" json:"os,omitempty"`
 	// Client OS version.
-	OsVersion        *string `protobuf:"bytes,4,opt,name=os_version" json:"os_version,omitempty"`
+	OsVersion        *string `protobuf:"bytes,4,opt,name=os_version,json=osVersion" json:"os_version,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Version) Reset()         { *m = Version{} }
-func (m *Version) String() string { return proto.CompactTextString(m) }
-func (*Version) ProtoMessage()    {}
+func (m *Version) Reset()                    { *m = Version{} }
+func (m *Version) String() string            { return proto.CompactTextString(m) }
+func (*Version) ProtoMessage()               {}
+func (*Version) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
 
 func (m *Version) GetVersion() uint32 {
 	if m != nil && m.Version != nil {
@@ -376,9 +394,10 @@ type Uptime struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Uptime) Reset()         { *m = Uptime{} }
-func (m *Uptime) String() string { return proto.CompactTextString(m) }
-func (*Uptime) ProtoMessage()    {}
+func (m *Uptime) Reset()                    { *m = Uptime{} }
+func (m *Uptime) String() string            { return proto.CompactTextString(m) }
+func (*Uptime) ProtoMessage()               {}
+func (*Uptime) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
 
 func (m *Uptime) GetSecs() uint64 {
 	if m != nil && m.Secs != nil {
@@ -397,9 +416,10 @@ type Server struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Server) Reset()         { *m = Server{} }
-func (m *Server) String() string { return proto.CompactTextString(m) }
-func (*Server) ProtoMessage()    {}
+func (m *Server) Reset()                    { *m = Server{} }
+func (m *Server) String() string            { return proto.CompactTextString(m) }
+func (*Server) ProtoMessage()               {}
+func (*Server) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
 
 func (m *Server) GetId() uint32 {
 	if m != nil && m.Id != nil {
@@ -436,9 +456,10 @@ type Server_Event struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *Server_Event) Reset()         { *m = Server_Event{} }
-func (m *Server_Event) String() string { return proto.CompactTextString(m) }
-func (*Server_Event) ProtoMessage()    {}
+func (m *Server_Event) Reset()                    { *m = Server_Event{} }
+func (m *Server_Event) String() string            { return proto.CompactTextString(m) }
+func (*Server_Event) ProtoMessage()               {}
+func (*Server_Event) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3, 0} }
 
 func (m *Server_Event) GetServer() *Server {
 	if m != nil {
@@ -479,9 +500,10 @@ type Server_Query struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *Server_Query) Reset()         { *m = Server_Query{} }
-func (m *Server_Query) String() string { return proto.CompactTextString(m) }
-func (*Server_Query) ProtoMessage()    {}
+func (m *Server_Query) Reset()                    { *m = Server_Query{} }
+func (m *Server_Query) String() string            { return proto.CompactTextString(m) }
+func (*Server_Query) ProtoMessage()               {}
+func (*Server_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3, 1} }
 
 type Server_List struct {
 	// The servers.
@@ -489,9 +511,10 @@ type Server_List struct {
 	XXX_unrecognized []byte    `json:"-"`
 }
 
-func (m *Server_List) Reset()         { *m = Server_List{} }
-func (m *Server_List) String() string { return proto.CompactTextString(m) }
-func (*Server_List) ProtoMessage()    {}
+func (m *Server_List) Reset()                    { *m = Server_List{} }
+func (m *Server_List) String() string            { return proto.CompactTextString(m) }
+func (*Server_List) ProtoMessage()               {}
+func (*Server_List) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3, 2} }
 
 func (m *Server_List) GetServers() []*Server {
 	if m != nil {
@@ -508,9 +531,10 @@ type Event struct {
 	XXX_unrecognized []byte      `json:"-"`
 }
 
-func (m *Event) Reset()         { *m = Event{} }
-func (m *Event) String() string { return proto.CompactTextString(m) }
-func (*Event) ProtoMessage()    {}
+func (m *Event) Reset()                    { *m = Event{} }
+func (m *Event) String() string            { return proto.CompactTextString(m) }
+func (*Event) ProtoMessage()               {}
+func (*Event) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
 
 func (m *Event) GetServer() *Server {
 	if m != nil {
@@ -544,9 +568,10 @@ type ContextAction struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *ContextAction) Reset()         { *m = ContextAction{} }
-func (m *ContextAction) String() string { return proto.CompactTextString(m) }
-func (*ContextAction) ProtoMessage()    {}
+func (m *ContextAction) Reset()                    { *m = ContextAction{} }
+func (m *ContextAction) String() string            { return proto.CompactTextString(m) }
+func (*ContextAction) ProtoMessage()               {}
+func (*ContextAction) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
 
 func (m *ContextAction) GetServer() *Server {
 	if m != nil {
@@ -614,9 +639,10 @@ type TextMessage struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *TextMessage) Reset()         { *m = TextMessage{} }
-func (m *TextMessage) String() string { return proto.CompactTextString(m) }
-func (*TextMessage) ProtoMessage()    {}
+func (m *TextMessage) Reset()                    { *m = TextMessage{} }
+func (m *TextMessage) String() string            { return proto.CompactTextString(m) }
+func (*TextMessage) ProtoMessage()               {}
+func (*TextMessage) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
 func (m *TextMessage) GetServer() *Server {
 	if m != nil {
@@ -670,9 +696,10 @@ type TextMessage_Filter struct {
 	XXX_unrecognized []byte       `json:"-"`
 }
 
-func (m *TextMessage_Filter) Reset()         { *m = TextMessage_Filter{} }
-func (m *TextMessage_Filter) String() string { return proto.CompactTextString(m) }
-func (*TextMessage_Filter) ProtoMessage()    {}
+func (m *TextMessage_Filter) Reset()                    { *m = TextMessage_Filter{} }
+func (m *TextMessage_Filter) String() string            { return proto.CompactTextString(m) }
+func (*TextMessage_Filter) ProtoMessage()               {}
+func (*TextMessage_Filter) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6, 0} }
 
 func (m *TextMessage_Filter) GetServer() *Server {
 	if m != nil {
@@ -705,9 +732,10 @@ type Log struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Log) Reset()         { *m = Log{} }
-func (m *Log) String() string { return proto.CompactTextString(m) }
-func (*Log) ProtoMessage()    {}
+func (m *Log) Reset()                    { *m = Log{} }
+func (m *Log) String() string            { return proto.CompactTextString(m) }
+func (*Log) ProtoMessage()               {}
+func (*Log) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
 func (m *Log) GetServer() *Server {
 	if m != nil {
@@ -740,9 +768,10 @@ type Log_Query struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Log_Query) Reset()         { *m = Log_Query{} }
-func (m *Log_Query) String() string { return proto.CompactTextString(m) }
-func (*Log_Query) ProtoMessage()    {}
+func (m *Log_Query) Reset()                    { *m = Log_Query{} }
+func (m *Log_Query) String() string            { return proto.CompactTextString(m) }
+func (*Log_Query) ProtoMessage()               {}
+func (*Log_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7, 0} }
 
 func (m *Log_Query) GetServer() *Server {
 	if m != nil {
@@ -779,9 +808,10 @@ type Log_List struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *Log_List) Reset()         { *m = Log_List{} }
-func (m *Log_List) String() string { return proto.CompactTextString(m) }
-func (*Log_List) ProtoMessage()    {}
+func (m *Log_List) Reset()                    { *m = Log_List{} }
+func (m *Log_List) String() string            { return proto.CompactTextString(m) }
+func (*Log_List) ProtoMessage()               {}
+func (*Log_List) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7, 1} }
 
 func (m *Log_List) GetServer() *Server {
 	if m != nil {
@@ -826,9 +856,10 @@ type Config struct {
 	XXX_unrecognized []byte            `json:"-"`
 }
 
-func (m *Config) Reset()         { *m = Config{} }
-func (m *Config) String() string { return proto.CompactTextString(m) }
-func (*Config) ProtoMessage()    {}
+func (m *Config) Reset()                    { *m = Config{} }
+func (m *Config) String() string            { return proto.CompactTextString(m) }
+func (*Config) ProtoMessage()               {}
+func (*Config) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
 func (m *Config) GetServer() *Server {
 	if m != nil {
@@ -854,9 +885,10 @@ type Config_Field struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Config_Field) Reset()         { *m = Config_Field{} }
-func (m *Config_Field) String() string { return proto.CompactTextString(m) }
-func (*Config_Field) ProtoMessage()    {}
+func (m *Config_Field) Reset()                    { *m = Config_Field{} }
+func (m *Config_Field) String() string            { return proto.CompactTextString(m) }
+func (*Config_Field) ProtoMessage()               {}
+func (*Config_Field) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8, 1} }
 
 func (m *Config_Field) GetServer() *Server {
 	if m != nil {
@@ -899,9 +931,10 @@ type Channel struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *Channel) Reset()         { *m = Channel{} }
-func (m *Channel) String() string { return proto.CompactTextString(m) }
-func (*Channel) ProtoMessage()    {}
+func (m *Channel) Reset()                    { *m = Channel{} }
+func (m *Channel) String() string            { return proto.CompactTextString(m) }
+func (*Channel) ProtoMessage()               {}
+func (*Channel) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
 
 func (m *Channel) GetServer() *Server {
 	if m != nil {
@@ -965,9 +998,10 @@ type Channel_Query struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Channel_Query) Reset()         { *m = Channel_Query{} }
-func (m *Channel_Query) String() string { return proto.CompactTextString(m) }
-func (*Channel_Query) ProtoMessage()    {}
+func (m *Channel_Query) Reset()                    { *m = Channel_Query{} }
+func (m *Channel_Query) String() string            { return proto.CompactTextString(m) }
+func (*Channel_Query) ProtoMessage()               {}
+func (*Channel_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9, 0} }
 
 func (m *Channel_Query) GetServer() *Server {
 	if m != nil {
@@ -984,9 +1018,10 @@ type Channel_List struct {
 	XXX_unrecognized []byte     `json:"-"`
 }
 
-func (m *Channel_List) Reset()         { *m = Channel_List{} }
-func (m *Channel_List) String() string { return proto.CompactTextString(m) }
-func (*Channel_List) ProtoMessage()    {}
+func (m *Channel_List) Reset()                    { *m = Channel_List{} }
+func (m *Channel_List) String() string            { return proto.CompactTextString(m) }
+func (*Channel_List) ProtoMessage()               {}
+func (*Channel_List) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9, 1} }
 
 func (m *Channel_List) GetServer() *Server {
 	if m != nil {
@@ -1018,27 +1053,27 @@ type User struct {
 	// Is the user suppressed?
 	Suppress *bool `protobuf:"varint,7,opt,name=suppress" json:"suppress,omitempty"`
 	// Is the user a priority speaker?
-	PrioritySpeaker *bool `protobuf:"varint,8,opt,name=priority_speaker" json:"priority_speaker,omitempty"`
+	PrioritySpeaker *bool `protobuf:"varint,8,opt,name=priority_speaker,json=prioritySpeaker" json:"priority_speaker,omitempty"`
 	// Has the user muted him/herself?
-	SelfMute *bool `protobuf:"varint,9,opt,name=self_mute" json:"self_mute,omitempty"`
+	SelfMute *bool `protobuf:"varint,9,opt,name=self_mute,json=selfMute" json:"self_mute,omitempty"`
 	// Has the user muted him/herself?
-	SelfDeaf *bool `protobuf:"varint,10,opt,name=self_deaf" json:"self_deaf,omitempty"`
+	SelfDeaf *bool `protobuf:"varint,10,opt,name=self_deaf,json=selfDeaf" json:"self_deaf,omitempty"`
 	// Is the user recording?
 	Recording *bool `protobuf:"varint,11,opt,name=recording" json:"recording,omitempty"`
 	// The channel the user is in.
 	Channel *Channel `protobuf:"bytes,12,opt,name=channel" json:"channel,omitempty"`
 	// How long the user has been connected to the server.
-	OnlineSecs *uint32 `protobuf:"varint,13,opt,name=online_secs" json:"online_secs,omitempty"`
+	OnlineSecs *uint32 `protobuf:"varint,13,opt,name=online_secs,json=onlineSecs" json:"online_secs,omitempty"`
 	// How long the user has been idle on the server.
-	IdleSecs *uint32 `protobuf:"varint,14,opt,name=idle_secs" json:"idle_secs,omitempty"`
+	IdleSecs *uint32 `protobuf:"varint,14,opt,name=idle_secs,json=idleSecs" json:"idle_secs,omitempty"`
 	// How many bytes per second is the user transmitting to the server.
-	BytesPerSec *uint32 `protobuf:"varint,15,opt,name=bytes_per_sec" json:"bytes_per_sec,omitempty"`
+	BytesPerSec *uint32 `protobuf:"varint,15,opt,name=bytes_per_sec,json=bytesPerSec" json:"bytes_per_sec,omitempty"`
 	// The user's client version.
 	Version *Version `protobuf:"bytes,16,opt,name=version" json:"version,omitempty"`
 	// The user's  plugin context.
-	PluginContext []byte `protobuf:"bytes,17,opt,name=plugin_context" json:"plugin_context,omitempty"`
+	PluginContext []byte `protobuf:"bytes,17,opt,name=plugin_context,json=pluginContext" json:"plugin_context,omitempty"`
 	// The user's plugin identity.
-	PluginIdentity *string `protobuf:"bytes,18,opt,name=plugin_identity" json:"plugin_identity,omitempty"`
+	PluginIdentity *string `protobuf:"bytes,18,opt,name=plugin_identity,json=pluginIdentity" json:"plugin_identity,omitempty"`
 	// The user's comment.
 	Comment *string `protobuf:"bytes,19,opt,name=comment" json:"comment,omitempty"`
 	// The user's texture.
@@ -1046,17 +1081,18 @@ type User struct {
 	// The user's IP address.
 	Address []byte `protobuf:"bytes,21,opt,name=address" json:"address,omitempty"`
 	// Is the user in TCP-only mode?
-	TcpOnly *bool `protobuf:"varint,22,opt,name=tcp_only" json:"tcp_only,omitempty"`
+	TcpOnly *bool `protobuf:"varint,22,opt,name=tcp_only,json=tcpOnly" json:"tcp_only,omitempty"`
 	// The user's UDP ping in milliseconds.
-	UdpPingMsecs *float32 `protobuf:"fixed32,23,opt,name=udp_ping_msecs" json:"udp_ping_msecs,omitempty"`
+	UdpPingMsecs *float32 `protobuf:"fixed32,23,opt,name=udp_ping_msecs,json=udpPingMsecs" json:"udp_ping_msecs,omitempty"`
 	// The user's TCP ping in milliseconds.
-	TcpPingMsecs     *float32 `protobuf:"fixed32,24,opt,name=tcp_ping_msecs" json:"tcp_ping_msecs,omitempty"`
+	TcpPingMsecs     *float32 `protobuf:"fixed32,24,opt,name=tcp_ping_msecs,json=tcpPingMsecs" json:"tcp_ping_msecs,omitempty"`
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *User) Reset()         { *m = User{} }
-func (m *User) String() string { return proto.CompactTextString(m) }
-func (*User) ProtoMessage()    {}
+func (m *User) Reset()                    { *m = User{} }
+func (m *User) String() string            { return proto.CompactTextString(m) }
+func (*User) ProtoMessage()               {}
+func (*User) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
 
 func (m *User) GetServer() *Server {
 	if m != nil {
@@ -1232,9 +1268,10 @@ type User_Query struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *User_Query) Reset()         { *m = User_Query{} }
-func (m *User_Query) String() string { return proto.CompactTextString(m) }
-func (*User_Query) ProtoMessage()    {}
+func (m *User_Query) Reset()                    { *m = User_Query{} }
+func (m *User_Query) String() string            { return proto.CompactTextString(m) }
+func (*User_Query) ProtoMessage()               {}
+func (*User_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10, 0} }
 
 func (m *User_Query) GetServer() *Server {
 	if m != nil {
@@ -1251,9 +1288,10 @@ type User_List struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *User_List) Reset()         { *m = User_List{} }
-func (m *User_List) String() string { return proto.CompactTextString(m) }
-func (*User_List) ProtoMessage()    {}
+func (m *User_List) Reset()                    { *m = User_List{} }
+func (m *User_List) String() string            { return proto.CompactTextString(m) }
+func (*User_List) ProtoMessage()               {}
+func (*User_List) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10, 1} }
 
 func (m *User_List) GetServer() *Server {
 	if m != nil {
@@ -1281,9 +1319,10 @@ type User_Kick struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *User_Kick) Reset()         { *m = User_Kick{} }
-func (m *User_Kick) String() string { return proto.CompactTextString(m) }
-func (*User_Kick) ProtoMessage()    {}
+func (m *User_Kick) Reset()                    { *m = User_Kick{} }
+func (m *User_Kick) String() string            { return proto.CompactTextString(m) }
+func (*User_Kick) ProtoMessage()               {}
+func (*User_Kick) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10, 2} }
 
 func (m *User_Kick) GetServer() *Server {
 	if m != nil {
@@ -1325,9 +1364,10 @@ type Tree struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Tree) Reset()         { *m = Tree{} }
-func (m *Tree) String() string { return proto.CompactTextString(m) }
-func (*Tree) ProtoMessage()    {}
+func (m *Tree) Reset()                    { *m = Tree{} }
+func (m *Tree) String() string            { return proto.CompactTextString(m) }
+func (*Tree) ProtoMessage()               {}
+func (*Tree) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
 func (m *Tree) GetServer() *Server {
 	if m != nil {
@@ -1363,9 +1403,10 @@ type Tree_Query struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Tree_Query) Reset()         { *m = Tree_Query{} }
-func (m *Tree_Query) String() string { return proto.CompactTextString(m) }
-func (*Tree_Query) ProtoMessage()    {}
+func (m *Tree_Query) Reset()                    { *m = Tree_Query{} }
+func (m *Tree_Query) String() string            { return proto.CompactTextString(m) }
+func (*Tree_Query) ProtoMessage()               {}
+func (*Tree_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11, 0} }
 
 func (m *Tree_Query) GetServer() *Server {
 	if m != nil {
@@ -1390,13 +1431,14 @@ type Ban struct {
 	// The ban start time (in epoch form).
 	Start *int64 `protobuf:"varint,7,opt,name=start" json:"start,omitempty"`
 	// The ban duration.
-	DurationSecs     *int64 `protobuf:"varint,8,opt,name=duration_secs" json:"duration_secs,omitempty"`
+	DurationSecs     *int64 `protobuf:"varint,8,opt,name=duration_secs,json=durationSecs" json:"duration_secs,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *Ban) Reset()         { *m = Ban{} }
-func (m *Ban) String() string { return proto.CompactTextString(m) }
-func (*Ban) ProtoMessage()    {}
+func (m *Ban) Reset()                    { *m = Ban{} }
+func (m *Ban) String() string            { return proto.CompactTextString(m) }
+func (*Ban) ProtoMessage()               {}
+func (*Ban) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
 func (m *Ban) GetServer() *Server {
 	if m != nil {
@@ -1460,9 +1502,10 @@ type Ban_Query struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *Ban_Query) Reset()         { *m = Ban_Query{} }
-func (m *Ban_Query) String() string { return proto.CompactTextString(m) }
-func (*Ban_Query) ProtoMessage()    {}
+func (m *Ban_Query) Reset()                    { *m = Ban_Query{} }
+func (m *Ban_Query) String() string            { return proto.CompactTextString(m) }
+func (*Ban_Query) ProtoMessage()               {}
+func (*Ban_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12, 0} }
 
 func (m *Ban_Query) GetServer() *Server {
 	if m != nil {
@@ -1479,9 +1522,10 @@ type Ban_List struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *Ban_List) Reset()         { *m = Ban_List{} }
-func (m *Ban_List) String() string { return proto.CompactTextString(m) }
-func (*Ban_List) ProtoMessage()    {}
+func (m *Ban_List) Reset()                    { *m = Ban_List{} }
+func (m *Ban_List) String() string            { return proto.CompactTextString(m) }
+func (*Ban_List) ProtoMessage()               {}
+func (*Ban_List) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12, 1} }
 
 func (m *Ban_List) GetServer() *Server {
 	if m != nil {
@@ -1499,9 +1543,9 @@ func (m *Ban_List) GetBans() []*Ban {
 
 type ACL struct {
 	// Does the ACL apply to the current channel?
-	ApplyHere *bool `protobuf:"varint,3,opt,name=apply_here" json:"apply_here,omitempty"`
+	ApplyHere *bool `protobuf:"varint,3,opt,name=apply_here,json=applyHere" json:"apply_here,omitempty"`
 	// Does the ACL apply to the current channel's sub-channels?
-	ApplySubs *bool `protobuf:"varint,4,opt,name=apply_subs" json:"apply_subs,omitempty"`
+	ApplySubs *bool `protobuf:"varint,4,opt,name=apply_subs,json=applySubs" json:"apply_subs,omitempty"`
 	// Was the ACL inherited?
 	Inherited *bool `protobuf:"varint,5,opt,name=inherited" json:"inherited,omitempty"`
 	// The user to whom the ACL applies.
@@ -1515,9 +1559,10 @@ type ACL struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *ACL) Reset()         { *m = ACL{} }
-func (m *ACL) String() string { return proto.CompactTextString(m) }
-func (*ACL) ProtoMessage()    {}
+func (m *ACL) Reset()                    { *m = ACL{} }
+func (m *ACL) String() string            { return proto.CompactTextString(m) }
+func (*ACL) ProtoMessage()               {}
+func (*ACL) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
 
 func (m *ACL) GetApplyHere() bool {
 	if m != nil && m.ApplyHere != nil {
@@ -1578,17 +1623,18 @@ type ACL_Group struct {
 	// Can this group be inherited by its children?
 	Inheritable *bool `protobuf:"varint,4,opt,name=inheritable" json:"inheritable,omitempty"`
 	// The users explicitly added by this group.
-	UsersAdd []*DatabaseUser `protobuf:"bytes,5,rep,name=users_add" json:"users_add,omitempty"`
+	UsersAdd []*DatabaseUser `protobuf:"bytes,5,rep,name=users_add,json=usersAdd" json:"users_add,omitempty"`
 	// The users explicitly removed by this group.
-	UsersRemove []*DatabaseUser `protobuf:"bytes,6,rep,name=users_remove" json:"users_remove,omitempty"`
+	UsersRemove []*DatabaseUser `protobuf:"bytes,6,rep,name=users_remove,json=usersRemove" json:"users_remove,omitempty"`
 	// All of the users who are part of this group.
 	Users            []*DatabaseUser `protobuf:"bytes,7,rep,name=users" json:"users,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
 
-func (m *ACL_Group) Reset()         { *m = ACL_Group{} }
-func (m *ACL_Group) String() string { return proto.CompactTextString(m) }
-func (*ACL_Group) ProtoMessage()    {}
+func (m *ACL_Group) Reset()                    { *m = ACL_Group{} }
+func (m *ACL_Group) String() string            { return proto.CompactTextString(m) }
+func (*ACL_Group) ProtoMessage()               {}
+func (*ACL_Group) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13, 0} }
 
 func (m *ACL_Group) GetName() string {
 	if m != nil && m.Name != nil {
@@ -1649,9 +1695,10 @@ type ACL_Query struct {
 	XXX_unrecognized []byte   `json:"-"`
 }
 
-func (m *ACL_Query) Reset()         { *m = ACL_Query{} }
-func (m *ACL_Query) String() string { return proto.CompactTextString(m) }
-func (*ACL_Query) ProtoMessage()    {}
+func (m *ACL_Query) Reset()                    { *m = ACL_Query{} }
+func (m *ACL_Query) String() string            { return proto.CompactTextString(m) }
+func (*ACL_Query) ProtoMessage()               {}
+func (*ACL_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13, 1} }
 
 func (m *ACL_Query) GetServer() *Server {
 	if m != nil {
@@ -1688,9 +1735,10 @@ type ACL_List struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *ACL_List) Reset()         { *m = ACL_List{} }
-func (m *ACL_List) String() string { return proto.CompactTextString(m) }
-func (*ACL_List) ProtoMessage()    {}
+func (m *ACL_List) Reset()                    { *m = ACL_List{} }
+func (m *ACL_List) String() string            { return proto.CompactTextString(m) }
+func (*ACL_List) ProtoMessage()               {}
+func (*ACL_List) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13, 2} }
 
 func (m *ACL_List) GetServer() *Server {
 	if m != nil {
@@ -1739,9 +1787,10 @@ type ACL_TemporaryGroup struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *ACL_TemporaryGroup) Reset()         { *m = ACL_TemporaryGroup{} }
-func (m *ACL_TemporaryGroup) String() string { return proto.CompactTextString(m) }
-func (*ACL_TemporaryGroup) ProtoMessage()    {}
+func (m *ACL_TemporaryGroup) Reset()                    { *m = ACL_TemporaryGroup{} }
+func (m *ACL_TemporaryGroup) String() string            { return proto.CompactTextString(m) }
+func (*ACL_TemporaryGroup) ProtoMessage()               {}
+func (*ACL_TemporaryGroup) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13, 3} }
 
 func (m *ACL_TemporaryGroup) GetServer() *Server {
 	if m != nil {
@@ -1775,9 +1824,10 @@ type Authenticator struct {
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *Authenticator) Reset()         { *m = Authenticator{} }
-func (m *Authenticator) String() string { return proto.CompactTextString(m) }
-func (*Authenticator) ProtoMessage()    {}
+func (m *Authenticator) Reset()                    { *m = Authenticator{} }
+func (m *Authenticator) String() string            { return proto.CompactTextString(m) }
+func (*Authenticator) ProtoMessage()               {}
+func (*Authenticator) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
 
 type Authenticator_Request struct {
 	Authenticate     *Authenticator_Request_Authenticate `protobuf:"bytes,1,opt,name=authenticate" json:"authenticate,omitempty"`
@@ -1789,9 +1839,10 @@ type Authenticator_Request struct {
 	XXX_unrecognized []byte                              `json:"-"`
 }
 
-func (m *Authenticator_Request) Reset()         { *m = Authenticator_Request{} }
-func (m *Authenticator_Request) String() string { return proto.CompactTextString(m) }
-func (*Authenticator_Request) ProtoMessage()    {}
+func (m *Authenticator_Request) Reset()                    { *m = Authenticator_Request{} }
+func (m *Authenticator_Request) String() string            { return proto.CompactTextString(m) }
+func (*Authenticator_Request) ProtoMessage()               {}
+func (*Authenticator_Request) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14, 0} }
 
 func (m *Authenticator_Request) GetAuthenticate() *Authenticator_Request_Authenticate {
 	if m != nil {
@@ -1844,15 +1895,18 @@ type Authenticator_Request_Authenticate struct {
 	// The user's certificate chain in DER format.
 	Certificates [][]byte `protobuf:"bytes,3,rep,name=certificates" json:"certificates,omitempty"`
 	// The hexadecimal hash of the user's certificate.
-	CertificateHash *string `protobuf:"bytes,4,opt,name=certificate_hash" json:"certificate_hash,omitempty"`
+	CertificateHash *string `protobuf:"bytes,4,opt,name=certificate_hash,json=certificateHash" json:"certificate_hash,omitempty"`
 	// If the user is connecting with a strong certificate.
-	StrongCertificate *bool  `protobuf:"varint,5,opt,name=strong_certificate" json:"strong_certificate,omitempty"`
+	StrongCertificate *bool  `protobuf:"varint,5,opt,name=strong_certificate,json=strongCertificate" json:"strong_certificate,omitempty"`
 	XXX_unrecognized  []byte `json:"-"`
 }
 
 func (m *Authenticator_Request_Authenticate) Reset()         { *m = Authenticator_Request_Authenticate{} }
 func (m *Authenticator_Request_Authenticate) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Request_Authenticate) ProtoMessage()    {}
+func (*Authenticator_Request_Authenticate) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 0, 0}
+}
 
 func (m *Authenticator_Request_Authenticate) GetName() string {
 	if m != nil && m.Name != nil {
@@ -1902,6 +1956,9 @@ type Authenticator_Request_Find struct {
 func (m *Authenticator_Request_Find) Reset()         { *m = Authenticator_Request_Find{} }
 func (m *Authenticator_Request_Find) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Request_Find) ProtoMessage()    {}
+func (*Authenticator_Request_Find) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 0, 1}
+}
 
 func (m *Authenticator_Request_Find) GetId() uint32 {
 	if m != nil && m.Id != nil {
@@ -1928,6 +1985,9 @@ type Authenticator_Request_Query struct {
 func (m *Authenticator_Request_Query) Reset()         { *m = Authenticator_Request_Query{} }
 func (m *Authenticator_Request_Query) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Request_Query) ProtoMessage()    {}
+func (*Authenticator_Request_Query) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 0, 2}
+}
 
 func (m *Authenticator_Request_Query) GetFilter() string {
 	if m != nil && m.Filter != nil {
@@ -1946,6 +2006,9 @@ type Authenticator_Request_Register struct {
 func (m *Authenticator_Request_Register) Reset()         { *m = Authenticator_Request_Register{} }
 func (m *Authenticator_Request_Register) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Request_Register) ProtoMessage()    {}
+func (*Authenticator_Request_Register) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 0, 3}
+}
 
 func (m *Authenticator_Request_Register) GetUser() *DatabaseUser {
 	if m != nil {
@@ -1964,6 +2027,9 @@ type Authenticator_Request_Deregister struct {
 func (m *Authenticator_Request_Deregister) Reset()         { *m = Authenticator_Request_Deregister{} }
 func (m *Authenticator_Request_Deregister) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Request_Deregister) ProtoMessage()    {}
+func (*Authenticator_Request_Deregister) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 0, 4}
+}
 
 func (m *Authenticator_Request_Deregister) GetUser() *DatabaseUser {
 	if m != nil {
@@ -1983,6 +2049,9 @@ type Authenticator_Request_Update struct {
 func (m *Authenticator_Request_Update) Reset()         { *m = Authenticator_Request_Update{} }
 func (m *Authenticator_Request_Update) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Request_Update) ProtoMessage()    {}
+func (*Authenticator_Request_Update) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 0, 5}
+}
 
 func (m *Authenticator_Request_Update) GetUser() *DatabaseUser {
 	if m != nil {
@@ -2002,9 +2071,10 @@ type Authenticator_Response struct {
 	XXX_unrecognized []byte                               `json:"-"`
 }
 
-func (m *Authenticator_Response) Reset()         { *m = Authenticator_Response{} }
-func (m *Authenticator_Response) String() string { return proto.CompactTextString(m) }
-func (*Authenticator_Response) ProtoMessage()    {}
+func (m *Authenticator_Response) Reset()                    { *m = Authenticator_Response{} }
+func (m *Authenticator_Response) String() string            { return proto.CompactTextString(m) }
+func (*Authenticator_Response) ProtoMessage()               {}
+func (*Authenticator_Response) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14, 1} }
 
 func (m *Authenticator_Response) GetInitialize() *Authenticator_Response_Initialize {
 	if m != nil {
@@ -2065,6 +2135,9 @@ type Authenticator_Response_Initialize struct {
 func (m *Authenticator_Response_Initialize) Reset()         { *m = Authenticator_Response_Initialize{} }
 func (m *Authenticator_Response_Initialize) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Response_Initialize) ProtoMessage()    {}
+func (*Authenticator_Response_Initialize) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 0}
+}
 
 func (m *Authenticator_Response_Initialize) GetServer() *Server {
 	if m != nil {
@@ -2088,6 +2161,9 @@ type Authenticator_Response_Authenticate struct {
 func (m *Authenticator_Response_Authenticate) Reset()         { *m = Authenticator_Response_Authenticate{} }
 func (m *Authenticator_Response_Authenticate) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Response_Authenticate) ProtoMessage()    {}
+func (*Authenticator_Response_Authenticate) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 1}
+}
 
 func (m *Authenticator_Response_Authenticate) GetStatus() Authenticator_Response_Status {
 	if m != nil && m.Status != nil {
@@ -2126,6 +2202,9 @@ type Authenticator_Response_Find struct {
 func (m *Authenticator_Response_Find) Reset()         { *m = Authenticator_Response_Find{} }
 func (m *Authenticator_Response_Find) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Response_Find) ProtoMessage()    {}
+func (*Authenticator_Response_Find) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 2}
+}
 
 func (m *Authenticator_Response_Find) GetUser() *DatabaseUser {
 	if m != nil {
@@ -2143,6 +2222,9 @@ type Authenticator_Response_Query struct {
 func (m *Authenticator_Response_Query) Reset()         { *m = Authenticator_Response_Query{} }
 func (m *Authenticator_Response_Query) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Response_Query) ProtoMessage()    {}
+func (*Authenticator_Response_Query) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 3}
+}
 
 func (m *Authenticator_Response_Query) GetUsers() []*DatabaseUser {
 	if m != nil {
@@ -2162,6 +2244,9 @@ type Authenticator_Response_Register struct {
 func (m *Authenticator_Response_Register) Reset()         { *m = Authenticator_Response_Register{} }
 func (m *Authenticator_Response_Register) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Response_Register) ProtoMessage()    {}
+func (*Authenticator_Response_Register) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 4}
+}
 
 func (m *Authenticator_Response_Register) GetStatus() Authenticator_Response_Status {
 	if m != nil && m.Status != nil {
@@ -2186,6 +2271,9 @@ type Authenticator_Response_Deregister struct {
 func (m *Authenticator_Response_Deregister) Reset()         { *m = Authenticator_Response_Deregister{} }
 func (m *Authenticator_Response_Deregister) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Response_Deregister) ProtoMessage()    {}
+func (*Authenticator_Response_Deregister) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 5}
+}
 
 func (m *Authenticator_Response_Deregister) GetStatus() Authenticator_Response_Status {
 	if m != nil && m.Status != nil {
@@ -2203,6 +2291,9 @@ type Authenticator_Response_Update struct {
 func (m *Authenticator_Response_Update) Reset()         { *m = Authenticator_Response_Update{} }
 func (m *Authenticator_Response_Update) String() string { return proto.CompactTextString(m) }
 func (*Authenticator_Response_Update) ProtoMessage()    {}
+func (*Authenticator_Response_Update) Descriptor() ([]byte, []int) {
+	return fileDescriptor0, []int{14, 1, 6}
+}
 
 func (m *Authenticator_Response_Update) GetStatus() Authenticator_Response_Status {
 	if m != nil && m.Status != nil {
@@ -2227,15 +2318,16 @@ type DatabaseUser struct {
 	// The user's password (never sent; used only when updating).
 	Password *string `protobuf:"bytes,7,opt,name=password" json:"password,omitempty"`
 	// When the user was last on the server.
-	LastActive *string `protobuf:"bytes,8,opt,name=last_active" json:"last_active,omitempty"`
+	LastActive *string `protobuf:"bytes,8,opt,name=last_active,json=lastActive" json:"last_active,omitempty"`
 	// The user's texture.
 	Texture          []byte `protobuf:"bytes,9,opt,name=texture" json:"texture,omitempty"`
 	XXX_unrecognized []byte `json:"-"`
 }
 
-func (m *DatabaseUser) Reset()         { *m = DatabaseUser{} }
-func (m *DatabaseUser) String() string { return proto.CompactTextString(m) }
-func (*DatabaseUser) ProtoMessage()    {}
+func (m *DatabaseUser) Reset()                    { *m = DatabaseUser{} }
+func (m *DatabaseUser) String() string            { return proto.CompactTextString(m) }
+func (*DatabaseUser) ProtoMessage()               {}
+func (*DatabaseUser) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
 
 func (m *DatabaseUser) GetServer() *Server {
 	if m != nil {
@@ -2308,9 +2400,10 @@ type DatabaseUser_Query struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *DatabaseUser_Query) Reset()         { *m = DatabaseUser_Query{} }
-func (m *DatabaseUser_Query) String() string { return proto.CompactTextString(m) }
-func (*DatabaseUser_Query) ProtoMessage()    {}
+func (m *DatabaseUser_Query) Reset()                    { *m = DatabaseUser_Query{} }
+func (m *DatabaseUser_Query) String() string            { return proto.CompactTextString(m) }
+func (*DatabaseUser_Query) ProtoMessage()               {}
+func (*DatabaseUser_Query) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15, 0} }
 
 func (m *DatabaseUser_Query) GetServer() *Server {
 	if m != nil {
@@ -2334,9 +2427,10 @@ type DatabaseUser_List struct {
 	XXX_unrecognized []byte          `json:"-"`
 }
 
-func (m *DatabaseUser_List) Reset()         { *m = DatabaseUser_List{} }
-func (m *DatabaseUser_List) String() string { return proto.CompactTextString(m) }
-func (*DatabaseUser_List) ProtoMessage()    {}
+func (m *DatabaseUser_List) Reset()                    { *m = DatabaseUser_List{} }
+func (m *DatabaseUser_List) String() string            { return proto.CompactTextString(m) }
+func (*DatabaseUser_List) ProtoMessage()               {}
+func (*DatabaseUser_List) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15, 1} }
 
 func (m *DatabaseUser_List) GetServer() *Server {
 	if m != nil {
@@ -2362,9 +2456,10 @@ type DatabaseUser_Verify struct {
 	XXX_unrecognized []byte  `json:"-"`
 }
 
-func (m *DatabaseUser_Verify) Reset()         { *m = DatabaseUser_Verify{} }
-func (m *DatabaseUser_Verify) String() string { return proto.CompactTextString(m) }
-func (*DatabaseUser_Verify) ProtoMessage()    {}
+func (m *DatabaseUser_Verify) Reset()                    { *m = DatabaseUser_Verify{} }
+func (m *DatabaseUser_Verify) String() string            { return proto.CompactTextString(m) }
+func (*DatabaseUser_Verify) ProtoMessage()               {}
+func (*DatabaseUser_Verify) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15, 2} }
 
 func (m *DatabaseUser_Verify) GetServer() *Server {
 	if m != nil {
@@ -2399,9 +2494,10 @@ type RedirectWhisperGroup struct {
 	XXX_unrecognized []byte     `json:"-"`
 }
 
-func (m *RedirectWhisperGroup) Reset()         { *m = RedirectWhisperGroup{} }
-func (m *RedirectWhisperGroup) String() string { return proto.CompactTextString(m) }
-func (*RedirectWhisperGroup) ProtoMessage()    {}
+func (m *RedirectWhisperGroup) Reset()                    { *m = RedirectWhisperGroup{} }
+func (m *RedirectWhisperGroup) String() string            { return proto.CompactTextString(m) }
+func (*RedirectWhisperGroup) ProtoMessage()               {}
+func (*RedirectWhisperGroup) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
 
 func (m *RedirectWhisperGroup) GetServer() *Server {
 	if m != nil {
@@ -2432,6 +2528,60 @@ func (m *RedirectWhisperGroup) GetTarget() *ACL_Group {
 }
 
 func init() {
+	proto.RegisterType((*Void)(nil), "MurmurRPC.Void")
+	proto.RegisterType((*Version)(nil), "MurmurRPC.Version")
+	proto.RegisterType((*Uptime)(nil), "MurmurRPC.Uptime")
+	proto.RegisterType((*Server)(nil), "MurmurRPC.Server")
+	proto.RegisterType((*Server_Event)(nil), "MurmurRPC.Server.Event")
+	proto.RegisterType((*Server_Query)(nil), "MurmurRPC.Server.Query")
+	proto.RegisterType((*Server_List)(nil), "MurmurRPC.Server.List")
+	proto.RegisterType((*Event)(nil), "MurmurRPC.Event")
+	proto.RegisterType((*ContextAction)(nil), "MurmurRPC.ContextAction")
+	proto.RegisterType((*TextMessage)(nil), "MurmurRPC.TextMessage")
+	proto.RegisterType((*TextMessage_Filter)(nil), "MurmurRPC.TextMessage.Filter")
+	proto.RegisterType((*Log)(nil), "MurmurRPC.Log")
+	proto.RegisterType((*Log_Query)(nil), "MurmurRPC.Log.Query")
+	proto.RegisterType((*Log_List)(nil), "MurmurRPC.Log.List")
+	proto.RegisterType((*Config)(nil), "MurmurRPC.Config")
+	proto.RegisterType((*Config_Field)(nil), "MurmurRPC.Config.Field")
+	proto.RegisterType((*Channel)(nil), "MurmurRPC.Channel")
+	proto.RegisterType((*Channel_Query)(nil), "MurmurRPC.Channel.Query")
+	proto.RegisterType((*Channel_List)(nil), "MurmurRPC.Channel.List")
+	proto.RegisterType((*User)(nil), "MurmurRPC.User")
+	proto.RegisterType((*User_Query)(nil), "MurmurRPC.User.Query")
+	proto.RegisterType((*User_List)(nil), "MurmurRPC.User.List")
+	proto.RegisterType((*User_Kick)(nil), "MurmurRPC.User.Kick")
+	proto.RegisterType((*Tree)(nil), "MurmurRPC.Tree")
+	proto.RegisterType((*Tree_Query)(nil), "MurmurRPC.Tree.Query")
+	proto.RegisterType((*Ban)(nil), "MurmurRPC.Ban")
+	proto.RegisterType((*Ban_Query)(nil), "MurmurRPC.Ban.Query")
+	proto.RegisterType((*Ban_List)(nil), "MurmurRPC.Ban.List")
+	proto.RegisterType((*ACL)(nil), "MurmurRPC.ACL")
+	proto.RegisterType((*ACL_Group)(nil), "MurmurRPC.ACL.Group")
+	proto.RegisterType((*ACL_Query)(nil), "MurmurRPC.ACL.Query")
+	proto.RegisterType((*ACL_List)(nil), "MurmurRPC.ACL.List")
+	proto.RegisterType((*ACL_TemporaryGroup)(nil), "MurmurRPC.ACL.TemporaryGroup")
+	proto.RegisterType((*Authenticator)(nil), "MurmurRPC.Authenticator")
+	proto.RegisterType((*Authenticator_Request)(nil), "MurmurRPC.Authenticator.Request")
+	proto.RegisterType((*Authenticator_Request_Authenticate)(nil), "MurmurRPC.Authenticator.Request.Authenticate")
+	proto.RegisterType((*Authenticator_Request_Find)(nil), "MurmurRPC.Authenticator.Request.Find")
+	proto.RegisterType((*Authenticator_Request_Query)(nil), "MurmurRPC.Authenticator.Request.Query")
+	proto.RegisterType((*Authenticator_Request_Register)(nil), "MurmurRPC.Authenticator.Request.Register")
+	proto.RegisterType((*Authenticator_Request_Deregister)(nil), "MurmurRPC.Authenticator.Request.Deregister")
+	proto.RegisterType((*Authenticator_Request_Update)(nil), "MurmurRPC.Authenticator.Request.Update")
+	proto.RegisterType((*Authenticator_Response)(nil), "MurmurRPC.Authenticator.Response")
+	proto.RegisterType((*Authenticator_Response_Initialize)(nil), "MurmurRPC.Authenticator.Response.Initialize")
+	proto.RegisterType((*Authenticator_Response_Authenticate)(nil), "MurmurRPC.Authenticator.Response.Authenticate")
+	proto.RegisterType((*Authenticator_Response_Find)(nil), "MurmurRPC.Authenticator.Response.Find")
+	proto.RegisterType((*Authenticator_Response_Query)(nil), "MurmurRPC.Authenticator.Response.Query")
+	proto.RegisterType((*Authenticator_Response_Register)(nil), "MurmurRPC.Authenticator.Response.Register")
+	proto.RegisterType((*Authenticator_Response_Deregister)(nil), "MurmurRPC.Authenticator.Response.Deregister")
+	proto.RegisterType((*Authenticator_Response_Update)(nil), "MurmurRPC.Authenticator.Response.Update")
+	proto.RegisterType((*DatabaseUser)(nil), "MurmurRPC.DatabaseUser")
+	proto.RegisterType((*DatabaseUser_Query)(nil), "MurmurRPC.DatabaseUser.Query")
+	proto.RegisterType((*DatabaseUser_List)(nil), "MurmurRPC.DatabaseUser.List")
+	proto.RegisterType((*DatabaseUser_Verify)(nil), "MurmurRPC.DatabaseUser.Verify")
+	proto.RegisterType((*RedirectWhisperGroup)(nil), "MurmurRPC.RedirectWhisperGroup")
 	proto.RegisterEnum("MurmurRPC.Server_Event_Type", Server_Event_Type_name, Server_Event_Type_value)
 	proto.RegisterEnum("MurmurRPC.Event_Type", Event_Type_name, Event_Type_value)
 	proto.RegisterEnum("MurmurRPC.ContextAction_Context", ContextAction_Context_name, ContextAction_Context_value)
@@ -2443,6 +2593,10 @@ func init() {
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
 var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion3
 
 // Client API for V1 service
 
@@ -3265,28 +3419,40 @@ func RegisterV1Server(s *grpc.Server, srv V1Server) {
 	s.RegisterService(&_V1_serviceDesc, srv)
 }
 
-func _V1_GetUptime_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_GetUptime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Void)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetUptime(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).GetUptime(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/GetUptime",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).GetUptime(ctx, req.(*Void))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_GetVersion_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_GetVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Void)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).GetVersion(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).GetVersion(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/GetVersion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).GetVersion(ctx, req.(*Void))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _V1_Events_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -3310,76 +3476,112 @@ func (x *v1EventsServer) Send(m *Event) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _V1_ServerCreate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Void)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ServerCreate(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ServerCreate(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ServerCreate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ServerCreate(ctx, req.(*Void))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ServerQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Server_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ServerQuery(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ServerQuery(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ServerQuery",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ServerQuery(ctx, req.(*Server_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ServerGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Server)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ServerGet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ServerGet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ServerGet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ServerGet(ctx, req.(*Server))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ServerStart_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerStart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Server)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ServerStart(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ServerStart(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ServerStart",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ServerStart(ctx, req.(*Server))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ServerStop_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerStop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Server)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ServerStop(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ServerStop(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ServerStop",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ServerStop(ctx, req.(*Server))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ServerRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ServerRemove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Server)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ServerRemove(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ServerRemove(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ServerRemove",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ServerRemove(ctx, req.(*Server))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _V1_ServerEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -3403,28 +3605,40 @@ func (x *v1ServerEventsServer) Send(m *Server_Event) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _V1_ContextActionAdd_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ContextActionAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ContextAction)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ContextActionAdd(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ContextActionAdd(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ContextActionAdd",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ContextActionAdd(ctx, req.(*ContextAction))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ContextActionRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ContextActionRemove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ContextAction)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ContextActionRemove(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ContextActionRemove(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ContextActionRemove",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ContextActionRemove(ctx, req.(*ContextAction))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _V1_ContextActionEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -3448,16 +3662,22 @@ func (x *v1ContextActionEventsServer) Send(m *ContextAction) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _V1_TextMessageSend_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_TextMessageSend_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TextMessage)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).TextMessageSend(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).TextMessageSend(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/TextMessageSend",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).TextMessageSend(ctx, req.(*TextMessage))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _V1_TextMessageFilter_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -3486,268 +3706,400 @@ func (x *v1TextMessageFilterServer) Recv() (*TextMessage_Filter, error) {
 	return m, nil
 }
 
-func _V1_LogQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_LogQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Log_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).LogQuery(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).LogQuery(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/LogQuery",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).LogQuery(ctx, req.(*Log_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ConfigGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Server)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ConfigGet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ConfigGet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ConfigGet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ConfigGet(ctx, req.(*Server))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ConfigGetField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigGetField_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Config_Field)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ConfigGetField(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ConfigGetField(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ConfigGetField",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ConfigGetField(ctx, req.(*Config_Field))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ConfigSetField_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigSetField_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Config_Field)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ConfigSetField(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ConfigSetField(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ConfigSetField",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ConfigSetField(ctx, req.(*Config_Field))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ConfigGetDefault_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ConfigGetDefault_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Void)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ConfigGetDefault(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ConfigGetDefault(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ConfigGetDefault",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ConfigGetDefault(ctx, req.(*Void))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ChannelQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Channel_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ChannelQuery(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ChannelQuery(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ChannelQuery",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ChannelQuery(ctx, req.(*Channel_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ChannelGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Channel)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ChannelGet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ChannelGet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ChannelGet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ChannelGet(ctx, req.(*Channel))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ChannelAdd_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Channel)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ChannelAdd(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ChannelAdd(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ChannelAdd",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ChannelAdd(ctx, req.(*Channel))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ChannelRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelRemove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Channel)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ChannelRemove(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ChannelRemove(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ChannelRemove",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ChannelRemove(ctx, req.(*Channel))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ChannelUpdate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ChannelUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Channel)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ChannelUpdate(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ChannelUpdate(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ChannelUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ChannelUpdate(ctx, req.(*Channel))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_UserQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).UserQuery(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).UserQuery(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/UserQuery",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).UserQuery(ctx, req.(*User_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_UserGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).UserGet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).UserGet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/UserGet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).UserGet(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_UserUpdate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).UserUpdate(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).UserUpdate(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/UserUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).UserUpdate(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_UserKick_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_UserKick_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User_Kick)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).UserKick(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).UserKick(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/UserKick",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).UserKick(ctx, req.(*User_Kick))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_TreeQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_TreeQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Tree_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).TreeQuery(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).TreeQuery(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/TreeQuery",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).TreeQuery(ctx, req.(*Tree_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_BansGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_BansGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Ban_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).BansGet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).BansGet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/BansGet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).BansGet(ctx, req.(*Ban_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_BansSet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_BansSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Ban_List)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).BansSet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).BansSet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/BansSet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).BansSet(ctx, req.(*Ban_List))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ACLGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Channel)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ACLGet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ACLGet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ACLGet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ACLGet(ctx, req.(*Channel))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ACLSet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLSet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ACL_List)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ACLSet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ACLSet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ACLSet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ACLSet(ctx, req.(*ACL_List))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ACLGetEffectivePermissions_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLGetEffectivePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ACL_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ACLGetEffectivePermissions(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ACLGetEffectivePermissions(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ACLGetEffectivePermissions",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ACLGetEffectivePermissions(ctx, req.(*ACL_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ACLAddTemporaryGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLAddTemporaryGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ACL_TemporaryGroup)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ACLAddTemporaryGroup(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ACLAddTemporaryGroup(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ACLAddTemporaryGroup",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ACLAddTemporaryGroup(ctx, req.(*ACL_TemporaryGroup))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_ACLRemoveTemporaryGroup_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_ACLRemoveTemporaryGroup_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ACL_TemporaryGroup)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).ACLRemoveTemporaryGroup(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).ACLRemoveTemporaryGroup(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/ACLRemoveTemporaryGroup",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).ACLRemoveTemporaryGroup(ctx, req.(*ACL_TemporaryGroup))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _V1_AuthenticatorStream_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -3776,100 +4128,148 @@ func (x *v1AuthenticatorStreamServer) Recv() (*Authenticator_Response, error) {
 	return m, nil
 }
 
-func _V1_DatabaseUserQuery_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserQuery_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DatabaseUser_Query)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).DatabaseUserQuery(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).DatabaseUserQuery(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/DatabaseUserQuery",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).DatabaseUserQuery(ctx, req.(*DatabaseUser_Query))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_DatabaseUserGet_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DatabaseUser)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).DatabaseUserGet(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).DatabaseUserGet(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/DatabaseUserGet",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).DatabaseUserGet(ctx, req.(*DatabaseUser))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_DatabaseUserUpdate_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DatabaseUser)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).DatabaseUserUpdate(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).DatabaseUserUpdate(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/DatabaseUserUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).DatabaseUserUpdate(ctx, req.(*DatabaseUser))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_DatabaseUserRegister_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DatabaseUser)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).DatabaseUserRegister(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).DatabaseUserRegister(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/DatabaseUserRegister",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).DatabaseUserRegister(ctx, req.(*DatabaseUser))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_DatabaseUserDeregister_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserDeregister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DatabaseUser)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).DatabaseUserDeregister(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).DatabaseUserDeregister(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/DatabaseUserDeregister",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).DatabaseUserDeregister(ctx, req.(*DatabaseUser))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_DatabaseUserVerify_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_DatabaseUserVerify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DatabaseUser_Verify)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).DatabaseUserVerify(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).DatabaseUserVerify(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/DatabaseUserVerify",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).DatabaseUserVerify(ctx, req.(*DatabaseUser_Verify))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_RedirectWhisperGroupAdd_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_RedirectWhisperGroupAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RedirectWhisperGroup)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RedirectWhisperGroupAdd(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).RedirectWhisperGroupAdd(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/RedirectWhisperGroupAdd",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).RedirectWhisperGroupAdd(ctx, req.(*RedirectWhisperGroup))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
-func _V1_RedirectWhisperGroupRemove_Handler(srv interface{}, ctx context.Context, codec grpc.Codec, buf []byte) (interface{}, error) {
+func _V1_RedirectWhisperGroupRemove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RedirectWhisperGroup)
-	if err := codec.Unmarshal(buf, in); err != nil {
+	if err := dec(in); err != nil {
 		return nil, err
 	}
-	out, err := srv.(V1Server).RedirectWhisperGroupRemove(ctx, in)
-	if err != nil {
-		return nil, err
+	if interceptor == nil {
+		return srv.(V1Server).RedirectWhisperGroupRemove(ctx, in)
 	}
-	return out, nil
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/MurmurRPC.V1/RedirectWhisperGroupRemove",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1Server).RedirectWhisperGroupRemove(ctx, req.(*RedirectWhisperGroup))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _V1_serviceDesc = grpc.ServiceDesc{
@@ -4070,4 +4470,204 @@ var _V1_serviceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
+	Metadata: fileDescriptor0,
+}
+
+func init() { proto.RegisterFile("MurmurRPC.proto", fileDescriptor0) }
+
+var fileDescriptor0 = []byte{
+	// 3082 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0xb4, 0x3a, 0xcd, 0x93, 0x1b, 0x47,
+	0xf5, 0x3f, 0x7d, 0x4b, 0x4f, 0xda, 0x5d, 0xb9, 0x77, 0xb3, 0xbb, 0xbf, 0xc1, 0xc6, 0x46, 0x24,
+	0xc4, 0xb1, 0x63, 0x25, 0x76, 0xbe, 0x5d, 0x09, 0xc4, 0x5e, 0xdb, 0x89, 0xf1, 0x6e, 0x70, 0x46,
+	0xb6, 0x43, 0x71, 0x40, 0x8c, 0xa5, 0xde, 0xdd, 0xc1, 0x92, 0x66, 0x32, 0x33, 0x72, 0xb2, 0x9c,
+	0xcc, 0x81, 0xca, 0x21, 0x67, 0xb8, 0x70, 0xa0, 0x70, 0x15, 0x55, 0x1c, 0xf8, 0x13, 0x38, 0x71,
+	0xe0, 0xc2, 0x81, 0x2a, 0xfe, 0x03, 0xaa, 0xa8, 0xe2, 0x0f, 0xe0, 0xc2, 0x91, 0xf7, 0xfa, 0x63,
+	0xd4, 0x23, 0x8d, 0x3e, 0xc6, 0x86, 0x93, 0xa6, 0xdf, 0x57, 0xbf, 0x7e, 0xfd, 0xde, 0xeb, 0xf7,
+	0xba, 0x05, 0x1b, 0x07, 0xe3, 0x60, 0x38, 0x0e, 0xec, 0xbb, 0x7b, 0x6d, 0x3f, 0xf0, 0x22, 0x8f,
+	0xd5, 0x62, 0x40, 0xab, 0x0c, 0xc5, 0x07, 0x9e, 0xdb, 0x6f, 0x0d, 0xa0, 0xf2, 0x80, 0x07, 0xa1,
+	0xeb, 0x8d, 0xd8, 0x2e, 0x54, 0x1e, 0xcb, 0xcf, 0xdd, 0xdc, 0xb9, 0xdc, 0xf9, 0x35, 0x5b, 0x0f,
+	0x09, 0x13, 0xf0, 0x01, 0x77, 0x42, 0xbe, 0x9b, 0x47, 0x4c, 0xcd, 0xd6, 0x43, 0xb6, 0x0e, 0x79,
+	0x2f, 0xdc, 0x2d, 0x08, 0x20, 0x7e, 0xb1, 0x33, 0x00, 0x5e, 0xd8, 0xd5, 0x62, 0x8a, 0x02, 0x5e,
+	0xf3, 0x42, 0x35, 0x45, 0xeb, 0x34, 0x94, 0xef, 0xfb, 0x91, 0x3b, 0xe4, 0x8c, 0x41, 0x31, 0xe4,
+	0xbd, 0x50, 0xcc, 0x54, 0xb4, 0xc5, 0x77, 0xeb, 0x77, 0x45, 0x28, 0x77, 0x78, 0x80, 0xdc, 0x24,
+	0xd7, 0xed, 0x23, 0x32, 0x8f, 0x6a, 0xe0, 0x97, 0xd0, 0x60, 0x3c, 0x1a, 0xb9, 0xa3, 0x23, 0xa1,
+	0x41, 0xd5, 0xd6, 0x43, 0xf6, 0x0a, 0x94, 0xc7, 0x42, 0xa4, 0xd0, 0xa2, 0x7e, 0xe5, 0x54, 0x7b,
+	0xb2, 0x6a, 0x39, 0x97, 0xad, 0x08, 0xac, 0xaf, 0x0a, 0x50, 0xba, 0xf9, 0x98, 0x8f, 0x22, 0x62,
+	0x0a, 0xc5, 0x44, 0x62, 0xfe, 0x24, 0x93, 0xd4, 0xc0, 0x56, 0x04, 0xec, 0x75, 0x28, 0x46, 0x27,
+	0xbe, 0x5c, 0xf8, 0xfa, 0x95, 0xd3, 0x33, 0x84, 0x6d, 0x21, 0xb1, 0x7d, 0x0f, 0x69, 0x6c, 0x41,
+	0xc9, 0xbe, 0x0d, 0xc5, 0x31, 0x32, 0x2b, 0x7d, 0x36, 0x4c, 0x7d, 0x10, 0x6c, 0x0b, 0x24, 0x8a,
+	0xad, 0x0c, 0x79, 0x18, 0x3a, 0x47, 0x5c, 0x58, 0xa9, 0x7e, 0x65, 0xdb, 0xa0, 0xbb, 0xc7, 0xbf,
+	0x8c, 0x0e, 0x24, 0xd6, 0xd6, 0x64, 0xec, 0x55, 0xa8, 0xf4, 0x8e, 0x9d, 0xd1, 0x88, 0x0f, 0x76,
+	0x4b, 0x82, 0x83, 0x19, 0x1c, 0x7b, 0x12, 0x63, 0x6b, 0x92, 0xd6, 0xaf, 0x73, 0x50, 0x24, 0x9d,
+	0xd8, 0x29, 0x58, 0xa3, 0x69, 0xf7, 0x3c, 0x04, 0xf7, 0x22, 0xde, 0x6f, 0xfe, 0x1f, 0xdb, 0x82,
+	0x26, 0x81, 0x6e, 0xb8, 0x61, 0x2f, 0x86, 0xe6, 0x34, 0xb4, 0x13, 0x39, 0x11, 0x27, 0x71, 0x47,
+	0x08, 0xcd, 0xb3, 0x4d, 0xd8, 0x20, 0xa8, 0xa1, 0x51, 0xb3, 0x80, 0x9b, 0xb7, 0xae, 0x26, 0xdc,
+	0x0b, 0xb8, 0x43, 0xec, 0x45, 0x03, 0x66, 0xf3, 0xa1, 0xf7, 0x18, 0x61, 0x25, 0xb6, 0x03, 0x9b,
+	0x0a, 0x96, 0x90, 0x5a, 0xb6, 0x2a, 0x50, 0xfa, 0x74, 0xcc, 0x83, 0x13, 0xeb, 0x0d, 0x28, 0xee,
+	0xbb, 0x61, 0xc4, 0x2e, 0x42, 0x45, 0xda, 0x9b, 0x3c, 0xa2, 0x90, 0xbe, 0x23, 0x9a, 0xa2, 0xf5,
+	0x75, 0xee, 0x19, 0xf6, 0xf1, 0x95, 0xc4, 0x3e, 0xbe, 0x60, 0x10, 0x4e, 0x6f, 0x60, 0xeb, 0xd5,
+	0x89, 0xe9, 0xa4, 0x90, 0x4e, 0xe4, 0xf9, 0xbe, 0x30, 0x9d, 0x01, 0x72, 0x02, 0x61, 0xb7, 0xd6,
+	0xef, 0xf3, 0xb0, 0x86, 0xd6, 0x8d, 0xd0, 0x42, 0xd7, 0x7a, 0x11, 0x85, 0x4b, 0x06, 0xad, 0xd0,
+	0xaf, 0x7b, 0x92, 0x57, 0x28, 0x86, 0x31, 0xa7, 0x86, 0x6c, 0x1b, 0xca, 0x8e, 0x10, 0xa7, 0xa2,
+	0x4b, 0x8d, 0x28, 0x70, 0x04, 0xb9, 0x8c, 0x2d, 0xf1, 0xcd, 0x5e, 0x82, 0x12, 0x62, 0xbd, 0x40,
+	0x39, 0xc6, 0x8c, 0xcb, 0x49, 0x6c, 0xec, 0x98, 0xe5, 0x45, 0x8e, 0x69, 0xb8, 0x59, 0x65, 0xb9,
+	0x9b, 0x21, 0xb5, 0x5a, 0x3b, 0x03, 0x1d, 0xbc, 0xe8, 0x4b, 0x75, 0x04, 0x4b, 0x0a, 0x74, 0xa1,
+	0x2a, 0x14, 0x49, 0x7e, 0xb3, 0xd8, 0xfa, 0x73, 0x01, 0xea, 0x86, 0x27, 0x65, 0x31, 0x54, 0xbc,
+	0xc4, 0xfc, 0xc2, 0x25, 0x22, 0x19, 0xad, 0x82, 0x52, 0x52, 0x21, 0x95, 0x4c, 0x60, 0x59, 0x1b,
+	0xaa, 0x6a, 0x05, 0x21, 0x1a, 0xb2, 0x30, 0x67, 0x95, 0x31, 0x0d, 0x3b, 0x0f, 0xa5, 0x28, 0xe0,
+	0x3c, 0x44, 0x03, 0xcf, 0x23, 0x96, 0x04, 0xf1, 0xf6, 0x94, 0x27, 0xdb, 0x63, 0xfd, 0x35, 0x07,
+	0xe5, 0x5b, 0xee, 0x20, 0x12, 0x5e, 0xb8, 0xf2, 0x8a, 0xdf, 0x8f, 0x1d, 0x40, 0xba, 0xec, 0x8b,
+	0xe9, 0x09, 0xa2, 0x2d, 0x25, 0xb7, 0xa5, 0xef, 0xc5, 0x6e, 0x62, 0xe4, 0x97, 0xc2, 0x4a, 0xf9,
+	0xa5, 0x75, 0x01, 0xca, 0xca, 0x7f, 0x81, 0xbe, 0x7a, 0xdc, 0x8f, 0xd0, 0xe1, 0xf1, 0xdb, 0xe6,
+	0x3f, 0xc5, 0x1c, 0x81, 0xbb, 0x8a, 0x1b, 0x79, 0x23, 0xf0, 0xfc, 0x66, 0xbe, 0xf5, 0xb7, 0x3c,
+	0x14, 0xf6, 0xbd, 0xa3, 0x2c, 0xcb, 0x39, 0x0d, 0x35, 0x4a, 0xc2, 0x61, 0xe4, 0x0c, 0x7d, 0xb1,
+	0xa2, 0x82, 0x3d, 0x01, 0xc4, 0x66, 0x2b, 0x18, 0x66, 0x7b, 0xa0, 0x92, 0x44, 0x96, 0x59, 0x9a,
+	0x50, 0x18, 0xba, 0x23, 0x15, 0x4b, 0xf4, 0x29, 0x20, 0xce, 0x97, 0x42, 0x30, 0x41, 0x9c, 0x2f,
+	0xad, 0x5f, 0xe6, 0x54, 0xd2, 0xc9, 0x20, 0x77, 0x0b, 0x1d, 0xc0, 0x8b, 0x9c, 0x81, 0x92, 0x2c,
+	0x07, 0x7a, 0xb6, 0xc2, 0xcc, 0x6c, 0xc5, 0x78, 0x36, 0x74, 0x9d, 0x0a, 0xa6, 0x97, 0xc0, 0x8d,
+	0x9d, 0x67, 0xdd, 0x98, 0x05, 0x6d, 0x68, 0x6b, 0x74, 0xeb, 0xe7, 0x79, 0x28, 0x63, 0x30, 0x1d,
+	0xba, 0x99, 0xec, 0xfa, 0x16, 0x94, 0x0f, 0x5d, 0x3e, 0xe8, 0x87, 0xa8, 0x1a, 0x89, 0x3f, 0x63,
+	0xfa, 0xa6, 0x90, 0x86, 0x1e, 0x42, 0xf8, 0x9b, 0x38, 0xcd, 0x89, 0xad, 0x88, 0xad, 0xf7, 0xa0,
+	0x6e, 0x80, 0x49, 0xef, 0x47, 0xfc, 0x44, 0xcc, 0x56, 0xb3, 0xe9, 0x93, 0x56, 0xfc, 0xd8, 0x19,
+	0x8c, 0xf5, 0x89, 0x2f, 0x07, 0x57, 0xf3, 0xef, 0xe6, 0xac, 0x1f, 0x41, 0x49, 0xb0, 0x66, 0xdc,
+	0x17, 0x92, 0x9f, 0x4f, 0x91, 0x5f, 0x30, 0xe4, 0xb7, 0x7e, 0x5b, 0x88, 0x33, 0x47, 0x16, 0xf1,
+	0xb2, 0x5c, 0x90, 0x7b, 0x43, 0xe5, 0x02, 0xba, 0xd3, 0xc8, 0x19, 0x6a, 0xd9, 0xe2, 0x9b, 0xa1,
+	0x7f, 0xfb, 0x4e, 0x80, 0xc6, 0x56, 0x07, 0x6e, 0x5a, 0x10, 0x2b, 0x0a, 0x8a, 0xf7, 0x81, 0x3b,
+	0x7a, 0xb4, 0x30, 0xde, 0x05, 0x01, 0x3b, 0x07, 0xf5, 0x3e, 0x0f, 0x7b, 0x81, 0xeb, 0x8b, 0x50,
+	0x95, 0x61, 0x6f, 0x82, 0x84, 0xe3, 0xf3, 0xa1, 0xef, 0x05, 0x4e, 0x70, 0x22, 0x52, 0x6a, 0xd5,
+	0x9e, 0x00, 0x98, 0x05, 0x55, 0xdf, 0x0b, 0x5d, 0xc1, 0x5c, 0x45, 0x64, 0xc9, 0x8e, 0xc7, 0xd6,
+	0x95, 0xec, 0x01, 0x60, 0x39, 0xd9, 0x7d, 0xdb, 0x4c, 0x86, 0xf9, 0xe5, 0xc9, 0xb0, 0xf5, 0x1b,
+	0x95, 0xd0, 0x33, 0x9e, 0x73, 0x21, 0xe6, 0x19, 0x9d, 0xcd, 0xd6, 0x6c, 0x3d, 0x54, 0x5b, 0x57,
+	0x98, 0xd9, 0xba, 0xa2, 0xb1, 0x75, 0x08, 0x1b, 0x8e, 0x23, 0x2e, 0x8e, 0xb7, 0xaa, 0x2d, 0xbe,
+	0x09, 0xd6, 0xe7, 0xce, 0xa1, 0xb0, 0x38, 0xc2, 0xe8, 0x9b, 0x8c, 0x19, 0x8e, 0x7d, 0x3f, 0x40,
+	0xd1, 0xca, 0xd2, 0xf1, 0x18, 0x95, 0x6d, 0xfa, 0x81, 0xeb, 0x05, 0x6e, 0x74, 0xd2, 0x0d, 0x7d,
+	0xee, 0x3c, 0x42, 0xb5, 0xab, 0x82, 0x66, 0x43, 0xc3, 0x3b, 0x12, 0xcc, 0xbe, 0x01, 0xb5, 0x90,
+	0x0f, 0x0e, 0xbb, 0x62, 0xce, 0x9a, 0x92, 0x83, 0x80, 0x03, 0x9a, 0x57, 0x23, 0xc5, 0xe4, 0x30,
+	0x41, 0xde, 0x20, 0x05, 0x70, 0xaf, 0x03, 0xde, 0xf3, 0x82, 0x3e, 0x15, 0xaa, 0x75, 0xb9, 0xd7,
+	0x31, 0xc0, 0x3c, 0x5a, 0x1b, 0x4b, 0x8f, 0x56, 0x76, 0x16, 0xea, 0xde, 0x08, 0x9d, 0x8c, 0x77,
+	0x45, 0xa1, 0xbc, 0x26, 0x2c, 0x04, 0x12, 0xd4, 0x41, 0x08, 0x69, 0xe2, 0xf6, 0x07, 0x0a, 0xbd,
+	0x2e, 0xd0, 0x55, 0x02, 0x08, 0x64, 0x0b, 0xd6, 0x1e, 0x9e, 0x44, 0x3c, 0xec, 0xfa, 0x3c, 0x20,
+	0x8a, 0xdd, 0x0d, 0x41, 0x50, 0x17, 0xc0, 0xbb, 0x58, 0xbf, 0xf0, 0x1e, 0xe9, 0xa3, 0x2b, 0xf5,
+	0xe6, 0x8c, 0x3e, 0xaa, 0x64, 0x9f, 0x34, 0x01, 0x2f, 0xc1, 0xba, 0x3f, 0x18, 0x1f, 0xb9, 0xa3,
+	0xae, 0xae, 0x58, 0x4e, 0x21, 0x53, 0xc3, 0x5e, 0x93, 0x50, 0x5d, 0x06, 0xbc, 0x0c, 0x1b, 0x8a,
+	0xcc, 0xed, 0x63, 0x28, 0xa1, 0x59, 0x77, 0x99, 0xd8, 0x4a, 0xc5, 0x7d, 0x5b, 0x41, 0x65, 0xe9,
+	0x33, 0x1c, 0x52, 0x40, 0x6e, 0xca, 0xa6, 0x42, 0x0d, 0x09, 0x43, 0xa2, 0xc6, 0x01, 0xdf, 0xdd,
+	0x12, 0x53, 0xe8, 0x21, 0x61, 0x9c, 0x7e, 0x5f, 0xec, 0xef, 0x0b, 0x12, 0xa3, 0x86, 0xec, 0xff,
+	0xa1, 0x1a, 0xf5, 0xfc, 0x2e, 0x9a, 0xe7, 0x64, 0x77, 0x5b, 0x76, 0x08, 0x38, 0xfe, 0x01, 0x0e,
+	0xd9, 0x8b, 0xb0, 0x3e, 0xee, 0xfb, 0x5d, 0x1f, 0xb7, 0xa0, 0x3b, 0x14, 0xc6, 0xda, 0x41, 0x82,
+	0xbc, 0xdd, 0x40, 0xe8, 0x5d, 0x04, 0x1e, 0x10, 0x8c, 0xa8, 0x48, 0x80, 0x41, 0xb5, 0x2b, 0xa9,
+	0x10, 0x1a, 0x53, 0x3d, 0x53, 0x48, 0xfe, 0x30, 0x7b, 0x48, 0xc6, 0x65, 0x4c, 0x7e, 0x51, 0x19,
+	0x23, 0x4e, 0xb2, 0x3b, 0x6e, 0xef, 0x51, 0x16, 0xd1, 0xba, 0x08, 0xcc, 0x2f, 0x2a, 0x02, 0xe3,
+	0x6a, 0xab, 0xb0, 0xb0, 0xda, 0xc2, 0x1a, 0x15, 0xeb, 0xff, 0x30, 0xee, 0xf4, 0xd4, 0xa8, 0xf5,
+	0x4f, 0x6a, 0x3e, 0xb0, 0x1c, 0xca, 0xa2, 0x97, 0x11, 0x1c, 0xf9, 0xe5, 0xc1, 0x71, 0x91, 0x72,
+	0x96, 0x3b, 0xc0, 0xbd, 0x1f, 0xa5, 0x94, 0x7a, 0x34, 0xb7, 0x1d, 0x13, 0x4c, 0xac, 0x59, 0x5c,
+	0x68, 0xcd, 0x67, 0xd8, 0xdb, 0xd6, 0x3f, 0xb0, 0x10, 0xba, 0xee, 0x64, 0x2d, 0xf9, 0xb5, 0x0f,
+	0xe7, 0x93, 0x3e, 0x8c, 0x29, 0xed, 0xa1, 0x1b, 0x85, 0x2a, 0x19, 0x8a, 0xef, 0x79, 0xe9, 0xf0,
+	0xd8, 0x09, 0x8f, 0x45, 0x3a, 0x44, 0x18, 0x7d, 0x1b, 0x5b, 0x51, 0x36, 0xb7, 0x82, 0x8e, 0xd9,
+	0x90, 0x5a, 0x15, 0x91, 0x0f, 0x0b, 0xb6, 0x1c, 0xa0, 0x13, 0xac, 0xf5, 0xc7, 0x81, 0x43, 0xa7,
+	0x8c, 0x4c, 0x1f, 0x55, 0x81, 0x6d, 0x68, 0x60, 0xe7, 0x59, 0x7d, 0xfd, 0x7e, 0x76, 0x5f, 0x6f,
+	0xe1, 0xaa, 0x9d, 0x91, 0x76, 0x75, 0xb3, 0x3a, 0x42, 0xc3, 0xda, 0x02, 0xd7, 0xfa, 0x57, 0x0d,
+	0x0a, 0xd7, 0xf6, 0xf6, 0xe9, 0x7a, 0xc1, 0xf1, 0xfd, 0xc1, 0x49, 0xf7, 0x98, 0x07, 0xf2, 0x74,
+	0xc7, 0x04, 0x2b, 0x20, 0x1f, 0x23, 0x60, 0x82, 0x0e, 0xc7, 0x0f, 0x43, 0x61, 0x32, 0x8d, 0xee,
+	0x20, 0x80, 0xb2, 0xb3, 0x3b, 0x42, 0x4e, 0x17, 0x1b, 0x37, 0x75, 0x96, 0x4c, 0x00, 0xe8, 0x52,
+	0x66, 0x77, 0xb4, 0x63, 0xe8, 0x71, 0xc3, 0x89, 0x9c, 0x87, 0x4e, 0xc8, 0x8d, 0x00, 0xb9, 0x00,
+	0xa5, 0xa3, 0xc0, 0x1b, 0xfb, 0xaa, 0x47, 0xda, 0x32, 0xa8, 0x51, 0xcf, 0xf6, 0x47, 0x84, 0xb3,
+	0x25, 0x09, 0x6d, 0x81, 0x33, 0x18, 0x78, 0x5f, 0x08, 0x23, 0x63, 0xed, 0x28, 0x06, 0xf2, 0xfc,
+	0x1a, 0x9d, 0x88, 0xf3, 0x65, 0xcd, 0x16, 0xdf, 0xd6, 0xaf, 0xf2, 0x50, 0x12, 0xac, 0xf1, 0xb6,
+	0xe7, 0x8c, 0x6d, 0x4f, 0xa8, 0x9f, 0x9f, 0x56, 0x1f, 0xdd, 0x4a, 0x0d, 0x94, 0x5d, 0xf4, 0x90,
+	0x4a, 0x14, 0xf5, 0xe9, 0x3c, 0x1c, 0x70, 0x65, 0x16, 0x13, 0xc4, 0xde, 0x84, 0x9a, 0x08, 0x81,
+	0x2e, 0x7a, 0xa2, 0x2a, 0x79, 0xe6, 0xae, 0xbf, 0x2a, 0x28, 0xaf, 0xf5, 0xfb, 0xec, 0x2a, 0x34,
+	0x24, 0x57, 0x20, 0x1a, 0x7e, 0x34, 0xdc, 0x42, 0xc6, 0xba, 0x20, 0x96, 0x97, 0x03, 0xec, 0x92,
+	0x0e, 0xc9, 0xca, 0x62, 0x26, 0x15, 0x9a, 0xbf, 0xc8, 0x3d, 0x43, 0x2f, 0xb0, 0x52, 0xa6, 0x33,
+	0xd2, 0x4e, 0x61, 0x69, 0xda, 0xb1, 0xfe, 0xf2, 0x0c, 0xad, 0x43, 0xb6, 0xc4, 0x86, 0xd1, 0xe0,
+	0xf4, 0x06, 0xba, 0x7f, 0x5d, 0x4f, 0xfa, 0x95, 0x2d, 0x70, 0x28, 0xb1, 0x2c, 0x3c, 0x4b, 0x27,
+	0xb4, 0x74, 0xef, 0x53, 0x34, 0xa6, 0x63, 0x94, 0x12, 0x8e, 0x61, 0x3d, 0xcd, 0xc1, 0xfa, 0x3d,
+	0x5d, 0x89, 0x4a, 0xbf, 0xfb, 0x9f, 0xad, 0x6b, 0xa5, 0x4b, 0xb1, 0x94, 0x64, 0xd7, 0xfa, 0x77,
+	0x0e, 0x00, 0xeb, 0x95, 0xa1, 0x2b, 0xcb, 0x45, 0xac, 0x3d, 0x3f, 0xf1, 0x46, 0x1c, 0x3b, 0xd3,
+	0x1a, 0x94, 0x3e, 0x23, 0xd7, 0xc7, 0xc6, 0xb4, 0x01, 0xd5, 0x7b, 0x81, 0x43, 0x85, 0x0a, 0x6f,
+	0xe6, 0x09, 0x81, 0x4d, 0x0d, 0x5d, 0x38, 0xd0, 0xa7, 0x28, 0xea, 0x9a, 0x55, 0xa4, 0xa9, 0x7c,
+	0x76, 0xec, 0x62, 0xe5, 0x17, 0x34, 0x9f, 0xe4, 0xb1, 0xea, 0x04, 0xaa, 0xe6, 0xa8, 0x68, 0xe3,
+	0xa3, 0x66, 0x93, 0xc4, 0x1e, 0xa0, 0x5f, 0x36, 0xcf, 0xb1, 0x0d, 0xa8, 0x1f, 0x60, 0x15, 0xa8,
+	0xaf, 0x2f, 0x3e, 0xc4, 0xca, 0x62, 0x8b, 0x00, 0xb1, 0xa1, 0x34, 0xe6, 0x49, 0x15, 0xbb, 0x9a,
+	0xfa, 0x3e, 0x76, 0x01, 0x31, 0x24, 0x47, 0x10, 0xf3, 0xaa, 0xec, 0x49, 0x11, 0x1b, 0x68, 0x71,
+	0x44, 0x37, 0x9f, 0x3c, 0x21, 0x75, 0xe8, 0xb0, 0xc0, 0xcf, 0x2a, 0x2a, 0x50, 0xb5, 0xf9, 0x11,
+	0xba, 0x12, 0xe9, 0xf3, 0xa4, 0x89, 0x4b, 0x6f, 0xe8, 0x71, 0x07, 0xab, 0x49, 0x84, 0x9d, 0x6b,
+	0x3d, 0x6d, 0xc2, 0xda, 0xb5, 0x71, 0x74, 0x4c, 0x05, 0x53, 0xcf, 0xc1, 0x03, 0xd7, 0xfa, 0x7b,
+	0x19, 0x2a, 0x36, 0xff, 0x7c, 0x8c, 0x5d, 0x33, 0xfb, 0x14, 0x1a, 0xce, 0x04, 0xc9, 0xd5, 0x86,
+	0x5d, 0x32, 0x7d, 0xc1, 0xe4, 0x6d, 0x2b, 0x3e, 0x13, 0xca, 0xed, 0x84, 0x08, 0xf6, 0x1e, 0x14,
+	0x0f, 0xdd, 0x51, 0x5f, 0xed, 0xe7, 0x4b, 0x4b, 0x45, 0xdd, 0x42, 0x62, 0x5b, 0xb0, 0xb0, 0xf7,
+	0xa1, 0xf4, 0x39, 0x05, 0xa8, 0xda, 0xe0, 0xef, 0x2c, 0xe5, 0x15, 0xe1, 0x6c, 0x4b, 0x26, 0x76,
+	0x13, 0xaa, 0x81, 0x5a, 0xbd, 0xea, 0xce, 0x5e, 0x59, 0x2a, 0x40, 0x9b, 0xcb, 0x8e, 0x59, 0xd9,
+	0x1d, 0x80, 0x3e, 0x8f, 0x05, 0xc9, 0xcb, 0xb0, 0x8b, 0x4b, 0x05, 0xdd, 0x88, 0x59, 0x6c, 0x83,
+	0x9d, 0x7d, 0x8f, 0x2e, 0x96, 0xfb, 0x64, 0x59, 0x79, 0x22, 0xbc, 0xbc, 0x54, 0xd0, 0x7d, 0x41,
+	0x6e, 0x2b, 0x36, 0xeb, 0x8f, 0x39, 0x68, 0x98, 0xc6, 0x4e, 0x4d, 0xea, 0xd4, 0xff, 0x39, 0x61,
+	0xf8, 0x05, 0xb6, 0x08, 0xaa, 0x3b, 0x8e, 0xc7, 0x98, 0x0b, 0x1a, 0x3d, 0x1e, 0x44, 0xee, 0xa1,
+	0x60, 0x97, 0x39, 0xa1, 0x61, 0x27, 0x60, 0xd4, 0xd6, 0x18, 0xe3, 0xae, 0xa8, 0x0b, 0x64, 0xf8,
+	0x6c, 0x18, 0xf0, 0x8f, 0xa9, 0x44, 0xb8, 0x04, 0x2c, 0x8c, 0x02, 0x0f, 0xeb, 0x5b, 0x03, 0xa3,
+	0x72, 0xc2, 0x29, 0x89, 0xd9, 0x9b, 0x20, 0xac, 0x0b, 0x50, 0xa4, 0xfd, 0x8d, 0xaf, 0xe2, 0xa7,
+	0x1b, 0xb4, 0xfc, 0x64, 0x15, 0xd6, 0x59, 0x9d, 0x9e, 0xb7, 0xe9, 0x36, 0x82, 0xee, 0xa3, 0xd4,
+	0x22, 0xd5, 0xc8, 0x7a, 0x67, 0xe2, 0xee, 0xf1, 0x41, 0x9b, 0x5b, 0xe1, 0xa0, 0xb5, 0xde, 0x03,
+	0x98, 0xec, 0x4f, 0x36, 0xd6, 0xb7, 0xe8, 0xb1, 0x81, 0x76, 0x22, 0x1b, 0xdb, 0x1f, 0x6a, 0xa4,
+	0x6b, 0xe8, 0x7b, 0xa3, 0x90, 0xb3, 0x7d, 0x00, 0x77, 0x84, 0xdd, 0xb8, 0x33, 0x70, 0x7f, 0xa6,
+	0x43, 0xec, 0xd5, 0x05, 0x8e, 0x20, 0xd9, 0xda, 0xb7, 0x63, 0x1e, 0xdb, 0xe0, 0x67, 0xf6, 0x54,
+	0xc8, 0xca, 0x38, 0x6b, 0x2f, 0x97, 0xb7, 0x20, 0x66, 0xaf, 0xaa, 0x98, 0x5d, 0x1e, 0x77, 0x4a,
+	0x96, 0x11, 0xb4, 0x1f, 0xe8, 0xa0, 0x2d, 0x2e, 0xf5, 0x70, 0xc5, 0x9c, 0x88, 0xda, 0x5b, 0x46,
+	0xd4, 0xca, 0x60, 0xbb, 0xb0, 0x5c, 0x42, 0x4a, 0xd8, 0xee, 0x27, 0xc2, 0xb6, 0xbc, 0xaa, 0x91,
+	0xe7, 0xc4, 0xed, 0x87, 0x71, 0xdc, 0xca, 0xda, 0xec, 0xfc, 0x72, 0x49, 0x53, 0x81, 0xfb, 0x0e,
+	0xc0, 0x64, 0x03, 0xb3, 0x54, 0xbf, 0x4f, 0xa7, 0x23, 0x1e, 0x75, 0xc1, 0x82, 0x3b, 0x1a, 0xcb,
+	0x77, 0xae, 0xf5, 0x55, 0x74, 0xe9, 0x08, 0x7a, 0x5b, 0xf1, 0xad, 0x74, 0xb3, 0x95, 0xa9, 0x1e,
+	0xa0, 0x27, 0x17, 0x11, 0xd7, 0x99, 0x82, 0xe2, 0x6d, 0x1d, 0xe0, 0x71, 0xe1, 0x96, 0x5b, 0xa9,
+	0x70, 0x3b, 0x31, 0xe2, 0xfe, 0xf9, 0x8d, 0x71, 0x31, 0x51, 0xd1, 0x2d, 0x51, 0xf9, 0x93, 0x44,
+	0xe6, 0x78, 0xee, 0xc9, 0xad, 0xef, 0xc7, 0xe9, 0xe4, 0xb9, 0x65, 0xb5, 0x6e, 0x43, 0x59, 0x42,
+	0xa8, 0xdc, 0xb8, 0x85, 0x0d, 0x41, 0x74, 0x8c, 0x9b, 0x73, 0x74, 0x8c, 0x65, 0x4d, 0x1d, 0x2a,
+	0x9d, 0x71, 0xaf, 0x87, 0x05, 0x84, 0x7c, 0x47, 0xb9, 0xe5, 0xb8, 0x83, 0x71, 0x40, 0x75, 0xcd,
+	0x16, 0x34, 0xe3, 0x22, 0x44, 0x43, 0x0b, 0xad, 0xaf, 0x8b, 0xd0, 0x30, 0x57, 0xff, 0xdf, 0xbe,
+	0x36, 0xc5, 0xee, 0x85, 0x0f, 0x71, 0x36, 0x75, 0xaa, 0xc8, 0x81, 0x79, 0x79, 0x53, 0x4a, 0x5e,
+	0xde, 0xe8, 0xe6, 0xb4, 0x6c, 0x34, 0xa7, 0xe6, 0x21, 0x57, 0x99, 0x3a, 0xe4, 0xce, 0x42, 0x7d,
+	0xe0, 0x84, 0x51, 0x97, 0xde, 0x2d, 0xb0, 0x89, 0xa8, 0x0a, 0x34, 0x10, 0xe8, 0x9a, 0x80, 0x98,
+	0xb7, 0x41, 0xb5, 0xc4, 0x6d, 0x10, 0xee, 0x48, 0xf6, 0xa6, 0x60, 0x72, 0x40, 0xe5, 0x13, 0x07,
+	0xd4, 0x4f, 0xb2, 0x17, 0xf6, 0x97, 0x92, 0x97, 0x34, 0xcb, 0x42, 0xa1, 0x07, 0xe5, 0x07, 0x58,
+	0x76, 0x1f, 0x66, 0x52, 0x37, 0xe5, 0xb0, 0x4d, 0x58, 0xb3, 0x90, 0xb4, 0x66, 0xeb, 0x4f, 0x39,
+	0xd8, 0xb2, 0x79, 0xdf, 0x0d, 0x78, 0x2f, 0x52, 0xe5, 0x6e, 0xe6, 0xc2, 0x7e, 0xc5, 0xbe, 0xa9,
+	0x1c, 0x7a, 0xe3, 0xa0, 0xa7, 0x9f, 0x97, 0xe6, 0xe4, 0x1c, 0x49, 0x43, 0xd4, 0x91, 0x13, 0x1c,
+	0x71, 0x7d, 0xf7, 0x3e, 0x87, 0x5a, 0xd2, 0x5c, 0xf9, 0x6a, 0x1b, 0xf2, 0x0f, 0x2e, 0xb3, 0xd7,
+	0xa0, 0xf6, 0x11, 0x8f, 0xd4, 0xff, 0x05, 0x4c, 0x35, 0xe8, 0x8f, 0x0b, 0xd6, 0xec, 0x3b, 0x3f,
+	0xbb, 0x0c, 0x80, 0x0c, 0xfa, 0xef, 0x0c, 0x33, 0x1c, 0x29, 0xb7, 0x9b, 0xb8, 0x87, 0x65, 0xf1,
+	0xfc, 0x1b, 0xce, 0x92, 0x37, 0xa7, 0x9f, 0x88, 0x5f, 0xcf, 0xb1, 0x2b, 0xd0, 0x90, 0xc6, 0x92,
+	0xef, 0xde, 0x8b, 0xb5, 0x52, 0x7f, 0x65, 0xf8, 0x2e, 0xd4, 0xe5, 0x97, 0xf4, 0xd5, 0x9d, 0xd9,
+	0x7f, 0x10, 0xc8, 0xa7, 0xf0, 0xed, 0x59, 0x84, 0xf0, 0xc8, 0xcb, 0x50, 0x93, 0x43, 0x5c, 0x1b,
+	0x9b, 0x95, 0x9f, 0x36, 0xe5, 0x65, 0x3d, 0xa5, 0x78, 0xa5, 0x4e, 0x63, 0x9a, 0x56, 0x9c, 0xbd,
+	0x0e, 0x30, 0x79, 0xeb, 0x5e, 0x89, 0x23, 0xb6, 0x85, 0x6a, 0xe9, 0x57, 0xe1, 0x79, 0x5f, 0xf3,
+	0x28, 0xa3, 0xa7, 0xf0, 0xec, 0xcc, 0xf9, 0x87, 0x05, 0x5a, 0xff, 0x03, 0x68, 0x26, 0x1e, 0xda,
+	0xe9, 0x12, 0x62, 0x37, 0xf9, 0xdc, 0x35, 0x41, 0xce, 0x4e, 0xfe, 0x21, 0x6c, 0x26, 0x28, 0x94,
+	0xde, 0x19, 0x24, 0xdc, 0x99, 0x92, 0xa0, 0x56, 0x31, 0x5f, 0xc2, 0x5c, 0x0c, 0xae, 0xe6, 0x2a,
+	0x6c, 0x18, 0xad, 0x62, 0x87, 0xe3, 0x91, 0x3c, 0xe7, 0x8d, 0x76, 0x56, 0x91, 0xfb, 0x70, 0xca,
+	0xc0, 0xab, 0xb7, 0xe5, 0x33, 0x0b, 0x1f, 0x88, 0xad, 0xc5, 0xe8, 0xf3, 0x39, 0x54, 0xe9, 0x2d,
+	0xa8, 0xee, 0x7b, 0x47, 0xd2, 0x4f, 0xb7, 0x92, 0xcf, 0x94, 0xca, 0x49, 0x37, 0xa7, 0xa0, 0xda,
+	0x43, 0xe5, 0x4b, 0xe3, 0x0a, 0x1e, 0xaa, 0x1e, 0x38, 0xaf, 0xc3, 0x7a, 0xcc, 0x22, 0x1f, 0x13,
+	0x77, 0xe6, 0xbc, 0x5b, 0x5a, 0xf3, 0x10, 0x68, 0x40, 0x25, 0xa3, 0xb3, 0x54, 0xc6, 0x8c, 0x01,
+	0xdf, 0x16, 0xae, 0x24, 0xe7, 0xbf, 0xc1, 0x0f, 0x9d, 0xf1, 0x20, 0x5a, 0x1c, 0xcc, 0x4a, 0xef,
+	0x6b, 0xd0, 0x50, 0xdd, 0xbe, 0xb4, 0xd2, 0xee, 0xec, 0x9d, 0x87, 0xb2, 0xd4, 0x4e, 0x0a, 0x46,
+	0x58, 0xeb, 0x4d, 0x00, 0x35, 0x26, 0x73, 0xa5, 0x5c, 0x9a, 0x58, 0x29, 0x30, 0x83, 0x8b, 0xbc,
+	0x7e, 0x75, 0xae, 0xb5, 0xc4, 0x9f, 0x72, 0x52, 0x19, 0x67, 0x8c, 0xf3, 0x4e, 0xcc, 0xa5, 0x0a,
+	0x9e, 0x55, 0xa7, 0x7b, 0x17, 0x6a, 0x74, 0x44, 0x48, 0xd3, 0xbc, 0x30, 0x75, 0x70, 0x28, 0xbb,
+	0x6c, 0x4d, 0x83, 0xf5, 0xff, 0x7f, 0x68, 0x40, 0x16, 0x99, 0x3e, 0x70, 0xac, 0x69, 0x00, 0x6b,
+	0x03, 0xd0, 0xaf, 0x52, 0x6e, 0x39, 0xfd, 0x65, 0xa8, 0xd2, 0xaf, 0x78, 0x29, 0x99, 0x99, 0x9e,
+	0xa0, 0xb3, 0x26, 0x78, 0x03, 0x6a, 0xf4, 0x88, 0x30, 0xbb, 0x12, 0x82, 0xaa, 0x95, 0x4c, 0xbf,
+	0x38, 0xa0, 0xb5, 0x2b, 0xd7, 0x9d, 0x51, 0x48, 0x8b, 0xd8, 0x4a, 0x5e, 0x63, 0xa7, 0x44, 0x0f,
+	0x41, 0xc5, 0xd2, 0x5f, 0x93, 0x5c, 0xe8, 0xc4, 0x2c, 0x0d, 0x3f, 0xab, 0xdb, 0x65, 0x28, 0xe3,
+	0x99, 0x39, 0xcf, 0x79, 0x36, 0xa7, 0x8e, 0x56, 0x31, 0x47, 0x5b, 0xb0, 0x4c, 0x4f, 0xa1, 0xd1,
+	0xb3, 0x53, 0x5c, 0x07, 0x4b, 0x4e, 0x71, 0xf3, 0xf0, 0x90, 0x8b, 0x32, 0x6c, 0x72, 0x05, 0x17,
+	0xb2, 0xe9, 0xd3, 0x5b, 0x2e, 0x6e, 0xea, 0xae, 0x12, 0xbb, 0xc3, 0x2d, 0xfc, 0x41, 0x6f, 0x9d,
+	0xba, 0x62, 0x3c, 0x33, 0xc5, 0x9d, 0x44, 0xcf, 0xea, 0x72, 0x1b, 0x76, 0xe8, 0xea, 0x53, 0xf8,
+	0xef, 0x73, 0x8a, 0xfa, 0x31, 0x6c, 0x26, 0xea, 0xf3, 0x4e, 0x84, 0xc7, 0xf8, 0x90, 0x7d, 0x6b,
+	0x69, 0xfd, 0x6e, 0x9d, 0x5b, 0x76, 0xf9, 0x23, 0xf2, 0xe7, 0x5d, 0x38, 0x65, 0x56, 0x7e, 0xd2,
+	0x7b, 0xce, 0xcc, 0xa9, 0x0b, 0x95, 0xd9, 0x4e, 0xcf, 0x43, 0x8b, 0x8d, 0xdb, 0x83, 0x0d, 0x13,
+	0x48, 0x9b, 0x3e, 0xaf, 0xce, 0xb4, 0xe6, 0x21, 0xb0, 0x02, 0x61, 0xe6, 0x58, 0xc5, 0xcd, 0x5c,
+	0x39, 0x33, 0x66, 0xfb, 0x18, 0xb6, 0x12, 0x05, 0xad, 0xee, 0xa9, 0xb2, 0x6b, 0x72, 0x1d, 0xb6,
+	0xcd, 0xb1, 0xd1, 0x9f, 0xad, 0xae, 0xcd, 0x41, 0x72, 0x35, 0xaa, 0xa6, 0xfe, 0xe6, 0x3c, 0x33,
+	0x4a, 0xfc, 0x7c, 0x95, 0xee, 0xc0, 0x4e, 0x5a, 0xc1, 0x4c, 0x59, 0xf6, 0xac, 0xc1, 0x93, 0x46,
+	0x33, 0xab, 0xdb, 0x27, 0x60, 0xa5, 0x11, 0xaa, 0xe4, 0x9b, 0x59, 0xde, 0x7f, 0x02, 0x00, 0x00,
+	0xff, 0xff, 0xfa, 0x66, 0x13, 0x75, 0xc2, 0x2b, 0x00, 0x00,
 }
