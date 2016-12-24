@@ -69,7 +69,7 @@ murmur-cli provides an interface to a grpc-enabled murmur server.
 
 ## Installation
 
-    go get -u github.com/layeh/murmur-cli
+    go get -u layeh.com/murmur-cli
 
 ## Author
 

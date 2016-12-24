@@ -1,4 +1,4 @@
-package main
+package main // import "layeh.com/murmur-cli"
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/layeh/murmur-cli/MurmurRPC"
+	"layeh.com/murmur-cli/MurmurRPC"
 
 	"github.com/golang/protobuf/proto"
 )

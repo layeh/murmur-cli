@@ -1,6 +1,6 @@
 // +build ignore
 
-package main
+package main // import "layeh.com/murmur-cli"
 
 import (
 	"io"

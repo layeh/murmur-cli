@@ -1,4 +1,4 @@
-package main
+package main // import "layeh.com/murmur-cli"
 
 import (
 	"crypto/tls"
@@ -9,7 +9,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/layeh/murmur-cli/MurmurRPC"
+	"layeh.com/murmur-cli/MurmurRPC"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

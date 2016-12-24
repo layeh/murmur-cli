@@ -1,4 +1,4 @@
-package main
+package main // import "layeh.com/murmur-cli"
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/layeh/murmur-cli/MurmurRPC"
+	"layeh.com/murmur-cli/MurmurRPC"
 )
 
 func init() {
