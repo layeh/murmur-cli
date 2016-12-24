@@ -3,7 +3,9 @@
 package main // import "layeh.com/murmur-cli"
 
 import (
+	"bytes"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"os/exec"
@@ -39,6 +41,18 @@ func main() {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
+		panic(err)
+	}
+
+	// Fix import
+	contents, err := ioutil.ReadFile("MurmurRPC/MurmurRPC.pb.go")
+	if err != nil {
+		panic(err)
+	}
+	find := []byte("\npackage MurmurRPC\n")
+	replace := []byte("\npackage MurmurRPC " + `// import "layeh.com/murmur-cli/MurmurRPC"` + "\n")
+	contents = bytes.Replace(contents, find, replace, 1)
+	if err := ioutil.WriteFile("MurmurRPC/MurmurRPC.pb.go", contents, 0755); err != nil {
 		panic(err)
 	}
 }

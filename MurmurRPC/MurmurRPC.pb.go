@@ -27,7 +27,7 @@ It has these top-level messages:
 	DatabaseUser
 	RedirectWhisperGroup
 */
-package MurmurRPC
+package MurmurRPC // import "layeh.com/murmur-cli/MurmurRPC"
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
