@@ -140,7 +140,9 @@ func main() {
 		grpc.WithBlock(),
 		grpc.WithTimeout(*timeout),
 	}
-	if !*insecure {
+	if *insecure {
+		opts = append(opts, grpc.WithInsecure())
+	} else {
 		var tlsConfig tls.Config
 		opts = append(opts, grpc.WithTransportCredentials(credentials.NewTLS(&tlsConfig)))
 	}
