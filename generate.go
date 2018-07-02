@@ -1,3 +1,3 @@
-package main // import "layeh.com/murmur-cli"
+package main
 
 //go:generate go run generate_main.go

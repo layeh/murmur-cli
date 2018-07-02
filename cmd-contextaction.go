@@ -1,4 +1,4 @@
-package main // import "layeh.com/murmur-cli"
+package main
 
 import (
 	"io"
