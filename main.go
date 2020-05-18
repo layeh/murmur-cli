@@ -30,7 +30,7 @@ Flags:
   --address="127.0.0.1:50051"   address and port of murmur's grpc endpoint
                                 (can also be set via $MURMUR_ADDRESS).
   --timeout="10s"               duration to wait for connection.
-  --template=""                 Go text/template template to use when outputing
+  --template=""                 Go text/template template to use when outputting
                                 data. By default, JSON objects are printed.
   --insecure=false              Disable TLS encryption.
   --help                        Print command list.
@@ -51,10 +51,10 @@ Commands:
   config get <server id>
   config get-field <server id> <key>
   config set-field <server id> <key> <value>
-  config get-defaults
+  config get-default
 
   contextaction add <server id> <context> <action> <text> <session>
-    Context is a comma seperated list of the following:
+    Context is a comma separated list of the following:
       Server
       Channel
       User
